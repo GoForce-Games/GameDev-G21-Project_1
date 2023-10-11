@@ -9,6 +9,8 @@
 #include "Point.h"
 #include "Physics.h"
 
+#include "MathUtil.h"
+
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
@@ -43,7 +45,7 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
-	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
+	b2Vec2 vel = pbody->body->GetLinearVelocity();
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 		//
@@ -53,12 +55,21 @@ bool Player::Update(float dt)
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		vel = b2Vec2(-speed*dt, -GRAVITY_Y);
+		//vel = b2Vec2(-speed*dt, -GRAVITY_Y);
+		vel.x -= accel*dt;
+	}
+	else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		//vel = b2Vec2(speed*dt, -GRAVITY_Y);
+		vel.x += accel * dt;
+	}
+	else {
+		// TODO: Solucionar jittering
+		vel.x = LERP(vel.x, 0, dt);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		vel = b2Vec2(speed*dt, -GRAVITY_Y);
-	}
+	//Limit de velocitat
+	vel.x = b2Clamp(vel.x, -velCap.x, velCap.x);
+	vel.y = b2Clamp(vel.y, -velCap.y, velCap.y);
 
 	//Set the velocity of the pbody of the player
 	pbody->body->SetLinearVelocity(vel);
