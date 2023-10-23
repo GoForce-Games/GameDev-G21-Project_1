@@ -37,6 +37,9 @@ bool Player::Start() {
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::PLAYER;
+	pbody->body->SetLinearDamping(1.0f);
+	pbody->body->SetFixedRotation(true);
+	pbody->body->SetSleepingAllowed(false);
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
@@ -45,34 +48,36 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
-	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	//b2Vec2 vel = pbody->body->GetLinearVelocity();
+	b2Vec2 impulse = b2Vec2_zero;
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		//
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && jumpsAvailable > 0) {
+		impulse.y -= jumpPower;
+		jumpsAvailable--;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		//vel = b2Vec2(-speed*dt, -GRAVITY_Y);
-		vel.x -= accel*dt;
+		impulse.x -= accel;
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		//vel = b2Vec2(speed*dt, -GRAVITY_Y);
-		vel.x += accel * dt;
+		impulse.x += accel;
 	}
 	else {
-		// TODO: Solucionar jittering
-		vel.x = LERP(vel.x, 0, dt);
+		impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
 	}
 
 	//Limit de velocitat
-	vel.x = b2Clamp(vel.x, -velCap.x, velCap.x);
-	vel.y = b2Clamp(vel.y, -velCap.y, velCap.y);
+	impulse.x = b2Clamp(impulse.x, -velCap.x, velCap.x);
+
+	impulse.y = b2Clamp(impulse.y, -velCap.y, velCap.y);
 
 	//Set the velocity of the pbody of the player
-	pbody->body->SetLinearVelocity(vel);
+	//pbody->body->SetLinearVelocity(vel);
+	pbody->body->ApplyLinearImpulse(impulse, pbody->body->GetPosition(), false);
+	pbody->body->SetLinearVelocity(b2Clamp(pbody->body->GetLinearVelocity(), -velCap, velCap));
 
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -97,9 +102,19 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision ITEM");
 		app->audio->PlayFx(pickCoinFxId);
 		break;
-	case ColliderType::PLATFORM:
+	case ColliderType::PLATFORM:{
 		LOG("Collision PLATFORM");
+		b2Vec2 pos = pbody->body->GetPosition();
+		float normal_x = 0, normal_y = 0;
+		//TODO hacer que funcione la detección de suelo
+		pbody->RayCast(pos.x, pos.y, pos.x, pos.y - 32, normal_x, normal_y);
+		if (abs(normal_y) < 0.5f) {
+			LOG("Ground touched");
+			grounded = true;
+			jumpsAvailable = maxJumps;
+		}
 		break;
+	}
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
 		break;

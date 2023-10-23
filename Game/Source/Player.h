@@ -34,7 +34,12 @@ public:
 
 private:
 	float accel = 0.2f;
-	b2Vec2 velCap{2.5f,8.0f};
+	b2Vec2 velCap{5.0f,16.0f};
+
+	uint jumpsAvailable = 1;
+	uint maxJumps = 1;
+	float jumpPower = 40.0f;
+	bool grounded = false;
 };
 
 #endif // __PLAYER_H__
