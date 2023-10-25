@@ -107,8 +107,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		b2Vec2 pos = pbody->body->GetPosition();
 		float normal_x = 0, normal_y = 0;
 		//TODO hacer que funcione la detección de suelo
-		pbody->RayCast(pos.x, pos.y, pos.x, pos.y - 32, normal_x, normal_y);
-		if (abs(normal_y) < 0.5f) {
+		b2Vec2 otherPos = physB->body->GetPosition();
+		b2Vec2 otherHalfSize = { (float)physB->width/2,(float)physB->height/2 };
+		if (pos.x > otherPos.x-otherHalfSize.x && pos.x < otherPos.x+otherHalfSize.x &&
+			pos.y < otherPos.y+otherHalfSize.y-16) {
 			LOG("Ground touched");
 			grounded = true;
 			jumpsAvailable = maxJumps;
