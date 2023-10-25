@@ -35,12 +35,12 @@ public:
 	int pickCoinFxId;
 
 private:
-	float accel = 0.2f;
-	b2Vec2 velCap{5.0f,16.0f};
+	float accel;
+	b2Vec2 velCap;
 
 	uint jumpsAvailable = 1;
-	uint maxJumps = 1;
-	float jumpPower = 40.0f;
+	uint maxJumps;
+	float jumpPower;
 	bool grounded = false;
 };
 
