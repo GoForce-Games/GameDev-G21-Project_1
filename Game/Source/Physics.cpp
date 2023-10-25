@@ -303,7 +303,7 @@ bool Physics::PostUpdate()
 			}
 		
 			b2Vec2 pos = b->GetPosition();
-			app->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), 2, 255, 255, 0);
+			app->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), 2, 0, 255, 0); // Draw object center
 		}
 	}
 

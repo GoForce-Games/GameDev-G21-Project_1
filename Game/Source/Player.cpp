@@ -10,7 +10,6 @@
 #include "Physics.h"
 
 #include "MathUtil.h"
-#include "RayCastCallback.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -26,6 +25,11 @@ bool Player::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	accel = parameters.attribute("accel").as_float();
+	maxJumps = parameters.attribute("maxJumps").as_int();
+	jumpPower = parameters.attribute("jumpPower").as_float();
+	velCap.x = parameters.attribute("velCap_x").as_float();
+	velCap.y = parameters.attribute("velCap_y").as_float();
 
 	return true;
 }
@@ -49,10 +53,13 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	// TODO detectar cuando jugador cae de plataforma (raycast?)
+
+
 	//b2Vec2 vel = pbody->body->GetLinearVelocity();
 	b2Vec2 impulse = b2Vec2_zero;
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && jumpsAvailable > 0) {
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumpsAvailable > 0) {
 		impulse.y -= jumpPower;
 		jumpsAvailable--;
 		grounded = false;
@@ -118,7 +125,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 void Player::OnWallCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
 {
 	b2Vec2 pos = pbody->body->GetPosition();
-	//TODO hacer que funcione la detección de suelo
 	b2Vec2 otherPos = wall->body->GetPosition();
 	b2Vec2 otherHalfSize = { PIXEL_TO_METERS(wall->width), PIXEL_TO_METERS(wall->height) };
 
