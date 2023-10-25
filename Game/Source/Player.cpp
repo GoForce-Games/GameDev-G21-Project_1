@@ -10,6 +10,7 @@
 #include "Physics.h"
 
 #include "MathUtil.h"
+#include "RayCastCallback.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -54,6 +55,7 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && jumpsAvailable > 0) {
 		impulse.y -= jumpPower;
 		jumpsAvailable--;
+		grounded = false;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
@@ -66,7 +68,7 @@ bool Player::Update(float dt)
 		impulse.x += accel;
 	}
 	else {
-		impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
+		//impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
 	}
 
 	//Limit de velocitat
@@ -94,7 +96,7 @@ bool Player::CleanUp()
 	return true;
 }
 
-void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
+void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {
 
 	switch (physB->ctype)
 	{
@@ -104,21 +106,27 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:{
 		LOG("Collision PLATFORM");
-		b2Vec2 pos = pbody->body->GetPosition();
-		float normal_x = 0, normal_y = 0;
-		//TODO hacer que funcione la detección de suelo
-		b2Vec2 otherPos = physB->body->GetPosition();
-		b2Vec2 otherHalfSize = { (float)physB->width/2,(float)physB->height/2 };
-		if (pos.x > otherPos.x-otherHalfSize.x && pos.x < otherPos.x+otherHalfSize.x &&
-			pos.y < otherPos.y+otherHalfSize.y-16) {
-			LOG("Ground touched");
-			grounded = true;
-			jumpsAvailable = maxJumps;
-		}
+		OnWallCollision(physA, physB, contactInfo);
 		break;
 	}
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
 		break;
+	}
+}
+
+void Player::OnWallCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
+{
+	b2Vec2 pos = pbody->body->GetPosition();
+	//TODO hacer que funcione la detección de suelo
+	b2Vec2 otherPos = wall->body->GetPosition();
+	b2Vec2 otherHalfSize = { PIXEL_TO_METERS(wall->width), PIXEL_TO_METERS(wall->height) };
+
+	float pRadius = PIXEL_TO_METERS(16);
+
+	if (pos.x+(pRadius/2) >= otherPos.x - otherHalfSize.x && pos.x+(pRadius/2) <= otherPos.x + otherHalfSize.x && pos.y < otherPos.y - otherHalfSize.y) {
+		LOG("Ground touched");
+		grounded = true;
+		jumpsAvailable = maxJumps;
 	}
 }

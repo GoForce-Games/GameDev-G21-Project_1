@@ -63,9 +63,9 @@ bool Physics::PreUpdate()
 			// If so, we call the OnCollision listener function (only of the sensor), passing as inputs our custom PhysBody classes
 			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 			PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
-			
+
 			if (pb1 && pb2 && pb1->listener)
-				pb1->listener->OnCollision(pb1, pb2);
+				pb1->listener->OnCollision(pb1, pb2, c);
 		}
 	}
 
@@ -226,7 +226,7 @@ bool Physics::PostUpdate()
 	// Activate or deactivate debug mode
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
-	
+
 	//  Iterate all objects in the world and draw the bodies
 	if (debug)
 	{
@@ -301,6 +301,9 @@ bool Physics::PostUpdate()
 				}
 
 			}
+		
+			b2Vec2 pos = b->GetPosition();
+			app->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), 2, 255, 255, 0);
 		}
 	}
 
@@ -327,10 +330,10 @@ void Physics::BeginContact(b2Contact* contact)
 	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
 
 	if (physA && physA->listener != NULL)
-		physA->listener->OnCollision(physA, physB);
+		physA->listener->OnCollision(physA, physB, contact);
 
 	if (physB && physB->listener != NULL)
-		physB->listener->OnCollision(physB, physA);
+		physB->listener->OnCollision(physB, physA, contact);
 }
 
 //--------------- PhysBody

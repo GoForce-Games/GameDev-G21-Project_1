@@ -7,6 +7,7 @@
 #include "Render.h"
 
 class PhysBody;
+class b2Contact;
 
 enum class EntityType
 {
@@ -69,7 +70,8 @@ public:
 		}
 	}
 
-	virtual void OnCollision(PhysBody* physA, PhysBody* physB) {
+	// Contact bodies may not be in the same order as parameters
+	virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {
 
 	};
 

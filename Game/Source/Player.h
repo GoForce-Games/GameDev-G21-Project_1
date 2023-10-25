@@ -24,7 +24,9 @@ public:
 
 	bool CleanUp();
 
-	void OnCollision(PhysBody* physA, PhysBody* physB);
+	void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo);
+
+	void OnWallCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
 
 public:
 	const char* texturePath;
