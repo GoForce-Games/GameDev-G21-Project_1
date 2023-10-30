@@ -9,6 +9,8 @@
 #include "Point.h"
 #include "Physics.h"
 
+#include "Camera.h"
+
 #include "MathUtil.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
@@ -99,7 +101,8 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-
+	if (boundCam != nullptr)
+		boundCam.SetPlayer(nullptr);
 	return true;
 }
 

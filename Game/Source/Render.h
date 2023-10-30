@@ -7,6 +7,8 @@
 
 #include "SDL/include/SDL.h"
 
+class Camera;
+
 class Render : public Module
 {
 public:
@@ -48,6 +50,8 @@ public:
 	SDL_Rect camera;
 	SDL_Rect viewport;
 	SDL_Color background;
+
+	Camera* cam;
 };
 
 #endif // __RENDER_H__

@@ -79,10 +79,11 @@ public:
 	// Getters
 	const b2World& GetWorld() const { return *world; }
 
-private:
-
 	// Debug mode
 	bool debug;
+
+private:
+
 
 	// Box2D World
 	b2World* world;
