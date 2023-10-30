@@ -44,7 +44,7 @@
     <IntDir>$(SolutionDir)Build\$(Configuration)\Obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)</OutDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Build\$(Configuration)</OutDir>
@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\Item.h" />
@@ -138,6 +140,9 @@
     <ClInclude Include="Source\External\PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="Source\External\PugiXml\src\pugixml.hpp" />
     <ClCompile Include="Source\External\PugiXml\src\pugixml.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Output\config.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,7 @@
 #include "EntityManager.h"
 #include "Player.h"
+#include "Camera.h"
+
 #include "App.h"
 #include "Textures.h"
 #include "Scene.h"
@@ -71,6 +73,7 @@ bool EntityManager::CleanUp()
 	}
 
 	entities.Clear();
+	players.Clear();
 
 	return ret;
 }
@@ -87,6 +90,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::ITEM:
 		entity = new Item();
 		break;
+	case EntityType::CAMERA:
+		LOG("Use CreateCamera() to create cameras!");
+		break;
 	default:
 		break;
 	}
@@ -94,6 +100,17 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	entities.Add(entity);
 
 	return entity;
+}
+
+Camera* EntityManager::CreateCamera(Player* player)
+{
+	Camera* camera = new Camera(player);
+	entities.Add(camera);
+	if (player == nullptr) {
+		LOG("Player not bound to camera! Camera will be stationary.");
+	}
+
+	return camera;
 }
 
 void EntityManager::DestroyEntity(Entity* entity)

@@ -7,6 +7,7 @@
 #include "Box2D/Box2D/Box2D.h"
 
 struct SDL_Texture;
+class Camera;
 
 class Player : public Entity
 {
@@ -42,6 +43,8 @@ private:
 	uint maxJumps;
 	float jumpPower;
 	bool grounded = false;
+
+	Camera* boundCam = nullptr;
 };
 
 #endif // __PLAYER_H__

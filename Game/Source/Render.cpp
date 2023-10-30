@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Window.h"
 #include "Render.h"
+#include "Camera.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -10,9 +11,9 @@
 Render::Render() : Module()
 {
 	name.Create("renderer");
-	background.r = 0;
-	background.g = 0;
-	background.b = 0;
+	background.r = 0x9c; //9ce6e6
+	background.g = 0xe6;
+	background.b = 0xe6;
 	background.a = 0;
 }
 
@@ -43,6 +44,7 @@ bool Render::Awake(pugi::xml_node& config)
 	}
 	else
 	{
+		cam = app->entityManager->CreateCamera(nullptr);
 		camera.w = app->win->screenSurface->w;
 		camera.h = app->win->screenSurface->h;
 		camera.x = 0;
