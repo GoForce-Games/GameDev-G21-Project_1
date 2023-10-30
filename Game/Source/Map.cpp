@@ -185,6 +185,12 @@ bool Map::Load(SString mapFileName)
     
     // NOTE: Later you have to create a function here to load and create the colliders from the map
 
+
+    /*PhysBody* Colisions [] = app->physics->CreateRectangle(x, y, width, height, STATIC);*/
+
+
+
+
     PhysBody* c1 = app->physics->CreateRectangle(224 + 128, 543 + 32, 256, 64, STATIC);
     c1->ctype = ColliderType::PLATFORM;
 
