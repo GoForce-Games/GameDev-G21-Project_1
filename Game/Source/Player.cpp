@@ -102,7 +102,7 @@ bool Player::Update(float dt)
 bool Player::CleanUp()
 {
 	if (boundCam != nullptr)
-		boundCam.SetPlayer(nullptr);
+		boundCam->SetTarget(nullptr);
 	return true;
 }
 
