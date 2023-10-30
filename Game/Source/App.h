@@ -84,6 +84,9 @@ public:
 	Map* map;
 	Physics* physics;
 
+	bool debug = true;
+
+
 private:
 
 	int argc;

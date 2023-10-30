@@ -80,7 +80,7 @@ public:
 	const b2World& GetWorld() const { return *world; }
 
 	// Debug mode
-	bool debug;
+	//bool debug;
 
 private:
 

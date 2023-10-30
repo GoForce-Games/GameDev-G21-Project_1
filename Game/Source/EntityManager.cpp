@@ -56,6 +56,10 @@ bool EntityManager::Start() {
 		ret = item->data->Start();
 	}
 
+	if (mainCamera->GetTarget() == nullptr && players.Count() > 0) {
+		mainCamera->SetTarget(players[0]);
+	}
+
 	return ret;
 }
 
@@ -102,12 +106,19 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	return entity;
 }
 
-Camera* EntityManager::CreateCamera(Player* player)
+Camera* EntityManager::CreateCamera(Entity* target)
 {
-	Camera* camera = new Camera(player);
+	Camera* camera = new Camera(target);
 	entities.Add(camera);
-	if (player == nullptr) {
-		LOG("Player not bound to camera! Camera will be stationary.");
+	cameras.Add(camera);
+	if (mainCamera == nullptr) {
+		app->render->cam = mainCamera = camera; // If there's no main camera, assign this camera as it
+	}
+	if (target == nullptr) {
+		LOG("Camera not bound to entity! Camera will be stationary.");
+	}
+	else {
+		camera->SetTarget(target);
 	}
 
 	return camera;

@@ -6,6 +6,7 @@
 #include "List.h"
 
 class Player;
+class Camera;
 
 class EntityManager : public Module
 {
@@ -31,7 +32,7 @@ public:
 	// Additional methods
 	Entity* CreateEntity(EntityType type);
 
-	Camera* CreateCamera(Player* player);
+	Camera* CreateCamera(Entity* target = nullptr);
 
 	void DestroyEntity(Entity* entity);
 
@@ -42,6 +43,10 @@ public:
 	List<Entity*> entities;
 
 	List<Player*> players;
+
+	List<Camera*> cameras;
+
+	Camera* mainCamera;
 
 };
 

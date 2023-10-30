@@ -139,3 +139,14 @@ void Player::OnWallCollision(PhysBody* player, PhysBody* wall, b2Contact* contac
 		jumpsAvailable = maxJumps;
 	}
 }
+
+iPoint Player::GetOrigin() const
+{
+	iPoint ret;
+	if (pbody != nullptr) {
+		ret.x = pbody->width;
+		ret.y = pbody->height;
+	}
+
+	return ret;
+}

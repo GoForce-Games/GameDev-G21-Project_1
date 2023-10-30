@@ -38,10 +38,7 @@ public:
 		return true;
 	}
 
-	virtual bool CleanUp()
-	{
-		return true;
-	}
+	virtual bool CleanUp();
 
 	virtual bool LoadState(pugi::xml_node&)
 	{
@@ -76,6 +73,10 @@ public:
 
 	};
 
+	virtual iPoint GetOrigin() const {
+		return { 0,0 };
+	}
+
 public:
 
 	SString name;
@@ -87,6 +88,9 @@ public:
 	// want our Entity class, maybe it's not renderable...
 	iPoint position;       
 	bool renderable = true;
+	
+	Camera* boundCam = nullptr;
+
 };
 
 #endif // __ENTITY_H__

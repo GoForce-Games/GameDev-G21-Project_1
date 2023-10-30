@@ -25,13 +25,17 @@ public:
     bool DebugDraw();
 
     void SetTarget(Entity* e);
+    Entity* GetTarget() const;
 
 private:
-    
+
     float camSpeed;
 
-    b2Vec2 offset;
+    iPoint offset{ 0,0 };
+    iPoint targetOffset{ 0,0 };
     SDL_Rect rect{ 0,0,0,0 };
-    Entity* target;
+    Entity* target = nullptr;
+
+    friend class Render;
 };
 

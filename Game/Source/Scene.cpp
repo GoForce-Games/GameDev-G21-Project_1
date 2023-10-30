@@ -7,6 +7,8 @@
 #include "Scene.h"
 #include "Map.h"
 
+#include "Camera.h"
+
 #include "Defs.h"
 #include "Log.h"
 
@@ -36,6 +38,11 @@ bool Scene::Awake(pugi::xml_node& config)
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 		player->parameters = config.child("player");
+	}
+
+	if (config.child("camera")) {
+		Camera* cam = app->entityManager->CreateCamera(player);
+		cam->parameters = config.child("camera");
 	}
 
 	if (config.child("map")) {
@@ -71,6 +78,9 @@ bool Scene::Start()
 		app->map->mapData.tileWidth,
 		app->map->mapData.tileHeight,
 		app->map->mapData.tilesets.Count());
+
+	if (app->entityManager->mainCamera != nullptr)
+		app->entityManager->mainCamera->SetTarget(player);
 
 	return true;
 }

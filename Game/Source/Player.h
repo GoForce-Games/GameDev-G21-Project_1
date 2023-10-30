@@ -29,6 +29,8 @@ public:
 
 	void OnWallCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
 
+	iPoint GetOrigin() const override;
+
 public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
@@ -44,7 +46,6 @@ private:
 	float jumpPower;
 	bool grounded = false;
 
-	Camera* boundCam = nullptr;
 };
 
 #endif // __PLAYER_H__

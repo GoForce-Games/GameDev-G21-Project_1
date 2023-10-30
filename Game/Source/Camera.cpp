@@ -4,14 +4,12 @@
 #include "App.h"
 #include "Physics.h"
 #include "Render.h"
+#include "Window.h"
 
 #include "MathUtil.h"
 
 Camera::Camera(Entity* e) : Entity(EntityType::CAMERA) {
 	SetTarget(e);
-	offset.x = parameters.attribute("offset_x").as_float();
-	offset.y = parameters.attribute("offset_y").as_float();
-	camSpeed = parameters.attribute("speed").as_float();
 }
 
 Camera::~Camera()
@@ -20,29 +18,38 @@ Camera::~Camera()
 
 bool Camera::Awake()
 {
+	offset.x = parameters.attribute("offset_x").as_float();
+	offset.y = parameters.attribute("offset_y").as_float();
+	camSpeed = parameters.attribute("speed").as_float();
+	// TODO tweak offset for additional cameras
+	if (parameters.attribute("mainCam").as_bool()) {
+		offset.x -= app->win->screenSurface->w / 2;
+		offset.y -= app->win->screenSurface->h / 2;
+	}
 	return true;
 }
 
 bool Camera::Start()
 {
+	
 	if (target != nullptr) {
 		iPoint pos = target->position;
 		rect.x = pos.x + offset.x;
 		rect.y = pos.y + offset.y;
+		targetOffset = target->GetOrigin();
 	}
 	return true;
 }
 
 bool Camera::Update(float dt)
 {
+	// TODO afegir restriccions de moviment a la càmara (que no surti del mapa, poder restringir moviment vertical/horitzontal, etc.)
 	if (target != nullptr) {
 		iPoint pos = target->position;
-		rect.x = LERP(rect.x, pos.x, camSpeed * dt);
-		rect.y = LERP(rect.y, pos.y, camSpeed * dt);
+		//TODO potser s'ha de canviar una mica per a que el personatge quedi al centre
+		rect.x = LERP(rect.x, pos.x + offset.x + targetOffset.x, camSpeed * dt);
+		rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.x, camSpeed * dt);
 	}
-
-	if (app->physics->debug)
-		DebugDraw();
 
 	return true;
 }
@@ -55,10 +62,20 @@ bool Camera::CleanUp()
 
 bool Camera::DebugDraw()
 {
-	return app->render->DrawCircle(rect.w / 2, rect.h / 2, 5, 255, 255, 255, 255, true);
+	// NOTE potser no està del tot ben escrita aquesta línia, falta provar (implementar nova càmara com a principal primer)
+	return app->render->DrawCircle(rect.x - offset.x + targetOffset.x, rect.y - offset.y + targetOffset.y, 5, 255, 0, 0, 255, true);
 }
 
-void Camera::SetTarget(Entity* p)
+void Camera::SetTarget(Entity* e)
 {
-	target = p;
+	target = e;
+	if (e != nullptr) {
+		e->boundCam = this;
+		targetOffset = e->GetOrigin();
+	}
+}
+
+Entity* Camera::GetTarget() const
+{
+	return target;
 }

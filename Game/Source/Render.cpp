@@ -44,11 +44,17 @@ bool Render::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		cam = app->entityManager->CreateCamera(nullptr);
-		camera.w = app->win->screenSurface->w;
-		camera.h = app->win->screenSurface->h;
-		camera.x = 0;
-		camera.y = 0;
+		cam = app->entityManager->mainCamera;
+		if (cam == nullptr) {
+			// This is just fallback code to prevent crashes
+			app->entityManager->CreateCamera(nullptr);
+			cam->Awake();
+		}
+
+		camera.w = cam->rect.w = app->win->screenSurface->w;
+		camera.h = cam->rect.h = app->win->screenSurface->h;
+		camera.x = cam->rect.x = 0;
+		camera.y = cam->rect.y = 0;
 	}
 
 	return ret;
@@ -77,6 +83,13 @@ bool Render::Update(float dt)
 
 bool Render::PostUpdate()
 {
+	camera.w = cam->rect.w;
+	camera.h = cam->rect.h,
+	camera.x = -cam->rect.x;
+	camera.y = -cam->rect.y;
+
+	if (app->debug) cam->DebugDraw();
+
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
 	return true;

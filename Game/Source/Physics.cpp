@@ -22,7 +22,7 @@ Physics::Physics() : Module()
 {
 	// Initialise all the internal class variables, at least to NULL pointer
 	world = NULL;
-	debug = true;
+	//app->debug = true;
 }
 
 // Destructor
@@ -225,10 +225,10 @@ bool Physics::PostUpdate()
 
 	// Activate or deactivate debug mode
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debug = !debug;
+		app->debug = !app->debug;
 
 	//  Iterate all objects in the world and draw the bodies
-	if (debug)
+	if (app->debug)
 	{
 		for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 		{
@@ -305,6 +305,7 @@ bool Physics::PostUpdate()
 			b2Vec2 pos = b->GetPosition();
 			app->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), 2, 0, 255, 0); // Draw object center
 		}
+		
 	}
 
 
