@@ -65,6 +65,8 @@ struct MapLayer
 {
 	SString	name;
 	int id; 
+	int x;
+	int y;
 	int width;
 	int height;
 	uint* data;
@@ -132,6 +134,7 @@ private:
 	bool LoadAllLayers(pugi::xml_node mapNode);
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	bool Map::LoadAllObjects(pugi::xml_node mapNode);
 
 public: 
 

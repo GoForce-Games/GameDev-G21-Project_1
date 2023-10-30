@@ -182,6 +182,10 @@ bool Map::Load(SString mapFileName)
     {
         ret = LoadAllLayers(mapFileXML.child("map"));
     }
+
+    if (ret == true) {
+        ret = LoadAllObjects(mapFileXML.child("map"));
+    }
     
     // NOTE: Later you have to create a function here to load and create the colliders from the map
 
@@ -327,6 +331,31 @@ bool Map::LoadAllLayers(pugi::xml_node mapNode) {
 
         //add the layer to the map
         mapData.maplayers.Add(mapLayer);
+    }
+
+    return ret;
+}
+
+bool Map::LoadAllObjects(pugi::xml_node mapNode) {
+    bool ret = true;
+
+    for (pugi::xml_node objGroupNode = mapNode.child("objectgroup"); objGroupNode && ret; objGroupNode = objGroupNode.next_sibling("objectgroup"))
+    {
+        for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object"))
+        {
+            /*int i = 2;
+            int colisiones[77];*/
+            
+            int id = objNode.attribute("id").as_int();
+            float x = objNode.attribute("x").as_float();
+            float y = objNode.attribute("y").as_float();
+            float width = objNode.attribute("width").as_float();
+            float height = objNode.attribute("height").as_float();
+
+            /*colisiones[i] =*/ app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
+          /*  colisiones[i]->ctype = ColliderType::PLATFORM;*/
+            /*i++;*/
+        }
     }
 
     return ret;

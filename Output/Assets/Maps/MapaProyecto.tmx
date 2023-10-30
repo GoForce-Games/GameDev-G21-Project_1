@@ -44045,6 +44045,9 @@
   </data>
  </layer>
  <objectgroup id="7" name="Colisiones">
+  <properties>
+   <property name="collisionType" value=""/>
+  </properties>
   <object id="2" x="0" y="900.333" width="350.333" height="99.3333"/>
   <object id="3" x="300" y="850" width="50" height="50.3333"/>
   <object id="4" x="74.6667" y="799.667" width="125.333" height="24.6667"/>
@@ -44131,6 +44134,9 @@
   <object id="77" x="3150" y="575" width="25" height="25"/>
  </objectgroup>
  <objectgroup id="8" name="Muerte">
+  <properties>
+   <property name="collisionType" value=""/>
+  </properties>
   <object id="76" x="3075" y="200" width="100" height="25"/>
   <object id="78" x="1950" y="975" width="1025" height="25"/>
   <object id="80" x="2450" y="525" width="75" height="25"/>
