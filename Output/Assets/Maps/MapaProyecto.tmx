@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="9" nextobjectid="93">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="9" nextobjectid="95">
  <tileset firstgid="1" name="TilesAlpha" tilewidth="25" tileheight="25" tilecount="60" columns="6">
   <image source="TilesAlpha.png" width="150" height="250"/>
  </tileset>
@@ -11,7 +11,7 @@
  </tileset>
  <layer id="1" name="Suelo" width="220" height="40">
   <properties>
-   <property name="Draw" type="bool" value="true"/>
+   <property name="bool Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -8818,7 +8818,7 @@
  </layer>
  <layer id="2" name="Suelo" width="220" height="40">
   <properties>
-   <property name="Draw" type="bool" value="true"/>
+   <property name="bool Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -17625,7 +17625,7 @@
  </layer>
  <layer id="3" name="Pinchos" width="220" height="40">
   <properties>
-   <property name="Draw" type="bool" value="true"/>
+   <property name="bool Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -26432,7 +26432,7 @@
  </layer>
  <layer id="4" name="Decoracion" width="220" height="40">
   <properties>
-   <property name="Draw" type="bool" value="true"/>
+   <property name="bool Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -44046,16 +44046,14 @@
  </layer>
  <objectgroup id="7" name="Colisiones">
   <properties>
-   <property name="collisionType" value=""/>
+   <property name="collisionType" value="platform"/>
+   <property name="hurt" type="bool" value="false"/>
   </properties>
   <object id="2" x="0" y="900.333" width="350.333" height="99.3333"/>
   <object id="3" x="300" y="850" width="50" height="50.3333"/>
   <object id="4" x="74.6667" y="799.667" width="125.333" height="24.6667"/>
   <object id="5" x="425" y="800" width="25" height="24.3333"/>
   <object id="6" x="525.667" y="850.667" width="74" height="150.333"/>
-  <object id="7" x="599.875" y="850.625">
-   <polygon points="0,0 100,49.375 -0.375,49.375"/>
-  </object>
   <object id="8" x="600" y="900" width="100" height="100"/>
   <object id="9" x="700" y="900" width="250" height="100"/>
   <object id="10" x="900" y="800" width="50" height="100"/>
@@ -44132,10 +44130,14 @@
   </object>
   <object id="74" x="3425" y="225" width="75" height="25"/>
   <object id="77" x="3150" y="575" width="25" height="25"/>
+  <object id="94" x="600" y="850">
+   <polygon points="0,0 100,50 0,50"/>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Muerte">
   <properties>
-   <property name="collisionType" value=""/>
+   <property name="collisionType" value="platform"/>
+   <property name="hurt" type="bool" value="false"/>
   </properties>
   <object id="76" x="3075" y="200" width="100" height="25"/>
   <object id="78" x="1950" y="975" width="1025" height="25"/>

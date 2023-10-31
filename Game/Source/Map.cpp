@@ -186,6 +186,9 @@ bool Map::Load(SString mapFileName)
     if (ret == true) {
         ret = LoadAllObjects(mapFileXML.child("map"));
     }
+    if (ret == true) {
+        ret = LoadAllPolygons(mapFileXML.child("map"));
+    }
     
     // NOTE: Later you have to create a function here to load and create the colliders from the map
 
@@ -358,6 +361,33 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
     return ret;
 }
+bool Map::LoadAllPolygons(pugi::xml_node mapNode) {
+    bool ret = true;
+
+    for (pugi::xml_node objGroupNode = mapNode.child("objectgroup"); objGroupNode && ret; objGroupNode = objGroupNode.next_sibling("objectgroup"))
+    {
+        for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object")) {
+
+            int id = objNode.attribute("id").as_int();
+            float x = objNode.attribute("x").as_float();
+            float y = objNode.attribute("y").as_float();
+
+            for (pugi::xml_node polyNode = objNode.child("polygon"); polyNode && ret; polyNode = polyNode.next_sibling("polygon"))
+            {
+                int points[6] = { polyNode.attribute("points").as_int() };
+                
+                /*int points = polyNode.attribute("points").as_int();*/
+
+                app->physics->CreateChain(x, y, points, 1, STATIC);
+                
+
+            }
+        }
+    }
+
+    return ret;
+}
+
 
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {

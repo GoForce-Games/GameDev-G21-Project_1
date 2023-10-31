@@ -140,6 +140,7 @@ private:
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	bool Map::LoadAllObjects(pugi::xml_node mapNode);
+	bool Map::LoadAllPolygons(pugi::xml_node mapNode);
 
 public: 
 
