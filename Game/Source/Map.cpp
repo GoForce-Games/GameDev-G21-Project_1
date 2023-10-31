@@ -414,6 +414,12 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
             else if (strcmp(words[0].GetString(), "float") == 0) {
                 p->floatVal = propertiesNode.attribute("value").as_float();
             }
+            else {
+                // Unknown type specifier, save as string
+                p->name = nameAttr;
+                p->strVal = propertiesNode.attribute("value").as_string();
+                LOG("Unknown property type, saving as string (AttrName=\"%s\",AttrValue=\"%s\")", p->name, p->strVal);
+            }
         }
         else {
             // No type specifier, save as string
