@@ -402,16 +402,16 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 
         if (words.size() > 1) {
             p->name = words[1];
-            if (words[0].GetString() == "bool") {
+            if (strcmp(words[0].GetString(),"bool") == 0) {
                 p->boolVal = propertiesNode.attribute("value").as_bool();
             }
-            else if (words[0].GetString() == "string") {
+            else if (strcmp(words[0].GetString(), "string") == 0) {
                 p->strVal = propertiesNode.attribute("value").as_string();
             }
-            else if (words[0].GetString() == "int") {
+            else if (strcmp(words[0].GetString(), "int") == 0) {
                 p->intVal = propertiesNode.attribute("value").as_int();
             }
-            else if (words[0].GetString() == "float") {
+            else if (strcmp(words[0].GetString(), "float") == 0) {
                 p->floatVal = propertiesNode.attribute("value").as_float();
             }
         }
