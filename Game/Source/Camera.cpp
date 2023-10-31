@@ -21,7 +21,6 @@ bool Camera::Awake()
 	offset.x = parameters.attribute("offset_x").as_float();
 	offset.y = parameters.attribute("offset_y").as_float();
 	camSpeed = parameters.attribute("speed").as_float();
-	// TODO tweak offset for additional cameras
 	if (parameters.attribute("mainCam").as_bool()) {
 		offset.x -= app->win->screenSurface->w / 2;
 		offset.y -= app->win->screenSurface->h / 2;
@@ -48,7 +47,7 @@ bool Camera::Update(float dt)
 		iPoint pos = target->position;
 		//TODO potser s'ha de canviar una mica per a que el personatge quedi al centre
 		rect.x = LERP(rect.x, pos.x + offset.x + targetOffset.x, camSpeed * dt);
-		rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.x, camSpeed * dt);
+		rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
 	}
 
 	return true;
@@ -63,7 +62,9 @@ bool Camera::CleanUp()
 bool Camera::DebugDraw()
 {
 	// NOTE potser no està del tot ben escrita aquesta línia, falta provar (implementar nova càmara com a principal primer)
-	return app->render->DrawCircle(rect.x - offset.x + targetOffset.x, rect.y - offset.y + targetOffset.y, 5, 255, 0, 0, 255, true);
+	app->render->DrawCircle(rect.x + rect.w/2, rect.y + rect.h/2, 5, 255, 0, 0, 255, true);
+	app->render->DrawCircle(rect.w/2, rect.h/2, 10, 255, 0, 255, 255, false);
+	return true;
 }
 
 void Camera::SetTarget(Entity* e)

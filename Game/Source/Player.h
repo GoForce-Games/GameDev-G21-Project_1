@@ -26,8 +26,10 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo);
+	
+	void OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody);
 
-	void OnWallCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
+	void OnPlatformCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
 
 	iPoint GetOrigin() const override;
 

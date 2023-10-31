@@ -38,7 +38,12 @@ struct Properties
 	struct Property
 	{
 		SString name;
-		bool value;
+		bool boolVal;
+		int intVal;
+		float floatVal;
+		SString strVal;
+		SDL_Color colorVal;
+
 	};
 
 	~Properties()

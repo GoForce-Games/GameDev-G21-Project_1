@@ -49,7 +49,7 @@ bool Map::Update(float dt)
 
     while (mapLayerItem != NULL) {
 
-        if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Draw")->value) {
+        if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Draw")->boolVal) {
 
             for (int x = 0; x < mapLayerItem->data->width; x++)
             {
@@ -343,18 +343,16 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
     {
         for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object"))
         {
-            /*int i = 2;
-            int colisiones[77];*/
-            
+            // TODO carga de polígonos custom (CreateChain)
+
             int id = objNode.attribute("id").as_int();
             float x = objNode.attribute("x").as_float();
             float y = objNode.attribute("y").as_float();
             float width = objNode.attribute("width").as_float();
             float height = objNode.attribute("height").as_float();
 
-            /*colisiones[i] =*/ app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
-          /*  colisiones[i]->ctype = ColliderType::PLATFORM;*/
-            /*i++;*/
+            PhysBody* platform = app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
+            platform->ctype = ColliderType::PLATFORM;
         }
     }
 
@@ -365,11 +363,34 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
     bool ret = false;
 
-    for (pugi::xml_node propertieNode = node.child("properties").child("property"); propertieNode; propertieNode = propertieNode.next_sibling("property"))
+    for (pugi::xml_node propertiesNode = node.child("properties").child("property"); propertiesNode; propertiesNode = propertiesNode.next_sibling("property"))
     {
         Properties::Property* p = new Properties::Property();
-        p->name = propertieNode.attribute("name").as_string();
-        p->value = propertieNode.attribute("value").as_bool(); // (!!) I'm assuming that all values are bool !!
+
+        SString nameAttr = propertiesNode.attribute("name").as_string();
+        std::vector<SString> words = nameAttr.GetWords(' ');
+
+        if (words.size() > 1) {
+            p->name = words[1];
+            if (words[0].GetString() == "bool") {
+                p->boolVal = propertiesNode.attribute("value").as_bool();
+            }
+            else if (words[0].GetString() == "string") {
+                p->strVal = propertiesNode.attribute("value").as_string();
+            }
+            else if (words[0].GetString() == "int") {
+                p->intVal = propertiesNode.attribute("value").as_int();
+            }
+            else if (words[0].GetString() == "float") {
+                p->floatVal = propertiesNode.attribute("value").as_float();
+            }
+        }
+        else {
+            // No type specifier, save as string
+            p->name = nameAttr;
+            p->strVal = propertiesNode.attribute("value").as_string();
+            LOG("Malformed property, saving as string (AttrName=\"%s\",AttrValue=\"%s\")", p->name, p->strVal);
+        }
 
         properties.list.Add(p);
     }

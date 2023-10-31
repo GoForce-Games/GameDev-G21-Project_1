@@ -112,11 +112,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 	{
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
-		app->audio->PlayFx(pickCoinFxId);
+		OnCoinCollision(physA, physB);
 		break;
 	case ColliderType::PLATFORM:{
 		LOG("Collision PLATFORM");
-		OnWallCollision(physA, physB, contactInfo);
+		OnPlatformCollision(physA, physB, contactInfo);
 		break;
 	}
 	case ColliderType::UNKNOWN:
@@ -125,7 +125,12 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 	}
 }
 
-void Player::OnWallCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
+void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
+{
+	app->audio->PlayFx(pickCoinFxId);
+}
+
+void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
 {
 	b2Vec2 pos = pbody->body->GetPosition();
 	b2Vec2 otherPos = wall->body->GetPosition();
