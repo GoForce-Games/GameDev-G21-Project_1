@@ -7,6 +7,7 @@
 #include "Window.h"
 
 #include "MathUtil.h"
+#include "Log.h"
 
 Camera::Camera(Entity* e) : Entity(EntityType::CAMERA) {
 	SetTarget(e);
@@ -73,6 +74,9 @@ void Camera::SetTarget(Entity* e)
 	if (e != nullptr) {
 		e->boundCam = this;
 		targetOffset = e->GetOrigin();
+	}
+	else {
+		LOG("Target is null! Camera will be stationary");
 	}
 }
 

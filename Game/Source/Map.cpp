@@ -344,6 +344,11 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
     for (pugi::xml_node objGroupNode = mapNode.child("objectgroup"); objGroupNode && ret; objGroupNode = objGroupNode.next_sibling("objectgroup"))
     {
+        Properties properties;
+        if (!LoadProperties(objGroupNode, properties)) {
+            LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
+        }
+
         for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object"))
         {
             // TODO carga de polígonos custom (CreateChain)
@@ -356,11 +361,13 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
             PhysBody* platform = app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
             platform->ctype = ColliderType::PLATFORM;
+            platform->properties = properties;
         }
     }
 
     return ret;
 }
+
 bool Map::LoadAllPolygons(pugi::xml_node mapNode) {
     bool ret = true;
 
@@ -392,45 +399,48 @@ bool Map::LoadAllPolygons(pugi::xml_node mapNode) {
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
     bool ret = false;
-
-    for (pugi::xml_node propertiesNode = node.child("properties").child("property"); propertiesNode; propertiesNode = propertiesNode.next_sibling("property"))
+    pugi::xml_node propertiesNode = node.child("properties").child("property");
+    if (propertiesNode)
     {
-        Properties::Property* p = new Properties::Property();
+        ret = true;
+        for (/*Initial state already set*/; propertiesNode; propertiesNode = propertiesNode.next_sibling("property"))
+        {
+            Properties::Property* p = new Properties::Property();
 
-        SString nameAttr = propertiesNode.attribute("name").as_string();
-        std::vector<SString> words = nameAttr.GetWords(' ');
+            SString nameAttr = propertiesNode.attribute("name").as_string();
+            std::vector<SString> words = nameAttr.GetWords(' ');
 
-        if (words.size() > 1) {
-            p->name = words[1];
-            if (strcmp(words[0].GetString(),"bool") == 0) {
-                p->boolVal = propertiesNode.attribute("value").as_bool();
-            }
-            else if (strcmp(words[0].GetString(), "string") == 0) {
-                p->strVal = propertiesNode.attribute("value").as_string();
-            }
-            else if (strcmp(words[0].GetString(), "int") == 0) {
-                p->intVal = propertiesNode.attribute("value").as_int();
-            }
-            else if (strcmp(words[0].GetString(), "float") == 0) {
-                p->floatVal = propertiesNode.attribute("value").as_float();
+            if (words.size() > 1) {
+                p->name = words[1];
+                if (strcmp(words[0].GetString(), "bool") == 0) {
+                    p->boolVal = propertiesNode.attribute("value").as_bool();
+                }
+                else if (strcmp(words[0].GetString(), "string") == 0) {
+                    p->strVal = propertiesNode.attribute("value").as_string();
+                }
+                else if (strcmp(words[0].GetString(), "int") == 0) {
+                    p->intVal = propertiesNode.attribute("value").as_int();
+                }
+                else if (strcmp(words[0].GetString(), "float") == 0) {
+                    p->floatVal = propertiesNode.attribute("value").as_float();
+                }
+                else {
+                    // Unknown type specifier, save as string
+                    p->name = nameAttr;
+                    p->strVal = propertiesNode.attribute("value").as_string();
+                    LOG("Unknown property type, saving as string (AttrName='%s',AttrValue='%s')", p->name.GetString(), p->strVal.GetString());
+                }
             }
             else {
-                // Unknown type specifier, save as string
+                // No type specifier, save as string
                 p->name = nameAttr;
                 p->strVal = propertiesNode.attribute("value").as_string();
-                LOG("Unknown property type, saving as string (AttrName=\"%s\",AttrValue=\"%s\")", p->name, p->strVal);
+                LOG("Malformed property, saving as string (AttrName='%s',AttrValue='%s')", p->name.GetString(), p->strVal.GetString());
             }
-        }
-        else {
-            // No type specifier, save as string
-            p->name = nameAttr;
-            p->strVal = propertiesNode.attribute("value").as_string();
-            LOG("Malformed property, saving as string (AttrName=\"%s\",AttrValue=\"%s\")", p->name, p->strVal);
-        }
 
-        properties.list.Add(p);
+            properties.list.Add(p);
+        }
     }
-
     return ret;
 }
 

@@ -51,7 +51,9 @@
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="Source\Entity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -132,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PropertiesStruct.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

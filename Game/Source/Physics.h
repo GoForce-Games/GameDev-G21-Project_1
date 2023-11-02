@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Entity.h"
+#include "PropertiesStruct.h"
 
 #include "Box2D/Box2D/Box2D.h"
 
@@ -50,6 +51,8 @@ public:
 	b2Body* body;
 	Entity* listener;
 	ColliderType ctype;
+
+	Properties properties;
 };
 
 // Module --------------------------------------

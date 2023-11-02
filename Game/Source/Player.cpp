@@ -89,6 +89,7 @@ bool Player::Update(float dt)
 	//pbody->body->SetLinearVelocity(vel);
 	pbody->body->ApplyLinearImpulse(impulse, pbody->body->GetPosition(), false);
 	pbody->body->SetLinearVelocity(b2Clamp(pbody->body->GetLinearVelocity(), -velCap, velCap));
+	
 
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -132,13 +133,16 @@ void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
 
 void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
 {
+	
+
+
 	b2Vec2 pos = pbody->body->GetPosition();
 	b2Vec2 otherPos = wall->body->GetPosition();
 	b2Vec2 otherHalfSize = { PIXEL_TO_METERS(wall->width), PIXEL_TO_METERS(wall->height) };
 
 	float pRadius = PIXEL_TO_METERS(16);
 
-	if (pos.x+(pRadius/2) >= otherPos.x - otherHalfSize.x && pos.x+(pRadius/2) <= otherPos.x + otherHalfSize.x && pos.y < otherPos.y - otherHalfSize.y) {
+	if (pos.x+(pRadius/2) >= otherPos.x - otherHalfSize.x && pos.x-(pRadius/2) <= otherPos.x + otherHalfSize.x && pos.y < otherPos.y - otherHalfSize.y) {
 		LOG("Ground touched");
 		grounded = true;
 		jumpsAvailable = maxJumps;

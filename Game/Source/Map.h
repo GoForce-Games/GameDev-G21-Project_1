@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "List.h"
 #include "Point.h"
+#include "PropertiesStruct.h"
 
 #include "PugiXml\src\pugixml.hpp"
 
@@ -31,39 +32,6 @@ enum MapTypes
 	MAPTYPE_ORTHOGONAL,
 	MAPTYPE_ISOMETRIC,
 	MAPTYPE_STAGGERED
-};
-
-struct Properties
-{
-	struct Property
-	{
-		SString name;
-		bool boolVal;
-		int intVal;
-		float floatVal;
-		SString strVal;
-		SDL_Color colorVal;
-
-	};
-
-	~Properties()
-	{
-		//...
-		ListItem<Property*>* item;
-		item = list.start;
-
-		while (item != NULL)
-		{
-			RELEASE(item->data);
-			item = item->next;
-		}
-
-		list.Clear();
-	}
-
-	Property* GetProperty(const char* name);
-
-	List<Property*> list;
 };
 
 struct MapLayer

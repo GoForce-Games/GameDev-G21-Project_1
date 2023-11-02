@@ -90,12 +90,14 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	{
 	case EntityType::PLAYER:
 		entity = new Player();
+		players.Add(static_cast<Player*>(entity));
 		break;
 	case EntityType::ITEM:
 		entity = new Item();
 		break;
 	case EntityType::CAMERA:
 		LOG("Use CreateCamera() to create cameras!");
+		CreateCamera(nullptr);
 		break;
 	default:
 		break;
@@ -114,12 +116,7 @@ Camera* EntityManager::CreateCamera(Entity* target)
 	if (mainCamera == nullptr) {
 		app->render->cam = mainCamera = camera; // If there's no main camera, assign this camera as it
 	}
-	if (target == nullptr) {
-		LOG("Camera not bound to entity! Camera will be stationary.");
-	}
-	else {
-		camera->SetTarget(target);
-	}
+	camera->SetTarget(target);
 
 	return camera;
 }
