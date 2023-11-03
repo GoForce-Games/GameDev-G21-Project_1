@@ -16,6 +16,49 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
+
+	
+
+	idleAnim.PushBack({ 182, 314, 21,33 });
+
+	forwardAnim.PushBack({ 273, 314, 31, 33 });
+	forwardAnim.PushBack({ 368, 314, 35, 31 });
+	forwardAnim.PushBack({ 463, 316, 31, 31 });
+	forwardAnim.PushBack({ 561, 315, 27, 32 });
+	forwardAnim.PushBack({ 663, 316, 21, 31 });
+	forwardAnim.speed = 0.2f;
+
+	backwardAnim.PushBack({ 1755, 316, 21, 34 });
+	backwardAnim.PushBack({ 1653, 316, 31, 33 });
+	backwardAnim.PushBack({ 1554, 316, 34, 31 });
+	backwardAnim.PushBack({ 1462, 318, 32, 32 });
+	backwardAnim.PushBack({ 1368, 318, 27, 32 });
+	backwardAnim.PushBack({ 1272, 318, 21, 31 });
+	backwardAnim.speed = 0.2f;
+
+	forwardjump.PushBack({ 175, 446, 33, 32 });
+	forwardjump.PushBack({ 270, 446, 37, 32 });
+	forwardjump.PushBack({ 366, 448, 29, 30 });
+	forwardjump.PushBack({ 458, 452, 36, 26 });
+	forwardjump.speed = 0.2f;
+
+	backwardjump.PushBack({ 1750, 448, 33, 31 });
+	backwardjump.PushBack({ 1651, 448, 36, 31 });
+	backwardjump.PushBack({ 1562, 450, 29, 29 });
+	backwardjump.PushBack({ 1463, 454, 36, 25 });
+	backwardjump.speed = 0.2f;
+
+	death.PushBack({ 177, 585, 25, 31 });
+	death.PushBack({ 270, 587, 32, 29 });
+	death.PushBack({ 369, 587, 31, 29 });
+	death.PushBack({ 465, 587, 32, 29 });
+	death.PushBack({ 562, 587, 31, 29 });
+	death.PushBack({ 658, 587, 31 ,29 });
+	death.PushBack({ 754, 587, 31, 29 });
+	death.PushBack({ 850, 587, 31, 29 });
+	death.PushBack({ 948, 587, 28, 28 });
+	death.speed = 0.4f;
+
 }
 
 Player::~Player() {
@@ -39,6 +82,7 @@ bool Player::Awake() {
 bool Player::Start() {
 
 	//initilize textures
+
 	texture = app->tex->Load(texturePath);
 
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
@@ -49,6 +93,7 @@ bool Player::Start() {
 	pbody->body->SetSleepingAllowed(false);
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	texture = app->tex->Load("Assets/Texture/Characte-Frames.png");
 
 	return true;
 }
@@ -56,6 +101,8 @@ bool Player::Start() {
 bool Player::Update(float dt)
 {
 	// TODO detectar cuando jugador cae de plataforma (raycast?)
+	currentAnimation = &idleAnim;
+
 
 
 	//b2Vec2 vel = pbody->body->GetLinearVelocity();
@@ -64,6 +111,7 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumpsAvailable > 0) {
 		impulse.y -= jumpPower;
 		jumpsAvailable--;
+		currentAnimation = &forwardjump;
 		grounded = false;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
@@ -72,13 +120,17 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		impulse.x -= accel;
+		currentAnimation = &backwardAnim;
+		
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		impulse.x += accel;
+		currentAnimation = &forwardAnim;
 	}
 	else {
 		//impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
 	}
+	
 
 	//Limit de velocitat
 	impulse.x = b2Clamp(impulse.x, -velCap.x, velCap.x);
@@ -95,7 +147,9 @@ bool Player::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
-	app->render->DrawTexture(texture, position.x, position.y);
+	currentAnimation->Update();
+
+	app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
 
 	return true;
 }

@@ -138,6 +138,10 @@
     <ClInclude Include="Source\PropertiesStruct.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Path.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

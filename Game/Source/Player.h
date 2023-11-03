@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "SDL/include/SDL.h"
 #include "Box2D/Box2D/Box2D.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 class Camera;
@@ -36,7 +37,7 @@ public:
 public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
-	PhysBody* pbody;
+	PhysBody* pbody; 
 	int pickCoinFxId;
 
 private:
@@ -47,7 +48,14 @@ private:
 	uint maxJumps;
 	float jumpPower;
 	bool grounded = false;
+	Animation* currentAnimation = nullptr;
 
+	Animation idleAnim;
+	Animation forwardAnim;
+	Animation backwardAnim;
+	Animation forwardjump;
+	Animation backwardjump;
+	Animation death;
 };
 
 #endif // __PLAYER_H__
