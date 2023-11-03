@@ -23,7 +23,7 @@
 
   <scene>
     <map path="Assets/Maps/" name="MapaProyecto.tmx"/>
-    <player x="400" y="352" sizeX="32" sizeY="32" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f"/>
+    <player x="100" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f"/>
 	<camera x="400" y="352" mainCam="true" offset_x="0" offset_y="5" speed="0.02f"/>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>

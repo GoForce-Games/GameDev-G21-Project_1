@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="9" nextobjectid="95">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="9" nextobjectid="96">
  <tileset firstgid="1" name="TilesAlpha" tilewidth="25" tileheight="25" tilecount="60" columns="6">
   <image source="TilesAlpha.png" width="150" height="250"/>
  </tileset>
@@ -44140,19 +44140,14 @@
    <property name="hurt" type="bool" value="false"/>
   </properties>
   <object id="76" x="3075" y="200" width="100" height="25"/>
-  <object id="78" x="1950" y="975" width="1025" height="25"/>
   <object id="80" x="2450" y="525" width="75" height="25"/>
   <object id="81" x="2675" y="525" width="100" height="25"/>
   <object id="82" x="2200" y="525" width="75" height="25"/>
   <object id="83" x="1875" y="525" width="125" height="25"/>
   <object id="84" x="775" y="875" width="125" height="25"/>
-  <object id="85" x="950" y="975" width="600" height="25"/>
-  <object id="86" x="350" y="975" width="175" height="25"/>
-  <object id="87" x="3325" y="975" width="150" height="25"/>
   <object id="88" x="3675" y="725" width="100" height="25"/>
   <object id="89" x="3825" y="725" width="100" height="25"/>
   <object id="90" x="3750" y="400" width="100" height="25"/>
   <object id="91" x="3975" y="725" width="100" height="25"/>
-  <object id="92" x="4550" y="975" width="150" height="25"/>
  </objectgroup>
 </map>

@@ -36,17 +36,13 @@ Player::Player() : Entity(EntityType::PLAYER)
 	backwardAnim.PushBack({ 1272, 318, 21, 31 });
 	backwardAnim.speed = 0.2f;
 
-	forwardjump.PushBack({ 175, 446, 33, 32 });
+	
 	forwardjump.PushBack({ 270, 446, 37, 32 });
-	forwardjump.PushBack({ 366, 448, 29, 30 });
-	forwardjump.PushBack({ 458, 452, 36, 26 });
-	forwardjump.speed = 0.2f;
+	
 
-	backwardjump.PushBack({ 1750, 448, 33, 31 });
+	
 	backwardjump.PushBack({ 1651, 448, 36, 31 });
-	backwardjump.PushBack({ 1562, 450, 29, 29 });
-	backwardjump.PushBack({ 1463, 454, 36, 25 });
-	backwardjump.speed = 0.2f;
+	
 
 	death.PushBack({ 177, 585, 25, 31 });
 	death.PushBack({ 270, 587, 32, 29 });
@@ -120,15 +116,35 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		impulse.x -= accel;
 		currentAnimation = &backwardAnim;
-		
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		impulse.x += accel;
 		currentAnimation = &forwardAnim;
+		
 	}
 	else {
 		//impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
 	}
+	if (grounded == false) {
+		if (pbody->body->GetLinearVelocity().x < 0) {
+			currentAnimation = &backwardjump;
+			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
+		}
+		else if (pbody->body->GetLinearVelocity().x >= 0) {
+			currentAnimation = &forwardjump;
+			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
+		}
+	}
+ 	/*if (grounded == false) {
+		if (accel < 0) {
+			currentAnimation = &backwardAnim;
+			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
+		}
+		else if (accel >= 0) {
+			currentAnimation = &forwardjump;
+			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
+		}
+	}*/
 	
 
 	//Limit de velocitat
