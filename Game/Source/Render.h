@@ -52,6 +52,7 @@ public:
 	SDL_Color background;
 
 	Camera* cam;
+	iPoint camDebugOffset{0,0};
 };
 
 #endif // __RENDER_H__

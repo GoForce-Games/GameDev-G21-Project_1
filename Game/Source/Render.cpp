@@ -78,15 +78,32 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
+	float camSpeed = 1;
+
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		camDebugOffset.y -= (int)ceil(camSpeed * dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		camDebugOffset.y += (int)ceil(camSpeed * dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		camDebugOffset.x -= (int)ceil(camSpeed * dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		camDebugOffset.x += (int)ceil(camSpeed * dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		camDebugOffset.Create(0, 0);
+
 	return true;
 }
 
 bool Render::PostUpdate()
 {
 	camera.w = cam->rect.w;
-	camera.h = cam->rect.h,
-	camera.x = -cam->rect.x;
-	camera.y = -cam->rect.y;
+	camera.h = cam->rect.h;
+	camera.x = -cam->rect.x + camDebugOffset.x;
+	camera.y = -cam->rect.y + camDebugOffset.y;
 
 	if (app->debug) cam->DebugDraw();
 
