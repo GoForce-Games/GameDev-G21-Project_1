@@ -344,14 +344,12 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
     for (pugi::xml_node objGroupNode = mapNode.child("objectgroup"); objGroupNode && ret; objGroupNode = objGroupNode.next_sibling("objectgroup"))
     {
-        Properties properties;
-        if (!LoadProperties(objGroupNode, properties)) {
-            LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
-        }
+        bool propertiesLoaded = true;
 
         for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object"))
         {
             // TODO carga de polígonos custom (CreateChain)
+            // TODO sacar la carga de objetos individuales a una función a parte
 
             int id = objNode.attribute("id").as_int();
             float x = objNode.attribute("x").as_float();
@@ -359,9 +357,12 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
             float width = objNode.attribute("width").as_float();
             float height = objNode.attribute("height").as_float();
 
-            PhysBody* platform = app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
-            platform->ctype = ColliderType::PLATFORM;
-            platform->properties = properties;
+            PhysBody* object = app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
+            object->ctype = ColliderType::PLATFORM;
+            object->properties;
+            if (!LoadProperties(objGroupNode, object->properties)) {
+                LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
+            }
         }
     }
 
@@ -446,6 +447,7 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 
 Properties::Property* Properties::GetProperty(const char* name)
 {
+    if (list.Count() == 0) return nullptr; // If no properties have been set return nullptr
     ListItem<Property*>* item = list.start;
     Property* p = NULL;
 

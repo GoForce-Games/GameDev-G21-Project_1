@@ -41,6 +41,7 @@ private:
 	uint windowW, windowH;
 	Player* player;
 
+	iPoint mapSize;
 };
 
 #endif // __SCENE_H__

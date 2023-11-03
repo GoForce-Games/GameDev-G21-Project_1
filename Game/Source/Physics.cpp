@@ -133,8 +133,10 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
 	b->SetUserData(pbody);
-	pbody->width = radious * 0.5f;
-	pbody->height = radious * 0.5f;
+	pbody->width = radious;
+	pbody->height = radious;
+	//pbody->width = radious * 0.5f; // WHY?!?! radius is already half the width/height
+	//pbody->height = radious * 0.5f;
 
 	// Return our PhysBody class
 	return pbody;

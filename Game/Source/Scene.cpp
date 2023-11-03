@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "Scene.h"
 #include "Map.h"
+#include "Physics.h"
 
 #include "Camera.h"
 
@@ -63,6 +64,9 @@ bool Scene::Start()
 	//Music is commented so that you can add your own music
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
+	// Set mapSize to 0 in case the map was changed
+	mapSize.Create(0, 0);
+
 	//Get the size of the window
 	app->win->GetWindowSize(windowW, windowH);
 
@@ -94,9 +98,15 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-	/*
-	
-	*/
+	if (mapSize == iPoint{0,0}) {
+		mapSize = app->map->mapData.GetMapSize();
+	}
+
+	//If player is out of the map, kill them
+	if (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y<-player->pbody->height || player->position.y > mapSize.y + player->pbody->height) {
+		player->OnDeath();
+	}
+
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
@@ -118,6 +128,9 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
+	app->entityManager->DestroyEntity(player);
+	player = nullptr;
+	app->tex->UnLoad(img);
 
 	return true;
 }

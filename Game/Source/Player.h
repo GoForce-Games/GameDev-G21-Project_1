@@ -32,6 +32,10 @@ public:
 
 	void OnPlatformCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
 
+	void OnHurt();
+
+	void OnDeath();
+
 	iPoint GetOrigin() const override;
 
 public:
@@ -56,6 +60,9 @@ private:
 	Animation forwardjump;
 	Animation backwardjump;
 	Animation death;
+	
+	bool alive;
+
 };
 
 #endif // __PLAYER_H__

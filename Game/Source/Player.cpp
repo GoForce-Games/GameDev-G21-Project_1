@@ -93,7 +93,6 @@ bool Player::Start() {
 	pbody->body->SetSleepingAllowed(false);
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-	texture = app->tex->Load("Assets/Texture/Characte-Frames.png");
 
 	return true;
 }
@@ -187,8 +186,11 @@ void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
 
 void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
 {
-	
-
+	Properties::Property* p = wall->properties.GetProperty("hurt");
+	if (p != nullptr && p->boolVal) {
+		OnDeath();
+		return;
+	}
 
 	b2Vec2 pos = pbody->body->GetPosition();
 	b2Vec2 otherPos = wall->body->GetPosition();
@@ -201,6 +203,17 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 		grounded = true;
 		jumpsAvailable = maxJumps;
 	}
+}
+
+void Player::OnHurt()
+{
+}
+
+void Player::OnDeath()
+{
+	//TODO set death animation
+	boundCam->SetTarget(nullptr);
+	boundCam = nullptr;
 }
 
 iPoint Player::GetOrigin() const

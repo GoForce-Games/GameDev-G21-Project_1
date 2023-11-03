@@ -70,6 +70,8 @@ struct MapData
 	MapTypes type;
 
 	List<MapLayer*> maplayers;
+
+	iPoint GetMapSize() const { return { width * tileWidth,height * tileHeight }; }
 };
 
 class Map : public Module
