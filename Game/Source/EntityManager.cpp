@@ -145,7 +145,7 @@ bool EntityManager::Update(float dt)
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-
+		if (pEntity->setToDestroy) DestroyEntity(pEntity);
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
 	}

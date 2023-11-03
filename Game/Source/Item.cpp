@@ -31,6 +31,7 @@ bool Item::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::ITEM;
+	pbody->listener = this;
 
 	return true;
 }
@@ -44,6 +45,13 @@ bool Item::Update(float dt)
 	app->render->DrawTexture(texture, position.x, position.y);
 
 	return true;
+}
+
+void Item::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
+{
+	if (physB->ctype == ColliderType::PLAYER) {
+		setToDestroy = true;
+	}
 }
 
 bool Item::CleanUp()

@@ -76,6 +76,8 @@ public:
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type);
 	
+	void DestroyBody(PhysBody* pBody);
+
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 

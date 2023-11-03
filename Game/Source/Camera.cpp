@@ -70,13 +70,14 @@ bool Camera::DebugDraw()
 
 void Camera::SetTarget(Entity* e)
 {
-	target = e;
 	if (e != nullptr) {
+		target = e;
 		e->boundCam = this;
 		targetOffset = e->GetOrigin();
 	}
 	else {
 		LOG("Target is null! Camera will be stationary");
+		target = nullptr;
 	}
 }
 

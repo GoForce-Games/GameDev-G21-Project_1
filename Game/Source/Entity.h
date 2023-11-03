@@ -82,6 +82,7 @@ public:
 	SString name;
 	EntityType type;
 	bool active = true;
+	bool setToDestroy = false;
 	pugi::xml_node parameters; 
 
 	// Possible properties, it depends on how generic we

@@ -220,6 +220,13 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 	return pbody;
 }
 
+// Destroys the Physbody the pointer points to
+void Physics::DestroyBody(PhysBody* pBody)
+{
+	world->DestroyBody(pBody->body);
+	delete pBody;
+}
+
 // 
 bool Physics::PostUpdate()
 {

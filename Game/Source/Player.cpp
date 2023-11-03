@@ -188,7 +188,7 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 {
 	Properties::Property* p = wall->properties.GetProperty("hurt");
 	if (p != nullptr && p->boolVal) {
-		OnDeath();
+		OnHurt();
 		return;
 	}
 
@@ -207,13 +207,18 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 
 void Player::OnHurt()
 {
+	OnDeath();
 }
 
 void Player::OnDeath()
 {
 	//TODO set death animation
-	boundCam->SetTarget(nullptr);
-	boundCam = nullptr;
+	alive = false;
+	currentAnimation = &death; death.Reset();
+	if (boundCam != nullptr) {
+		boundCam->SetTarget(nullptr);
+		boundCam = nullptr;
+	}
 }
 
 iPoint Player::GetOrigin() const
