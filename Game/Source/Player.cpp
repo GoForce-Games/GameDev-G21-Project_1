@@ -98,10 +98,10 @@ bool Player::Update(float dt)
 	currentAnimation = &idleAnim;
 
 
+	//b2Vec2 vel = pbody->body->GetLinearVelocity();
+	b2Vec2 impulse = b2Vec2_zero;
 	if (alive)
 	{
-		//b2Vec2 vel = pbody->body->GetLinearVelocity();
-		b2Vec2 impulse = b2Vec2_zero;
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumpsAvailable > 0) {
 			impulse.y -= jumpPower;

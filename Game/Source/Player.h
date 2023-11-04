@@ -60,7 +60,7 @@ private:
 	Animation backwardjump;
 	Animation death;
 	
-	bool alive;
+	bool alive = true;
 
 };
 
