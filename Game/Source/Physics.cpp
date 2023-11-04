@@ -49,6 +49,14 @@ bool Physics::PreUpdate()
 {
 	bool ret = true;
 
+	//Delete bodies marked for deletion
+	for (b2Body* b = world->GetBodyList(); b != nullptr; b=b->GetNext())
+	{
+		PhysBody* pb = SDL_reinterpret_cast(PhysBody*, b->GetUserData());
+		if (pb != nullptr && pb->setToDestroy)
+			DestroyBody(b);
+	}
+
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
 	world->Step(1.0f / 60.0f, 6, 2);
@@ -220,11 +228,13 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 	return pbody;
 }
 
-// Destroys the Physbody the pointer points to
-void Physics::DestroyBody(PhysBody* pBody)
+// Destroys the body the pointer points to, along with Userdata in the form of PhysBody*
+void Physics::DestroyBody(b2Body * body)
 {
-	world->DestroyBody(pBody->body);
-	delete pBody;
+	PhysBody* pBody = reinterpret_cast<PhysBody*>(body->GetUserData());
+	world->DestroyBody(body);
+	if (pBody != nullptr)
+		delete pBody;
 }
 
 // 
@@ -241,6 +251,8 @@ bool Physics::PostUpdate()
 	{
 		for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 		{
+		
+
 			for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
 			{
 				switch (f->GetType())
@@ -324,8 +336,14 @@ bool Physics::PostUpdate()
 // Called before quitting
 bool Physics::CleanUp()
 {
-	LOG("Destroying physics world");
 
+	LOG("Destroying PhysBodies");
+	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
+	{
+
+	}
+
+	LOG("Destroying physics world");
 	// Delete the whole physics world!
 	delete world;
 

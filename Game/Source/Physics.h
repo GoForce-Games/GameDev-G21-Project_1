@@ -53,6 +53,8 @@ public:
 	ColliderType ctype;
 
 	Properties properties;
+
+	bool setToDestroy = false;
 };
 
 // Module --------------------------------------
@@ -76,7 +78,7 @@ public:
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type);
 	
-	void DestroyBody(PhysBody* pBody);
+	void DestroyBody(b2Body * body);
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);

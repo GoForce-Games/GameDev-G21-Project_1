@@ -58,7 +58,6 @@ Player::Player() : Entity(EntityType::PLAYER)
 }
 
 Player::~Player() {
-
 }
 
 bool Player::Awake() {
@@ -108,43 +107,31 @@ bool Player::Update(float dt)
 		jumpsAvailable--;
 		currentAnimation = &forwardjump;
 		grounded = false;
+		if (pbody->body->GetLinearVelocity().x < 0) {
+			currentAnimation = &backwardjump;
+		}
+		else if (pbody->body->GetLinearVelocity().x >= 0) {
+			currentAnimation = &forwardjump;
+		}
 	}
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+	//if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
-	}
+	//}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		impulse.x -= accel;
+		if (grounded)
 		currentAnimation = &backwardAnim;
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		impulse.x += accel;
+		if (grounded)
 		currentAnimation = &forwardAnim;
 		
 	}
 	else {
 		//impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
 	}
-	if (grounded == false) {
-		if (pbody->body->GetLinearVelocity().x < 0) {
-			currentAnimation = &backwardjump;
-			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
-		}
-		else if (pbody->body->GetLinearVelocity().x >= 0) {
-			currentAnimation = &forwardjump;
-			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
-		}
-	}
- 	/*if (grounded == false) {
-		if (accel < 0) {
-			currentAnimation = &backwardAnim;
-			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
-		}
-		else if (accel >= 0) {
-			currentAnimation = &forwardjump;
-			app->render->DrawTexture(texture, position.x, position.y, &currentAnimation->GetCurrentFrame());
-		}
-	}*/
 	
 
 	//Limit de velocitat
@@ -153,7 +140,6 @@ bool Player::Update(float dt)
 	impulse.y = b2Clamp(impulse.y, -velCap.y, velCap.y);
 
 	//Set the velocity of the pbody of the player
-	//pbody->body->SetLinearVelocity(vel);
 	pbody->body->ApplyLinearImpulse(impulse, pbody->body->GetPosition(), false);
 	pbody->body->SetLinearVelocity(b2Clamp(pbody->body->GetLinearVelocity(), -velCap, velCap));
 	
@@ -214,6 +200,7 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 
 	float pRadius = PIXEL_TO_METERS(16);
 
+	//Funciona solo en rectangulos alineados a los ejes del mundo
 	if (pos.x+(pRadius/2) >= otherPos.x - otherHalfSize.x && pos.x-(pRadius/2) <= otherPos.x + otherHalfSize.x && pos.y < otherPos.y - otherHalfSize.y) {
 		LOG("Ground touched");
 		grounded = true;

@@ -103,7 +103,7 @@ bool Scene::Update(float dt)
 	}
 
 	//If player is out of the map, kill them
-	if (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y<-player->pbody->height || player->position.y > mapSize.y + player->pbody->height) {
+	if (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y > mapSize.y + player->pbody->height) {
 		player->OnDeath();
 	}
 

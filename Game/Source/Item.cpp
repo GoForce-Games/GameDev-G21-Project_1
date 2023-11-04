@@ -39,9 +39,10 @@ bool Item::Start() {
 bool Item::Update(float dt)
 {
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
-
+	if (pbody != nullptr) {
+		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+	}
 	app->render->DrawTexture(texture, position.x, position.y);
 
 	return true;
@@ -51,6 +52,11 @@ void Item::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 {
 	if (physB->ctype == ColliderType::PLAYER) {
 		setToDestroy = true;
+		if (pbody != nullptr) {
+			pbody->setToDestroy = true;
+			pbody->body->SetActive(false);
+		}
+		pbody = nullptr;
 	}
 }
 
