@@ -386,23 +386,18 @@ bool Map::LoadAllPolygons(pugi::xml_node mapNode) {
               std::istringstream pointsStream(pointsStr);
               std::vector<int> points;
 
-              // Parse and store the individual points
               int point;
               while (pointsStream >> point) {
                 points.push_back(point);
-                // Skip the comma or space separator
+                
                 pointsStream.ignore();
               }
 
-              // Now you have the 'points' vector containing the parsed point values
-              // You can convert it to an array if needed
               int* pointsArray = points.data();
               int numPoints = points.size();
 
-              // Use the 'pointsArray' and 'numPoints' as needed for your application
               app->physics->CreateChain(x, y, pointsArray, numPoints, STATIC);
                 
-
             }
         }
     }

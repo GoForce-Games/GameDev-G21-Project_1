@@ -25,11 +25,56 @@
     <map path="Assets/Maps/" name="MapaProyecto.tmx"/>
     <player x="100" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f"/>
 	<camera x="400" y="352" mainCam="true" offset_x="0" offset_y="5" speed="0.02f"/>
-    <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="384" y="352" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="200" y="672" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="500" y="672" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="256" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="421" y="752" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="200" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="126" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="726" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="746" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="716" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1656" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1756" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1856" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1706" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1806" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2056" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2336" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2456" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3056" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3156" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3256" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3156" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3156" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3506" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3556" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3784" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3934" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4085" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4956" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4856" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4856" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4806" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4906" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4506" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4506" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="5156" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="5056" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="5256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4756" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4856" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4056" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4156" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4356" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3756" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3776" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3600" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3160" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
   </scene>
   
 </config>
