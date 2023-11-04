@@ -98,39 +98,41 @@ bool Player::Update(float dt)
 	currentAnimation = &idleAnim;
 
 
+	if (alive)
+	{
+		//b2Vec2 vel = pbody->body->GetLinearVelocity();
+		b2Vec2 impulse = b2Vec2_zero;
 
-	//b2Vec2 vel = pbody->body->GetLinearVelocity();
-	b2Vec2 impulse = b2Vec2_zero;
-
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumpsAvailable > 0) {
-		impulse.y -= jumpPower;
-		jumpsAvailable--;
-		currentAnimation = &forwardjump;
-		grounded = false;
-		if (pbody->body->GetLinearVelocity().x < 0) {
-			currentAnimation = &backwardjump;
-		}
-		else if (pbody->body->GetLinearVelocity().x >= 0) {
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumpsAvailable > 0) {
+			impulse.y -= jumpPower;
+			jumpsAvailable--;
 			currentAnimation = &forwardjump;
+			grounded = false;
+			if (pbody->body->GetLinearVelocity().x < 0) {
+				currentAnimation = &backwardjump;
+			}
+			else if (pbody->body->GetLinearVelocity().x >= 0) {
+				currentAnimation = &forwardjump;
+			}
 		}
-	}
-	//if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		//
-	//}
+		//if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+			//
+		//}
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		impulse.x -= accel;
-		if (grounded)
-		currentAnimation = &backwardAnim;
-	}
-	else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		impulse.x += accel;
-		if (grounded)
-		currentAnimation = &forwardAnim;
-		
-	}
-	else {
-		//impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			impulse.x -= accel;
+			if (grounded)
+				currentAnimation = &backwardAnim;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			impulse.x += accel;
+			if (grounded)
+				currentAnimation = &forwardAnim;
+
+		}
+		else {
+			//impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
+		}
 	}
 	
 
