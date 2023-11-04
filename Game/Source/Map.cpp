@@ -145,11 +145,14 @@ bool Map::CleanUp()
     ListItem<MapLayer*>* layerItem;
     layerItem = mapData.maplayers.start;
 
+
     while (layerItem != NULL)
     {
         RELEASE(layerItem->data);
         layerItem = layerItem->next;
     }
+
+    mapData.maplayers.Clear();
 
     return true;
 }

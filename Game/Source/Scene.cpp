@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Map.h"
 #include "Physics.h"
+#include "Reload.h"
 
 #include "Camera.h"
 
@@ -16,6 +17,7 @@
 Scene::Scene() : Module()
 {
 	name.Create("scene");
+	needsAwaking = true;
 }
 
 // Destructor
@@ -58,6 +60,7 @@ bool Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene::Start()
 {
+
 	// NOTE: We have to avoid the use of paths in the code, we will move it later to a config file
 	//img = app->tex->Load("Assets/Textures/test.png");
 	
@@ -101,6 +104,9 @@ bool Scene::Update(float dt)
 	if (mapSize == iPoint{0,0}) {
 		mapSize = app->map->mapData.GetMapSize();
 	}
+
+	//Reload the level when pressing R (temporary)
+	if (app->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) app->reload->reload = true;
 
 	//If player is out of the map, kill them
 	if (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y > mapSize.y + player->pbody->height) {

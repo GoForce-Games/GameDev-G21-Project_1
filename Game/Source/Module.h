@@ -55,10 +55,32 @@ public:
 		return true;
 	}
 
+	virtual bool Enable()
+	{
+		if (!active)
+		{
+			Start();
+			active = true;
+		}
+		return active;
+	}
+
+	virtual bool Disable()
+	{
+		if (active)
+		{
+			CleanUp();
+			active = false;
+		}
+		return !active;
+	}
+
+
 public:
 
 	SString name;
 	bool active;
+	bool needsAwaking = false;
 
 };
 

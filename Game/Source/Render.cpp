@@ -100,10 +100,12 @@ bool Render::Update(float dt)
 
 bool Render::PostUpdate()
 {
-	camera.w = cam->rect.w;
-	camera.h = cam->rect.h;
-	camera.x = -cam->rect.x + camDebugOffset.x;
-	camera.y = -cam->rect.y + camDebugOffset.y;
+	if (cam != nullptr) {
+		camera.w = cam->rect.w;
+		camera.h = cam->rect.h;
+		camera.x = -cam->rect.x + camDebugOffset.x;
+		camera.y = -cam->rect.y + camDebugOffset.y;
+	}
 
 	if (app->debug) cam->DebugDraw();
 

@@ -12,6 +12,7 @@
 EntityManager::EntityManager() : Module()
 {
 	name.Create("entitymanager");
+	needsAwaking = true;
 }
 
 // Destructor
@@ -56,9 +57,11 @@ bool EntityManager::Start() {
 		ret = item->data->Start();
 	}
 
-	if (mainCamera->GetTarget() == nullptr && players.Count() > 0) {
-		mainCamera->SetTarget(players[0]);
-	}
+	//If cam is not following player, assign player as target
+	//if (mainCamera->GetTarget() == nullptr && players.Count() > 0) {
+		//mainCamera->SetTarget(players[0]);
+		//app->render->cam = mainCamera;
+	//}
 
 	return ret;
 }
@@ -73,11 +76,15 @@ bool EntityManager::CleanUp()
 	while (item != NULL && ret == true)
 	{
 		ret = item->data->CleanUp();
+		DestroyEntity(item->data);
 		item = item->prev;
 	}
 
 	entities.Clear();
 	players.Clear();
+	cameras.Clear();
+
+	SetMainCamera(nullptr);
 
 	return ret;
 }
@@ -114,7 +121,8 @@ Camera* EntityManager::CreateCamera(Entity* target)
 	entities.Add(camera);
 	cameras.Add(camera);
 	if (mainCamera == nullptr) {
-		app->render->cam = mainCamera = camera; // If there's no main camera, assign this camera as it
+		SetMainCamera(camera); // If there's no main camera, assign this camera as it
+		
 	}
 	camera->SetTarget(target);
 
@@ -137,6 +145,11 @@ void EntityManager::DestroyEntity(Entity* entity)
 void EntityManager::AddEntity(Entity* entity)
 {
 	if ( entity != nullptr) entities.Add(entity);
+}
+
+void EntityManager::SetMainCamera(Camera* c)
+{
+	app->render->cam = mainCamera = c;
 }
 
 bool EntityManager::Update(float dt)

@@ -38,6 +38,8 @@ public:
 
 	void AddEntity(Entity* entity);
 
+	void SetMainCamera(Camera* c);
+
 public:
 
 	List<Entity*> entities;

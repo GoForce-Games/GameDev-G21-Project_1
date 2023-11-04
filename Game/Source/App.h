@@ -19,6 +19,7 @@ class Scene;
 class EntityManager;
 class Map;
 class Physics;
+class Reload;
 
 class App
 {
@@ -44,6 +45,8 @@ public:
 
 	// Add a new module to handle
 	void AddModule(Module* module);
+
+	pugi::xml_node GetConfig(const Module& m);
 
 	// Exposing some properties for reading
 	int GetArgc() const;
@@ -83,6 +86,7 @@ public:
 	EntityManager* entityManager;
 	Map* map;
 	Physics* physics;
+	Reload* reload;
 
 	bool debug = true;
 

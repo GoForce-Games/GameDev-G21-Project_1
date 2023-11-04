@@ -77,6 +77,12 @@ public:
 		return { 0,0 };
 	}
 
+	virtual bool SetToDestroy();
+
+	virtual void SetPBody(PhysBody* pb) {
+		pbody = pb;
+	}
+
 public:
 
 	SString name;
@@ -91,6 +97,8 @@ public:
 	bool renderable = true;
 	
 	Camera* boundCam = nullptr;
+
+	PhysBody* pbody = nullptr;
 
 };
 

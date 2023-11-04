@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Render.h"
 #include "Textures.h"
+#include "Reload.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -11,6 +12,7 @@
 Textures::Textures() : Module()
 {
 	name.Create("textures");
+	needsAwaking = true;
 }
 
 // Destructor
@@ -52,7 +54,7 @@ bool Textures::CleanUp()
 
 	for(item = textures.start; item != NULL; item = item->next)
 	{
-		SDL_DestroyTexture(item->data);
+		UnLoad(item->data);
 	}
 
 	textures.Clear();

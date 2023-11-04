@@ -16,6 +16,7 @@ Audio::Audio() : Module()
 {
 	music = NULL;
 	name.Create("audio");
+	needsAwaking = true;
 }
 
 // Destructor

@@ -232,9 +232,16 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 void Physics::DestroyBody(b2Body * body)
 {
 	PhysBody* pBody = reinterpret_cast<PhysBody*>(body->GetUserData());
-	world->DestroyBody(body);
-	if (pBody != nullptr)
+	if (pBody != nullptr) {
+		pBody->body = nullptr;
+		if (pBody->boundEntity != nullptr) 
+		{
+			pBody->boundEntity->setToDestroy = true;
+			pBody->boundEntity = nullptr;
+		}
 		delete pBody;
+	}
+	world->DestroyBody(body);
 }
 
 // 
@@ -340,7 +347,7 @@ bool Physics::CleanUp()
 	LOG("Destroying PhysBodies");
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 	{
-
+		DestroyBody(b);
 	}
 
 	LOG("Destroying physics world");
