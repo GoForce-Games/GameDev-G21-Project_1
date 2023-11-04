@@ -348,8 +348,8 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
         for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object"))
         {
-            // TODO carga de polígonos custom (CreateChain)
-            // TODO sacar la carga de objetos individuales a una función a parte
+            // TODO carga de polï¿½gonos custom (CreateChain)
+            // TODO sacar la carga de objetos individuales a una funciï¿½n a parte
 
             int id = objNode.attribute("id").as_int();
             float x = objNode.attribute("x").as_float();
@@ -382,11 +382,25 @@ bool Map::LoadAllPolygons(pugi::xml_node mapNode) {
 
             for (pugi::xml_node polyNode = objNode.child("polygon"); polyNode && ret; polyNode = polyNode.next_sibling("polygon"))
             {
-                int points[6] = { polyNode.attribute("points").as_int() };
-                
-                /*int points = polyNode.attribute("points").as_int();*/
+              std::string pointsStr = polyNode.attribute("points").as_string();
+              std::istringstream pointsStream(pointsStr);
+              std::vector<int> points;
 
-                app->physics->CreateChain(x, y, points, 1, STATIC);
+              // Parse and store the individual points
+              int point;
+              while (pointsStream >> point) {
+                points.push_back(point);
+                // Skip the comma or space separator
+                pointsStream.ignore();
+              }
+
+              // Now you have the 'points' vector containing the parsed point values
+              // You can convert it to an array if needed
+              int* pointsArray = points.data();
+              int numPoints = points.size();
+
+              // Use the 'pointsArray' and 'numPoints' as needed for your application
+              app->physics->CreateChain(x, y, pointsArray, numPoints, STATIC);
                 
 
             }
