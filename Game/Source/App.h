@@ -88,7 +88,7 @@ public:
 	Physics* physics;
 	Reload* reload;
 
-	bool debug = true;
+	bool debug = false;
 
 
 private:

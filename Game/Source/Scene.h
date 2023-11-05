@@ -45,6 +45,8 @@ private:
 
 	iPoint mapSize;
 
+	SString gameOverScreenTexturePath;
+
 	
 
 

@@ -56,6 +56,10 @@ bool Scene::Awake(pugi::xml_node& config)
 		app->map->path = config.child("map").attribute("path").as_string();
 	}
 
+	if (config.child("gameover")) {
+		gameOverScreenTexturePath = config.child("gameover").attribute("path").as_string();
+	}
+
 	return ret;
 }
 
@@ -65,7 +69,7 @@ bool Scene::Start()
 
 	// NOTE: We have to avoid the use of paths in the code, we will move it later to a config file
 	//img = app->tex->Load("Assets/Textures/test.png");
-	img = app->tex->Load("Assets/Textures/GameOverScreen.jpg");
+	img = app->tex->Load(gameOverScreenTexturePath.GetString());
 	
 	//Music is commented so that you can add your own music
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
@@ -140,7 +144,7 @@ bool Scene::PostUpdate()
 
 		if (timer.ReadSec() >= waitTimeInSec) {
 
-			app->render->DrawTexture(img, (int)textPosX + app->entityManager->mainCamera->position.x, (int)textPosY + app->entityManager->mainCamera->position.y);
+			app->render->DrawTexture(img, /*(int)textPosX + */ app->entityManager->mainCamera->position.x, /*(int)textPosY + */app->entityManager->mainCamera->position.y);
 		}
 	}
 
