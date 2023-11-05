@@ -48,7 +48,7 @@ bool Camera::Update(float dt)
 		iPoint pos = target->position;
 		//TODO potser s'ha de canviar una mica per a que el personatge quedi al centre
 		position.x = rect.x = LERP(rect.x, pos.x + offset.x + targetOffset.x, camSpeed * dt);
-		position.x = rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
+		position.y = rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
 	}
 
 	return true;
