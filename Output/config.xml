@@ -23,13 +23,53 @@
 
   <scene>
     <map path="Assets/Maps/" name="MapaProyecto.tmx"/>
-	<gameover path="Assets/Textures/GameOverScreen.jpg"/>
-	<player x="100" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f">
-		<animation name="idle" loop="true" pingpong="true">
-			<frame x="" y="" w="" h=""/>
-		</animation>
-	</player>
-	<camera x="400" y="352" mainCam="true" offset_x="0" offset_y="5" speed="0.02f"/>
+	  <gameover path="Assets/Textures/GameOverScreen.jpg"/>
+    <player x="100" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f">
+      <animation name="idle" loop="true" pingpong="true">
+        <frame x="182" y="314" w="21" h="33"/>
+      </animation>
+
+      <animation name="forwardAnim" loop="true" speed = "0.2f" pingpong="true">
+        <frame x="273" y="314" w="31" h="33"/>
+        <frame x="368" y="314" w="35" h="31"/>
+        <frame x="463" y="316" w="31" h="31"/>
+        <frame x="561" y="316" w="21" h="32"/>
+        <frame x="663" y="316" w="21" h="31"/>
+      </animation>
+
+
+      <animation name="backwardAnim" loop="true" speed = "0.2f" pingpong="true">
+        <frame x="1755" y="316" w="21" h="34"/>
+        <frame x="1653" y="316" w="31" h="33"/>
+        <frame x="1554" y="316" w="34" h="31"/>
+        <frame x="1462" y="318" w="32" h="32"/>
+        <frame x="1368" y="318" w="27" h="32"/>
+        <frame x="1272" y="318" w="21" h="31"/>
+      </animation>
+
+      <animation name="forwardJump" loop="true" pingpong="false">
+        <frame x="270" y="446" w="37" h="32"/>
+      </animation>
+
+      <animation name="backwardJump" loop="true" pingpong="false">
+        <frame x="1651" y="448" w="36" h="31"/>
+      </animation>
+
+      <animation name="death" loop="false" speed = "0.1f" pingpong="false">
+        <frame x="177" y="585" w="25" h="31"/>
+        <frame x="270" y="587" w="32" h="29"/>
+        <frame x="369" y="587" w="31" h="29"/>
+        <frame x="465" y="587" w="32" h="29"/>
+        <frame x="562" y="587" w="31" h="29"/>
+        <frame x="658" y="587" w="31" h="29"/>
+        <frame x="754" y="587" w="31" h="29"/>
+        <frame x="850" y="587" w="31" h="29"/>
+        <frame x="948" y="587" w="28" h="28"/>
+      </animation>
+    </player>
+
+
+    <camera x="400" y="352" mainCam="true" offset_x="0" offset_y="5" speed="0.02f"/>
     <item x="256" y="800" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="421" y="752" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="200" y="800" texturepath="Assets/Textures/goldCoin.png"/>

@@ -13,6 +13,7 @@ EntityManager::EntityManager() : Module()
 {
 	name.Create("entitymanager");
 	needsAwaking = true;
+	mainCamera = nullptr;
 }
 
 // Destructor
@@ -122,7 +123,6 @@ Camera* EntityManager::CreateCamera(Entity* target)
 	cameras.Add(camera);
 	if (mainCamera == nullptr) {
 		SetMainCamera(camera); // If there's no main camera, assign this camera as it
-		
 	}
 	camera->SetTarget(target);
 
@@ -150,6 +150,9 @@ void EntityManager::AddEntity(Entity* entity)
 void EntityManager::SetMainCamera(Camera* c)
 {
 	app->render->cam = mainCamera = c;
+	if (c != nullptr && c->GetTarget() == nullptr && players.Count() > 0) {
+		c->SetTarget(players[0]);
+	}
 }
 
 bool EntityManager::Update(float dt)

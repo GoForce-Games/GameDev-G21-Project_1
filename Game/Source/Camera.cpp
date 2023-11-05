@@ -11,6 +11,7 @@
 
 Camera::Camera(Entity* e) : Entity(EntityType::CAMERA) {
 	SetTarget(e);
+	Awake();
 }
 
 Camera::~Camera()
@@ -19,13 +20,19 @@ Camera::~Camera()
 
 bool Camera::Awake()
 {
+	if (!awoken) {
+		awoken = true;
+		return true;
+	}
+	camSpeed = parameters.attribute("speed").as_float();
+
 	offset.x = parameters.attribute("offset_x").as_float();
 	offset.y = parameters.attribute("offset_y").as_float();
-	camSpeed = parameters.attribute("speed").as_float();
-	if (parameters.attribute("mainCam").as_bool()) {
-		offset.x -= app->win->screenSurface->w / 2;
-		offset.y -= app->win->screenSurface->h / 2;
-	}
+	offset.x -= app->win->screenSurface->w / 2;
+	offset.y -= app->win->screenSurface->h / 2;
+	
+	rect.w = app->win->screenSurface->w;
+	rect.h = app->win->screenSurface->h;
 	return true;
 }
 
