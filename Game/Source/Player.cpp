@@ -19,45 +19,6 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
-
-	
-
-	idleAnim.PushBack({ 182, 314, 21,33 });
-
-	forwardAnim.PushBack({ 273, 314, 31, 33 });
-	forwardAnim.PushBack({ 368, 314, 35, 31 });
-	forwardAnim.PushBack({ 463, 316, 31, 31 });
-	forwardAnim.PushBack({ 561, 315, 27, 32 });
-	forwardAnim.PushBack({ 663, 316, 21, 31 });
-	forwardAnim.speed = 0.2f;
-
-	backwardAnim.PushBack({ 1755, 316, 21, 34 });
-	backwardAnim.PushBack({ 1653, 316, 31, 33 });
-	backwardAnim.PushBack({ 1554, 316, 34, 31 });
-	backwardAnim.PushBack({ 1462, 318, 32, 32 });
-	backwardAnim.PushBack({ 1368, 318, 27, 32 });
-	backwardAnim.PushBack({ 1272, 318, 21, 31 });
-	backwardAnim.speed = 0.2f;
-
-	
-	forwardjump.PushBack({ 270, 446, 37, 32 });
-	
-
-	
-	backwardjump.PushBack({ 1651, 448, 36, 31 });
-	
-
-	death.PushBack({ 177, 585, 25, 31 });
-	death.PushBack({ 270, 587, 32, 29 });
-	death.PushBack({ 369, 587, 31, 29 });
-	death.PushBack({ 465, 587, 32, 29 });
-	death.PushBack({ 562, 587, 31, 29 });
-	death.PushBack({ 658, 587, 31 ,29 });
-	death.PushBack({ 754, 587, 31, 29 });
-	death.PushBack({ 850, 587, 31, 29 });
-	death.PushBack({ 948, 587, 28, 28 });
-	death.speed = 0.1f;
-
 }
 
 Player::~Player() {
@@ -74,6 +35,8 @@ bool Player::Awake() {
 	velCap.x = parameters.attribute("velCap_x").as_float();
 	velCap.y = parameters.attribute("velCap_y").as_float();
 
+	LoadAllAnimations();
+
 	return true;
 }
 
@@ -82,8 +45,6 @@ bool Player::Start() {
 	//initilize textures
 
 	texture = app->tex->Load(texturePath);
-
-	
 
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->listener = this;
@@ -100,18 +61,41 @@ bool Player::Start() {
 bool Player::Update(float dt)
 {
 	// TODO detectar cuando jugador cae de plataforma (raycast?)
-	currentAnimation = &idleAnim;
+	currentAnimation = idleAnim;
 
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+		godMode = !godMode;
+	}
 
-	//b2Vec2 vel = pbody->body->GetLinearVelocity();
 	b2Vec2 impulse = b2Vec2_zero;
+	if (godMode) {
+
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			impulse.y -= accel;
+			if (grounded)
+				currentAnimation = backwardAnim;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+			impulse.y += accel;
+
+		}
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			impulse.x -= accel;
+			if (grounded)
+				currentAnimation = backwardAnim;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			impulse.x += accel;
+
+		}
+	}
 	if (alive)
 	{
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumpsAvailable > 0) {
 			impulse.y -= jumpPower;
 			jumpsAvailable--;
-			currentAnimation = &forwardjump;
+			currentAnimation = forwardjump;
 			grounded = false;
 			
 		}
@@ -122,12 +106,12 @@ bool Player::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 			impulse.x -= accel;
 			if (grounded)
-				currentAnimation = &backwardAnim;
+				currentAnimation = backwardAnim;
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 			impulse.x += accel;
 			if (grounded)
-				currentAnimation = &forwardAnim;
+				currentAnimation = forwardAnim;
 
 		}
 		else {
@@ -136,14 +120,14 @@ bool Player::Update(float dt)
 	}
 	if (grounded == false) {
 		if (pbody->body->GetLinearVelocity().x < 0) {
-			currentAnimation = &backwardjump;
+			currentAnimation = backwardjump;
 		}
 		else if (pbody->body->GetLinearVelocity().x >= 0) {
-			currentAnimation = &forwardjump;
+			currentAnimation = forwardjump;
 		}
 	}
 	if(alive == false) {
-		currentAnimation = &death;
+		currentAnimation = death;
 	}
 	
 
@@ -172,6 +156,12 @@ bool Player::CleanUp()
 {
 	if (boundCam != nullptr)
 		boundCam->SetTarget(nullptr);
+
+	for (ListItem<Animation*>* item = animationList.start; item != nullptr; item = item->next) {
+		RELEASE(item->data);
+	}
+	animationList.Clear();
+
 	return true;
 }
 
@@ -192,6 +182,38 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 		LOG("Collision UNKNOWN");
 		break;
 	}
+}
+
+void Player::OnHurt()
+{
+	OnDeath();
+}
+
+void Player::OnDeath()
+{
+	//TODO set death animation
+	if (alive && !godMode) {
+		alive = false;
+		currentAnimation = death; death->Reset();
+		if (boundCam != nullptr) {
+			boundCam->SetTarget(nullptr);
+			boundCam = nullptr;
+		}
+		app->scene->timer.Start();
+	}
+
+	
+}
+
+iPoint Player::GetOrigin() const
+{
+	iPoint ret;
+	if (pbody != nullptr) {
+		ret.x = pbody->width;
+		ret.y = pbody->height;
+	}
+
+	return ret;
 }
 
 void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
@@ -221,34 +243,45 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 	}
 }
 
-void Player::OnHurt()
+void Player::LoadAllAnimations()
 {
-	OnDeath();
-}
+	for (pugi::xml_node animNode = parameters.child("animation"); animNode; animNode = animNode.next_sibling())
+	{
+		Animation* anim = new Animation();
 
-void Player::OnDeath()
-{
-	//TODO set death animation
-	if (alive) {
-		alive = false;
-		currentAnimation = &death; death.Reset();
-		if (boundCam != nullptr) {
-			boundCam->SetTarget(nullptr);
-			boundCam = nullptr;
+		anim->name = animNode.attribute("name").as_string();
+		anim->speed = animNode.attribute("speed").as_float();
+		anim->loop = animNode.attribute("loop").as_bool();
+		anim->pingpong = animNode.attribute("pingpong").as_bool();
+
+		for (pugi::xml_node frameNode = animNode.child("frame"); frameNode; frameNode = frameNode.next_sibling())
+		{
+			int x = frameNode.attribute("x").as_int();
+			int y = frameNode.attribute("y").as_int();
+			int w = frameNode.attribute("w").as_int();
+			int h = frameNode.attribute("h").as_int();
+			anim->PushBack({ x,y,w,h });
 		}
-		app->scene->timer.Start();
+		animationList.Add(anim);
 	}
 
-	
+	idleAnim = GetAnimation("idle");
+	forwardAnim = GetAnimation("forwardAnim");
+	backwardAnim = GetAnimation("backwardAnim");
+	forwardjump = GetAnimation("forwardJump");
+	backwardjump = GetAnimation("backwardJump");
+	death = GetAnimation("death");
+
+
 }
 
-iPoint Player::GetOrigin() const
+Animation* Player::GetAnimation(SString name)
 {
-	iPoint ret;
-	if (pbody != nullptr) {
-		ret.x = pbody->width;
-		ret.y = pbody->height;
+	for (ListItem<Animation*>* item = animationList.start; item != nullptr; item = item->next)
+	{
+		if (item->data != nullptr) {
+			if (item->data->name == name) return item->data;
+		}
 	}
-
-	return ret;
+	return nullptr;
 }

@@ -37,5 +37,7 @@ private:
     Entity* target = nullptr;
 
     friend class Render;
+
+    bool awoken = false;
 };
 

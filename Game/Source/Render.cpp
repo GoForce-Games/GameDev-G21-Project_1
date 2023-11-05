@@ -51,10 +51,10 @@ bool Render::Awake(pugi::xml_node& config)
 			cam->Awake();
 		}
 
-		camera.w = cam->rect.w = app->win->screenSurface->w;
-		camera.h = cam->rect.h = app->win->screenSurface->h;
-		camera.x = cam->rect.x = 0;
-		camera.y = cam->rect.y = 0;
+		camera.w = app->win->screenSurface->w;
+		camera.h = app->win->screenSurface->h;
+		camera.x = 0;
+		camera.y = 0;
 	}
 
 	return ret;
@@ -101,10 +101,12 @@ bool Render::Update(float dt)
 bool Render::PostUpdate()
 {
 	if (cam != nullptr) {
-		camera.w = cam->rect.w;
-		camera.h = cam->rect.h;
 		camera.x = -cam->rect.x + camDebugOffset.x;
 		camera.y = -cam->rect.y + camDebugOffset.y;
+	}
+	else {
+		camera.x = camDebugOffset.x;
+		camera.y = camDebugOffset.y;
 	}
 
 	if (app->debug) cam->DebugDraw();

@@ -1,29 +1,32 @@
-# {Project Name}
+# Stickman's Adventure
 
 ## Description
 
-{project description}
+Este juego es totalmente original, para nada copiado de la saga Super Mario
 
 ## Key Features
 
- - {Feature01}
- - {Feature02}
- - {Feature03}
- - {Feature04}
+- 1 Nivel
+- Jugador con movimiento completo (+ animaciones)
+- La cámara sigue al jugador
+- Recarga de nivel
+- Todos los parámetros configurables se encuentran en el archivo de configuración
+- Muerte del jugador si se sale del mapa o toca algún pincho
  
 ## Controls
 
- - {ControlsScheme}
+ - WASD -> Movimiento
+ - SPACE -> Salto
+ - F1 -> Cargar nivel 1
+ - F3 -> Recargar nivel actual
+ - F9 -> Modo debug
+ - F10 -> God mode (permite volar)
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
+ - Roger Puchol Celma - Lead Programmer / Manager
+ - Eric Palomares Rodríguez - Lead Level Designer / Programmer
 
 ## License
 
-This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
-
-{AdditionalLicenses}
+This project is licensed under an unmodified Apache 2.0 license. Check [LICENSE](LICENSE) for further details

@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "SDL/include/SDL.h"
 #include "Box2D/Box2D/Box2D.h"
+#include "List.h"
 #include "Animation.h"
 
 struct SDL_Texture;
@@ -27,16 +28,22 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo);
-	
-	void OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody);
-
-	void OnPlatformCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
 
 	void OnHurt();
 
 	void OnDeath();
 
 	iPoint GetOrigin() const override;
+
+private:
+	
+	void OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody);
+
+	void OnPlatformCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
+
+	void LoadAllAnimations();
+
+	Animation* GetAnimation(SString name);
 
 public:
 	const char* texturePath;
@@ -58,14 +65,17 @@ private:
 	bool grounded = false;
 	Animation* currentAnimation = nullptr;
 
-	Animation idleAnim;
-	Animation forwardAnim;
-	Animation backwardAnim;
-	Animation forwardjump;
-	Animation backwardjump;
-	Animation death;
+	Animation* idleAnim;
+	Animation* forwardAnim;
+	Animation* backwardAnim;
+	Animation* forwardjump;
+	Animation* backwardjump;
+	Animation* death;
 	
-	
+	List<Animation*> animationList;
+
+
+	bool godMode = false;
 
 };
 
