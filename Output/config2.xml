@@ -1,0 +1,124 @@
+<config>
+  <app>
+    <title>Game Development template</title>
+    <maxFrameDuration value="16"/>
+  </app>
+
+  <renderer>
+    <vsync value="true"/>
+  </renderer>
+
+  <window>
+    <resolution width="1024" height="768" scale="1"/>
+    <fullscreen value="false"/>
+    <borderless value="false"/>
+    <resizable value="false"/>
+    <fullscreen_window value="false"/>
+  </window>
+
+  <audio>
+    <music volume="128"/>
+    <fx volume="128"/>
+  </audio>
+
+  <scene>
+    <map path="Assets/Maps/" name="MapaProyecto.tmx"/>
+    <player x="100" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f">
+      <animation name="idle" loop="true" pingpong="true">
+        <frame x="182" y="314" w="21" h="33"/>
+      </animation>
+
+      <animation name="forwardAnim" loop="true" speed = "0.2f" pingpong="true">
+        <frame x="273" y="314" w="31" h="33"/>
+        <frame x="368" y="314" w="35" h="31"/>
+        <frame x="463" y="316" w="31" h="31"/>
+        <frame x="561" y="316" w="21" h="32"/>
+        <frame x="663" y="316" w="21" h="31"/>
+      </animation>
+
+
+      <animation name="backwardAnim" loop="true" speed = "0.2f" pingpong="true">
+        <frame x="1755" y="316" w="21" h="34"/>
+        <frame x="1653" y="316" w="31" h="33"/>
+        <frame x="1554" y="316" w="34" h="31"/>
+        <frame x="1462" y="318" w="32" h="32"/>
+        <frame x="1368" y="318" w="27" h="32"/>
+        <frame x="1272" y="318" w="21" h="31"/>
+      </animation>
+
+      <animation name="forwardjump" loop="true" pingpong="true">
+        <frame x="270" y="446" w="37" h="32"/>
+      </animation>
+
+      <animation name="backwardjump" loop="true" pingpong="true">
+        <frame x="1651" y="448" w="36" h="31"/>
+      </animation>
+
+      <animation name="death" loop="false" speed = "0.1f" pingpong="true">
+        <frame x="177" y="585" w="25" h="31"/>
+        <frame x="270" y="587" w="32" h="29"/>
+        <frame x="369" y="587" w="31" h="29"/>
+        <frame x="465" y="587" w="32" h="29"/>
+        <frame x="562" y="587" w="31" h="29"/>
+        <frame x="658" y="587" w="31" h="29"/>
+        <frame x="754" y="587" w="31" h="29"/>
+        <frame x="850" y="587" w="31" h="29"/>
+        <frame x="948" y="587" w="28" h="28"/>
+      </animation>
+    </player>
+
+
+    <camera x="400" y="352" mainCam="true" offset_x="0" offset_y="5" speed="0.02f"/>
+    <item x="256" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="421" y="752" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="200" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="126" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="726" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="746" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="716" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1656" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1756" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1856" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1706" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="1806" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2056" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2336" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2456" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="2756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3056" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3156" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3256" y="800" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3156" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3156" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3506" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3556" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3784" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3934" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4085" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4956" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4856" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4756" y="700" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4856" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4806" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4906" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4506" y="600" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4506" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="5156" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="5056" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="5256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4756" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4856" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4056" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4156" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="4356" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3756" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3776" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3600" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3160" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+    <item x="3256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
+  </scene>
+  
+</config>
