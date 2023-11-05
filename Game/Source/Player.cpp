@@ -8,10 +8,13 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Timer.h"
 
 #include "Camera.h"
 
 #include "MathUtil.h"
+
+
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -53,7 +56,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 	death.PushBack({ 754, 587, 31, 29 });
 	death.PushBack({ 850, 587, 31, 29 });
 	death.PushBack({ 948, 587, 28, 28 });
-	death.speed = 0.4f;
+	death.speed = 0.1f;
 
 }
 
@@ -79,6 +82,8 @@ bool Player::Start() {
 	//initilize textures
 
 	texture = app->tex->Load(texturePath);
+
+	
 
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->listener = this;
@@ -108,12 +113,7 @@ bool Player::Update(float dt)
 			jumpsAvailable--;
 			currentAnimation = &forwardjump;
 			grounded = false;
-			if (pbody->body->GetLinearVelocity().x < 0) {
-				currentAnimation = &backwardjump;
-			}
-			else if (pbody->body->GetLinearVelocity().x >= 0) {
-				currentAnimation = &forwardjump;
-			}
+			
 		}
 		//if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 			//
@@ -133,6 +133,17 @@ bool Player::Update(float dt)
 		else {
 			//impulse.x = abs(impulse.x) < 0.2f ? 0 : LERP(impulse.x,0,5/dt);
 		}
+	}
+	if (grounded == false) {
+		if (pbody->body->GetLinearVelocity().x < 0) {
+			currentAnimation = &backwardjump;
+		}
+		else if (pbody->body->GetLinearVelocity().x >= 0) {
+			currentAnimation = &forwardjump;
+		}
+	}
+	if(alive == false) {
+		currentAnimation = &death;
 	}
 	
 
@@ -218,12 +229,17 @@ void Player::OnHurt()
 void Player::OnDeath()
 {
 	//TODO set death animation
-	alive = false;
-	currentAnimation = &death; death.Reset();
-	if (boundCam != nullptr) {
-		boundCam->SetTarget(nullptr);
-		boundCam = nullptr;
+	if (alive) {
+		alive = false;
+		currentAnimation = &death; death.Reset();
+		if (boundCam != nullptr) {
+			boundCam->SetTarget(nullptr);
+			boundCam = nullptr;
+		}
+		app->scene->timer.Start();
 	}
+
+	
 }
 
 iPoint Player::GetOrigin() const

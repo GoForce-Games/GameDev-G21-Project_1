@@ -41,7 +41,12 @@ public:
 public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
+	
 	int pickCoinFxId;
+
+	bool alive = true;
+
+	
 
 private:
 	float accel;
@@ -60,7 +65,7 @@ private:
 	Animation backwardjump;
 	Animation death;
 	
-	bool alive = true;
+	
 
 };
 

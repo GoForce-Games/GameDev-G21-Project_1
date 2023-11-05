@@ -44047,7 +44047,7 @@
  <objectgroup id="7" name="Colisiones">
   <properties>
    <property name="collisionType" value="platform"/>
-   <property name="hurt" type="bool" value="false"/>
+   <property name="bool hurt" type="bool" value="false"/>
   </properties>
   <object id="2" x="0" y="900.333" width="350.333" height="99.3333"/>
   <object id="3" x="300" y="850" width="50" height="50.3333"/>
@@ -44137,7 +44137,7 @@
  <objectgroup id="8" name="Muerte">
   <properties>
    <property name="collisionType" value="platform"/>
-   <property name="hurt" type="bool" value="false"/>
+   <property name="bool hurt" type="bool" value="true"/>
   </properties>
   <object id="76" x="3075" y="200" width="100" height="25"/>
   <object id="80" x="2450" y="525" width="75" height="25"/>

@@ -8,6 +8,8 @@
 #include "Map.h"
 #include "Physics.h"
 #include "Reload.h"
+#include "Timer.h"
+#include "SDL\include\SDL_timer.h"
 
 #include "Camera.h"
 
@@ -63,6 +65,7 @@ bool Scene::Start()
 
 	// NOTE: We have to avoid the use of paths in the code, we will move it later to a config file
 	//img = app->tex->Load("Assets/Textures/test.png");
+	img = app->tex->Load("Assets/Textures/GameOverScreen.jpg");
 	
 	//Music is commented so that you can add your own music
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
@@ -113,6 +116,10 @@ bool Scene::Update(float dt)
 		player->OnDeath();
 	}
 
+
+	
+	
+	
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
@@ -126,6 +133,16 @@ bool Scene::PostUpdate()
 
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	if (player->alive == false) {
+
+		const uint32 waitTimeInSec = 2;
+
+		if (timer.ReadSec() >= waitTimeInSec) {
+
+			app->render->DrawTexture(img, (int)textPosX + app->entityManager->mainCamera->position.x, (int)textPosY + app->entityManager->mainCamera->position.y);
+		}
+	}
 
 	return ret;
 }

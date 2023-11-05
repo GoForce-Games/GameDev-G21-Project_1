@@ -34,6 +34,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	Timer timer;
+
 private:
 	SDL_Texture* img;
 	float textPosX, textPosY = 0;
@@ -42,6 +44,10 @@ private:
 	Player* player;
 
 	iPoint mapSize;
+
+	
+
+
 };
 
 #endif // __SCENE_H__
