@@ -145,7 +145,6 @@ bool Map::CleanUp()
     ListItem<MapLayer*>* layerItem;
     layerItem = mapData.maplayers.start;
 
-
     while (layerItem != NULL)
     {
         RELEASE(layerItem->data);
@@ -362,7 +361,6 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
             PhysBody* object = app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
             object->ctype = ColliderType::PLATFORM;
-            object->properties;
             if (!LoadProperties(objGroupNode, object->properties)) {
                 LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
             }
@@ -400,6 +398,8 @@ bool Map::LoadAllPolygons(pugi::xml_node mapNode) {
               int numPoints = points.size();
 
               app->physics->CreateChain(x, y, pointsArray, numPoints, STATIC);
+
+              //TODO poner las properties en el nuevo objeto
                 
             }
         }
