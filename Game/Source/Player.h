@@ -45,6 +45,8 @@ private:
 
 	Animation* GetAnimation(SString name);
 
+
+
 public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
@@ -53,7 +55,10 @@ public:
 
 	bool alive = true;
 
-	
+	bool LoadState(pugi::xml_node node);
+
+	//
+	bool SaveState(pugi::xml_node node);
 
 private:
 	float accel;

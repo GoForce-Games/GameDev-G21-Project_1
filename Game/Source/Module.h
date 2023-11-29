@@ -75,6 +75,18 @@ public:
 		return !active;
 	}
 
+	// Called when we want to load data from XML
+	virtual bool LoadState(pugi::xml_node node)
+	{
+		return true;
+	}
+
+	// Called when we want to save data from XML
+	virtual bool SaveState(pugi::xml_node node)
+	{
+		return true;
+	}
+
 
 public:
 
