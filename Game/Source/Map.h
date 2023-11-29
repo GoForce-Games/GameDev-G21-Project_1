@@ -5,6 +5,7 @@
 #include "List.h"
 #include "Point.h"
 #include "PropertiesStruct.h"
+#include "Pathfinding.h"
 
 #include "PugiXml\src\pugixml.hpp"
 
@@ -117,10 +118,13 @@ public:
 	MapData mapData;
 	SString name;
 	SString path;
+	PathFinding* pathfinding;
 
 private:
 
 	bool mapLoaded;
+	MapLayer* navigationLayer;
+	int blockedGid = 49; // TODO asignar el Gid correcto
 };
 
 #endif // __MAP_H__

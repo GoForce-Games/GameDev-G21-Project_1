@@ -58,6 +58,7 @@
     <ClCompile Include="Source\Reload.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Source\Reload.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Pathfinding.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
