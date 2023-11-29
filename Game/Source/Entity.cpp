@@ -6,6 +6,7 @@
 bool Entity::CleanUp()
 {
 	boundCam->SetTarget(nullptr);
+	renderable = false;
 
 	return true;
 }

@@ -40,14 +40,21 @@ public:
 
 	virtual bool CleanUp();
 
-	virtual bool LoadState(pugi::xml_node&)
+	virtual bool LoadState(pugi::xml_node& objRootNode)
 	{
 		return true;
 	}
 
-	virtual bool SaveState(pugi::xml_node&)
+	virtual bool SaveState(pugi::xml_node& objRootNode)
 	{
 		return true;
+	}
+
+	// Contact bodies may not be in the same order as parameters
+	virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
+
+	virtual iPoint GetOrigin() const {
+		return iPoint(0,0);
 	}
 
 	void Entity::Enable()
@@ -68,18 +75,9 @@ public:
 		}
 	}
 
-	// Contact bodies may not be in the same order as parameters
-	virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {
+	bool SetToDestroy();
 
-	};
-
-	virtual iPoint GetOrigin() const {
-		return { 0,0 };
-	}
-
-	virtual bool SetToDestroy();
-
-	virtual void SetPBody(PhysBody* pb) {
+	void SetPBody(PhysBody* pb) {
 		pbody = pb;
 	}
 
@@ -96,7 +94,7 @@ public:
 	iPoint position;       
 	bool renderable = true;
 	
-	Camera* boundCam = nullptr;
+	Camera* boundCam = nullptr; // Used to unbind camera if this entity is set to be deleted
 
 	PhysBody* pbody = nullptr;
 

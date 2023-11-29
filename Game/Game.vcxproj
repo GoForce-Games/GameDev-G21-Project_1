@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\NotAGoomba.cpp" />
     <ClCompile Include="Source\Reload.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClInclude Include="Source\NotAGoomba.h" />
     <ClInclude Include="Source\Reload.h" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\PropertiesStruct.h" />
