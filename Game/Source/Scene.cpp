@@ -158,7 +158,6 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	app->entityManager->DestroyEntity(player);
 	player = nullptr;
 	app->tex->UnLoad(img);
 

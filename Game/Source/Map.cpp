@@ -1,9 +1,10 @@
-
 #include "App.h"
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
 #include "Physics.h"
+#include <sstream>
+#include <string.h>
 
 #include "Defs.h"
 #include "Log.h"
@@ -11,7 +12,7 @@
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
 
-Map::Map() : Module(), mapLoaded(false)
+Map::Map(bool startEnabled) : Module(startEnabled), mapLoaded(false)
 {
     name.Create("map");
 }
@@ -26,12 +27,16 @@ bool Map::Awake(pugi::xml_node& config)
     LOG("Loading Map Parser");
     bool ret = true;
 
+    // Comentado porque por alguna razon se resetea el nombre del modulo antes de llegar al awake
+    //path = config.child("path").attribute("value").as_string();
+    //name = config.child("name").attribute("value").as_string();
+
     return ret;
 }
 
 bool Map::Start() {
-
     //Calls the functon to load the map, make sure that the filename is assigned
+
     SString mapPath = path;
     mapPath += name;
     bool ret = Load(mapPath);
@@ -41,7 +46,7 @@ bool Map::Start() {
 
 bool Map::Update(float dt)
 {
-    if(mapLoaded == false)
+    if (mapLoaded == false)
         return false;
 
     ListItem<MapLayer*>* mapLayerItem;
@@ -72,6 +77,7 @@ bool Map::Update(float dt)
 
     }
 
+
     return true;
 }
 
@@ -85,11 +91,12 @@ iPoint Map::MapToWorld(int x, int y) const
     return ret;
 }
 
-iPoint Map::WorldToMap(int x, int y) 
+iPoint Map::WorldToMap(int x, int y)
 {
     iPoint ret(0, 0);
 
-    //
+    ret.x = x / mapData.tileWidth;
+    ret.y = y / mapData.tileHeight;
 
     return ret;
 }
@@ -131,15 +138,15 @@ bool Map::CleanUp()
 {
     LOG("Unloading map");
 
-	ListItem<TileSet*>* item;
-	item = mapData.tilesets.start;
+    ListItem<TileSet*>* item;
+    item = mapData.tilesets.start;
 
-	while (item != NULL)
-	{
-		RELEASE(item->data);
-		item = item->next;
-	}
-	mapData.tilesets.Clear();
+    while (item != NULL)
+    {
+        RELEASE(item->data);
+        item = item->next;
+    }
+    mapData.tilesets.Clear();
 
     // Remove all layers
     ListItem<MapLayer*>* layerItem;
@@ -164,13 +171,13 @@ bool Map::Load(SString mapFileName)
     pugi::xml_document mapFileXML;
     pugi::xml_parse_result result = mapFileXML.load_file(mapFileName.GetString());
 
-    if(result == NULL)
+    if (result == NULL)
     {
         LOG("Could not load map xml file %s. pugi error: %s", mapFileName.GetString(), result.description());
         ret = false;
     }
 
-    if(ret == true)
+    if (ret == true)
     {
         ret = LoadMap(mapFileXML);
     }
@@ -185,43 +192,24 @@ bool Map::Load(SString mapFileName)
         ret = LoadAllLayers(mapFileXML.child("map"));
     }
 
-    if (ret == true) {
+    if (ret == true)
+    {
         ret = LoadAllObjects(mapFileXML.child("map"));
     }
-    if (ret == true) {
-        ret = LoadAllPolygons(mapFileXML.child("map"));
-    }
-    
-    // NOTE: Later you have to create a function here to load and create the colliders from the map
 
-
-    /*PhysBody* Colisions [] = app->physics->CreateRectangle(x, y, width, height, STATIC);*/
-
-
-
-
-   /* PhysBody* c1 = app->physics->CreateRectangle(224 + 128, 543 + 32, 256, 64, STATIC);
-    c1->ctype = ColliderType::PLATFORM;
-
-    PhysBody* c2 = app->physics->CreateRectangle(352 + 64, 384 + 32, 128, 64, STATIC);
-    c2->ctype = ColliderType::PLATFORM;
-
-    PhysBody* c3 = app->physics->CreateRectangle(256, 704 + 32, 576, 64, STATIC);
-    c3->ctype = ColliderType::PLATFORM;*/
-    
-    if(ret == true)
+    if (ret == true)
     {
         LOG("Successfully parsed map XML file :%s", mapFileName.GetString());
-        LOG("width : %d height : %d",mapData.width,mapData.height);
-        LOG("tile_width : %d tile_height : %d",mapData.tileWidth, mapData.tileHeight);
-        
+        LOG("width : %d height : %d", mapData.width, mapData.height);
+        LOG("tile_width : %d tile_height : %d", mapData.tileWidth, mapData.tileHeight);
+
         LOG("Tilesets----");
 
         ListItem<TileSet*>* tileset;
         tileset = mapData.tilesets.start;
 
         while (tileset != NULL) {
-            LOG("name : %s firstgid : %d",tileset->data->name.GetString(), tileset->data->firstgid);
+            LOG("name : %s firstgid : %d", tileset->data->name.GetString(), tileset->data->firstgid);
             LOG("tile width : %d tile height : %d", tileset->data->tileWidth, tileset->data->tileHeight);
             LOG("spacing : %d margin : %d", tileset->data->spacing, tileset->data->margin);
             tileset = tileset->next;
@@ -239,7 +227,7 @@ bool Map::Load(SString mapFileName)
         }
     }
 
-    if(mapFileXML) mapFileXML.reset();
+    if (mapFileXML) mapFileXML.reset();
 
     mapLoaded = ret;
 
@@ -269,9 +257,9 @@ bool Map::LoadMap(pugi::xml_node mapFile)
     return ret;
 }
 
-bool Map::LoadTileSet(pugi::xml_node mapFile){
+bool Map::LoadTileSet(pugi::xml_node mapFile) {
 
-    bool ret = true; 
+    bool ret = true;
 
     pugi::xml_node tileset;
     for (tileset = mapFile.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
@@ -287,7 +275,7 @@ bool Map::LoadTileSet(pugi::xml_node mapFile){
         set->columns = tileset.attribute("columns").as_int();
         set->tilecount = tileset.attribute("tilecount").as_int();
 
-        SString texPath = path; 
+        SString texPath = path;
         texPath += tileset.child("image").attribute("source").as_string();
         set->texture = app->tex->Load(texPath.GetString());
 
@@ -315,10 +303,10 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
     //Iterate over all the tiles and assign the values
     pugi::xml_node tile;
-    int i = 0;
+    uint i = 0;
     for (tile = node.child("data").child("tile"); tile && ret; tile = tile.next_sibling("tile"))
     {
-        layer->data[i] = tile.attribute("gid").as_int();
+        layer->data[i] = tile.attribute("gid").as_uint();
         i++;
     }
 
@@ -346,23 +334,23 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
     for (pugi::xml_node objGroupNode = mapNode.child("objectgroup"); objGroupNode && ret; objGroupNode = objGroupNode.next_sibling("objectgroup"))
     {
-        bool propertiesLoaded = true;
+        Properties prop;
+        LoadProperties(objGroupNode, prop);
 
         for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object"))
         {
-            // TODO carga de pol�gonos custom (CreateChain)
-            // TODO sacar la carga de objetos individuales a una funci�n a parte
-
-            int id = objNode.attribute("id").as_int();
-            float x = objNode.attribute("x").as_float();
-            float y = objNode.attribute("y").as_float();
-            float width = objNode.attribute("width").as_float();
-            float height = objNode.attribute("height").as_float();
-
-            PhysBody* object = app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
-            object->ctype = ColliderType::PLATFORM;
-            if (!LoadProperties(objGroupNode, object->properties)) {
-                LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
+            Properties::Property* p = prop.GetProperty("Entity");
+            if (p != nullptr) {
+                LoadEntity(objGroupNode, objNode, prop.GetProperty("Entity")->strVal);
+            }
+            else if (objNode.child("ellipse")) {
+                LoadCircle(objGroupNode, objNode);
+            }
+            else if (objNode.child("polygon")) {
+                LoadPolygon(objGroupNode, objNode);
+            }
+            else {
+                LoadRectangle(objGroupNode, objNode);
             }
         }
     }
@@ -370,44 +358,97 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
     return ret;
 }
 
-bool Map::LoadAllPolygons(pugi::xml_node mapNode) {
+bool Map::LoadEntity(pugi::xml_node objGroupNode, pugi::xml_node objNode, SString entityType)
+{
+    Entity* entity = app->entityManager->CreateEntityFromMapData(entityType.GetString(), objNode);
+    // TODO change all past this line until return to be in each of the entities instead (custom initialization)
+    int x = objNode.attribute("x").as_int();
+    int y = objNode.attribute("y").as_int();
+    if (entity == nullptr) {
+        LOG("Entity %s could not be created at (%i,%i)", entityType.GetString(), x, y);
+        return true;
+    }
+    iPoint pos(x, y);
+    entity->SetPosition(pos);
+
+    return true;
+}
+
+bool Map::LoadRectangle(pugi::xml_node objGroupNode, pugi::xml_node objNode)
+{
     bool ret = true;
 
-    for (pugi::xml_node objGroupNode = mapNode.child("objectgroup"); objGroupNode && ret; objGroupNode = objGroupNode.next_sibling("objectgroup"))
-    {
-        for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object")) {
+    int id = objNode.attribute("id").as_int();
+    float x = objNode.attribute("x").as_float();
+    float y = objNode.attribute("y").as_float();
+    float width = objNode.attribute("width").as_float();
+    float height = objNode.attribute("height").as_float();
 
-            int id = objNode.attribute("id").as_int();
-            float x = objNode.attribute("x").as_float();
-            float y = objNode.attribute("y").as_float();
-
-            for (pugi::xml_node polyNode = objNode.child("polygon"); polyNode && ret; polyNode = polyNode.next_sibling("polygon"))
-            {
-              std::string pointsStr = polyNode.attribute("points").as_string();
-              std::istringstream pointsStream(pointsStr);
-              std::vector<int> points;
-
-              int point;
-              while (pointsStream >> point) {
-                points.push_back(point);
-                
-                pointsStream.ignore();
-              }
-
-              int* pointsArray = points.data();
-              int numPoints = points.size();
-
-              app->physics->CreateChain(x, y, pointsArray, numPoints, STATIC);
-
-              //TODO poner las properties en el nuevo objeto
-                
-            }
-        }
+    PhysBody* object = app->physics->CreateRectangle(x + width / 2, y + height / 2, width, height, STATIC);
+    object->ctype = ColliderType::PLATFORM;
+    if (!LoadProperties(objGroupNode, object->properties)) {
+        LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
+        ret = false;
     }
-
     return ret;
 }
 
+bool Map::LoadCircle(pugi::xml_node objGroupNode, pugi::xml_node objNode)
+{
+    bool ret = true;
+
+    int id = objNode.attribute("id").as_int();
+    float x = objNode.attribute("x").as_float();
+    float y = objNode.attribute("y").as_float();
+    float width = objNode.attribute("radius").as_float();
+    float height = objNode.attribute("height").as_float();
+
+    float radius = (width + height) / 2; // TODO cambiar esto para elipses no regulares (requiere nueva función de creación de elipses en el entitymanager)
+
+    PhysBody* object = app->physics->CreateCircle(x + radius, y + radius, radius, STATIC);
+    object->ctype = ColliderType::PLATFORM;
+    if (!LoadProperties(objGroupNode, object->properties)) {
+        LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
+        ret = false;
+    }
+
+    return true;
+}
+
+bool Map::LoadPolygon(pugi::xml_node objGroupNode, pugi::xml_node objNode)
+{
+    bool ret = true;
+
+    float x = objNode.attribute("x").as_float();
+    float y = objNode.attribute("y").as_float();
+
+    for (pugi::xml_node polyNode = objNode.child("polygon"); polyNode && ret; polyNode = polyNode.next_sibling("polygon"))
+    {
+        SString pStr = polyNode.attribute("points").as_string();
+        std::vector<SString> coords = pStr.GetWords(' ');
+        std::vector<int> intPoints;
+
+        for (SString item : coords)
+        {
+            std::vector<SString> coord = item.GetWords(',');
+            if (coord.size() >= 2) {
+                intPoints.push_back(std::stof(coord[0].GetString()));
+                intPoints.push_back(std::stof(coord[1].GetString()));
+            }
+        }
+
+        int* pointsArray = intPoints.data();
+        int numPoints = intPoints.size();
+
+        PhysBody* object = app->physics->CreateChain(x, y, pointsArray, numPoints, STATIC);
+        object->ctype = ColliderType::PLATFORM;
+
+        if (!LoadProperties(objGroupNode, object->properties)) {
+            LOG("Couldn't load properties for objectgroup %s (id %i)", objGroupNode.attribute("name").as_string(), objGroupNode.attribute("id").as_int());
+        }
+    }
+    return true;
+}
 
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
@@ -416,7 +457,7 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
     if (propertiesNode)
     {
         ret = true;
-        for (/*Initial state already set*/; propertiesNode; propertiesNode = propertiesNode.next_sibling("property"))
+        for (/*Initial state already set above*/; propertiesNode; propertiesNode = propertiesNode.next_sibling("property"))
         {
             Properties::Property* p = new Properties::Property();
 
@@ -474,5 +515,3 @@ Properties::Property* Properties::GetProperty(const char* name)
 
     return p;
 }
-
-

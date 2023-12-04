@@ -34,6 +34,8 @@ bool Player::Awake() {
 	jumpPower = parameters.attribute("jumpPower").as_float();
 	velCap.x = parameters.attribute("velCap_x").as_float();
 	velCap.y = parameters.attribute("velCap_y").as_float();
+	maxSlope = parameters.attribute("maxPlatformAngle").as_float();
+	maxSlope = sin(maxSlope);
 
 	LoadAllAnimations();
 
@@ -186,6 +188,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 
 void Player::OnHurt()
 {
+	if (godMode) return;
+	// TODO implement multiple health points (?)
 	OnDeath();
 }
 
@@ -235,8 +239,10 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 
 	float pRadius = PIXEL_TO_METERS(16);
 
+	b2Vec2 contactNormal = contactInfo->GetManifold()->localNormal;
 	//Funciona solo en rectangulos alineados a los ejes del mundo
-	if (pos.x+(pRadius/2) >= otherPos.x - otherHalfSize.x && pos.x-(pRadius/2) <= otherPos.x + otherHalfSize.x && pos.y < otherPos.y - otherHalfSize.y) {
+	//if (pos.x+(pRadius/2) >= otherPos.x - otherHalfSize.x && pos.x-(pRadius/2) <= otherPos.x + otherHalfSize.x && pos.y < otherPos.y - otherHalfSize.y) {
+	if (contactNormal.y < 0 && abs(contactNormal.x) < maxSlope){
 		LOG("Ground touched");
 		grounded = true;
 		jumpsAvailable = maxJumps;

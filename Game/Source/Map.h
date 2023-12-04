@@ -1,6 +1,7 @@
 #ifndef __MAP_H__
 #define __MAP_H__
 
+
 #include "Module.h"
 #include "List.h"
 #include "Point.h"
@@ -38,7 +39,7 @@ enum MapTypes
 struct MapLayer
 {
 	SString	name;
-	int id; 
+	int id;
 	int x;
 	int y;
 	int width;
@@ -79,13 +80,13 @@ class Map : public Module
 {
 public:
 
-    Map();
+	Map(bool startEnabled = true);
 
-    // Destructor
-    virtual ~Map();
+	// Destructor
+	virtual ~Map();
 
-    // Called before render is available
-    bool Awake(pugi::xml_node& conf);
+	// Called before render is available
+	bool Awake(pugi::xml_node& conf);
 
 	// Called before the first frame
 	bool Start();
@@ -93,10 +94,10 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
-    // Called before quitting
-    bool CleanUp();
+	// Called before quitting
+	bool CleanUp();
 
-    // Load new map
+	// Load new map
 	bool Load(SString mapFileName);
 
 	iPoint MapToWorld(int x, int y) const;
@@ -110,10 +111,15 @@ private:
 	bool LoadAllLayers(pugi::xml_node mapNode);
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
-	bool Map::LoadAllObjects(pugi::xml_node mapNode);
-	bool Map::LoadAllPolygons(pugi::xml_node mapNode);
+	bool LoadAllObjects(pugi::xml_node mapNode);
 
-public: 
+	bool LoadEntity(pugi::xml_node objGroupNode, pugi::xml_node objNode, SString entityType);
+
+	bool LoadRectangle(pugi::xml_node objGroupNode, pugi::xml_node objectNode);
+	bool LoadCircle(pugi::xml_node objGroupNode, pugi::xml_node objectNode);
+	bool LoadPolygon(pugi::xml_node objGroupNode, pugi::xml_node objectNode);
+
+public:
 
 	MapData mapData;
 	SString name;

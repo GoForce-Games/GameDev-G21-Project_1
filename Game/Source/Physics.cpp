@@ -18,11 +18,10 @@
 #pragma comment( lib, "../Game/Source/External/Box2D/libx86/ReleaseLib/Box2D.lib" )
 #endif
 
-Physics::Physics() : Module()
+Physics::Physics(bool startEnabled) : Module(startEnabled)
 {
 	// Initialise all the internal class variables, at least to NULL pointer
 	world = NULL;
-	//app->debug = true;
 }
 
 // Destructor
@@ -143,8 +142,6 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
 	b->SetUserData(pbody);
 	pbody->width = radious;
 	pbody->height = radious;
-	//pbody->width = radious * 0.5f; // WHY?!?! radius is already half the width/height
-	//pbody->height = radious * 0.5f;
 
 	// Return our PhysBody class
 	return pbody;
@@ -229,14 +226,15 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 }
 
 // Destroys the body the pointer points to, along with Userdata in the form of PhysBody*
-void Physics::DestroyBody(b2Body * body)
+void Physics::DestroyBody(b2Body* body, bool destroyEntity)
 {
 	PhysBody* pBody = reinterpret_cast<PhysBody*>(body->GetUserData());
 	if (pBody != nullptr) {
 		pBody->body = nullptr;
-		if (pBody->boundEntity != nullptr) 
+		if (pBody->boundEntity != nullptr)
 		{
-			pBody->boundEntity->setToDestroy = true;
+			// If destroyEntity is false and boundEntity's setToDestroy is true, don't change (shouldn't happen)
+			pBody->boundEntity->setToDestroy |= destroyEntity;
 			pBody->boundEntity = nullptr;
 		}
 		delete pBody;
@@ -258,8 +256,6 @@ bool Physics::PostUpdate()
 	{
 		for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 		{
-		
-
 			for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
 			{
 				switch (f->GetType())
@@ -327,15 +323,57 @@ bool Physics::PostUpdate()
 				}
 				break;
 				}
+				/* //Mousejoint code for moving objects with mouse
+				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+				{
+					int mouse_x, mouse_y;
+					app->input->GetMousePosition(mouse_x, mouse_y);
+					b2Vec2 p = { PIXEL_TO_METERS(mouse_x), PIXEL_TO_METERS(mouse_y) };
+					if (f->GetShape()->TestPoint(b->GetTransform(), p) == true)
+					{
 
+
+						mouse_body = b;
+
+
+						b2Vec2 mousePosition;
+						mousePosition.x = p.x;
+						mousePosition.y = p.y;
+
+
+						b2MouseJointDef def;
+						def.bodyA = ground;
+						def.bodyB = mouse_body;
+						def.target = mousePosition;
+						def.dampingRatio = 0.5f;
+						def.frequencyHz = 2.0f;
+						def.maxForce = 200.0f * mouse_body->GetMass();
+
+
+						mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
+					}
+				}*/
 			}
-		
 			b2Vec2 pos = b->GetPosition();
 			app->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), 2, 0, 255, 0); // Draw object center
 		}
-		
 	}
+	/* //Mousejoint code for moving objects with mouse (part 2)
+	if (mouse_body != nullptr && mouse_joint != nullptr) {
+		int mouse_x, mouse_y;
+		app->input->GetMousePosition(mouse_x, mouse_y);
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+			b2Vec2 mousePosition;
+			mousePosition = PIXEL_TO_METERS(b2Vec2(mouse_x, mouse_y));
+			mouse_joint->SetTarget(mousePosition);
 
+		}
+		else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
+			app->physics->world->DestroyJoint(mouse_joint);
+			mouse_joint = nullptr;
+			mouse_body = nullptr;
+		}
+	}*/
 
 	return ret;
 }

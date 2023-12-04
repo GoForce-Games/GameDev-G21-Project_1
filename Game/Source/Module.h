@@ -11,23 +11,25 @@ class Module
 {
 public:
 
-	Module() : active(false)
+	Module(bool startEnabled = true) : active(startEnabled)
 	{}
 
 	void Init()
 	{
-		active = true;
+		// active = true;
 	}
 
 	// Called before render is available
 	virtual bool Awake(pugi::xml_node&)
 	{
+		awoken = true;
 		return true;
 	}
 
 	// Called before the first frame
 	virtual bool Start()
 	{
+		started = true;
 		return true;
 	}
 
@@ -52,6 +54,9 @@ public:
 	// Called before quitting
 	virtual bool CleanUp()
 	{
+		started = false;
+		if (needsAwaking)
+			awoken = false;
 		return true;
 	}
 
@@ -71,6 +76,8 @@ public:
 		{
 			CleanUp();
 			active = false;
+			if (needsAwaking)
+				awoken = false;
 		}
 		return !active;
 	}
@@ -92,7 +99,11 @@ public:
 
 	SString name;
 	bool active;
+
 	bool needsAwaking = false;
+
+	bool awoken = false;
+	bool started = false;
 
 };
 

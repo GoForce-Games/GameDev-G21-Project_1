@@ -5,7 +5,8 @@
 
 bool Entity::CleanUp()
 {
-	boundCam->SetTarget(nullptr);
+	if (boundCam != nullptr)
+		boundCam->SetTarget(nullptr);
 	renderable = false;
 
 	return true;

@@ -1,19 +1,20 @@
 #include "EntityManager.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Item.h"
 
 #include "App.h"
 #include "Textures.h"
 #include "Scene.h"
 
+
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager() : Module()
+EntityManager::EntityManager(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("entitymanager");
 	needsAwaking = true;
-	mainCamera = nullptr;
 }
 
 // Destructor
@@ -23,6 +24,7 @@ EntityManager::~EntityManager()
 // Called before render is available
 bool EntityManager::Awake(pugi::xml_node& config)
 {
+	Module::Awake(config); //Call base module config (general behavior)
 	LOG("Loading Entity Manager");
 	bool ret = true;
 
@@ -38,13 +40,15 @@ bool EntityManager::Awake(pugi::xml_node& config)
 		ret = item->data->Awake();
 	}
 
+	entityPresets = config.child("entitypresets");
+
 	return ret;
 
 }
 
 bool EntityManager::Start() {
-
-	bool ret = true; 
+	Module::Start(); //Call base module config (general behavior)
+	bool ret = true;
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -57,12 +61,6 @@ bool EntityManager::Start() {
 		if (pEntity->active == false) continue;
 		ret = item->data->Start();
 	}
-
-	//If cam is not following player, assign player as target
-	//if (mainCamera->GetTarget() == nullptr && players.Count() > 0) {
-		//mainCamera->SetTarget(players[0]);
-		//app->render->cam = mainCamera;
-	//}
 
 	return ret;
 }
@@ -77,7 +75,8 @@ bool EntityManager::CleanUp()
 	while (item != NULL && ret == true)
 	{
 		ret = item->data->CleanUp();
-		DestroyEntity(item->data);
+		delete item->data;
+		entities.Del(item);
 		item = item->prev;
 	}
 
@@ -90,19 +89,15 @@ bool EntityManager::CleanUp()
 	return ret;
 }
 
-Entity* EntityManager::CreateEntity(EntityType type)
+Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 {
-	Entity* entity = nullptr; 
+	Entity* entity = nullptr;
 
+	// TODO add new entities here
 	switch (type)
 	{
-	case EntityType::PLAYER:
-		entity = new Player();
-		players.Add(static_cast<Player*>(entity));
-		break;
-	case EntityType::ITEM:
-		entity = new Item();
-		break;
+	case EntityType::PLAYER:			entity = players.Add(new Player())->data; break;
+	case EntityType::ITEM:				entity = new Item(); break;
 	case EntityType::CAMERA:
 		LOG("Use CreateCamera() to create cameras!");
 		CreateCamera(nullptr);
@@ -110,6 +105,14 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	default:
 		break;
 	}
+
+	if (entity != nullptr) {
+		entity->dataFromMap = objectData;
+		entity->parameters = entityPresets.child(entity->name.GetString());
+	}
+	// Si ya ha pasado la fase de inicializacion (Awake() y Start()), ejecuta manualmente la función correspondiente para esta entidad
+	if (awoken) entity->Awake();
+	if (started) entity->Start();
 
 	entities.Add(entity);
 
@@ -129,13 +132,35 @@ Camera* EntityManager::CreateCamera(Entity* target)
 	return camera;
 }
 
+Entity* EntityManager::CreateEntityFromMapData(SString name, pugi::xml_node objectData)
+{
+	Entity* entity = nullptr;
+
+	// TODO add new entities here
+	if (name == "player")
+		entity = CreateEntity(EntityType::PLAYER, objectData);
+	else if (strcmp(name.GetString(), "item") == 0)
+		entity = CreateEntity(EntityType::ITEM, objectData);
+
+	return entity;
+}
+
+// Removes the entity from the list and destroys it. Make sure not to have any pointers to it after running this
 void EntityManager::DestroyEntity(Entity* entity)
+{
+	RemoveEntity(entity);
+	entity->CleanUp();
+	delete entity;
+}
+
+// Removes the entity from the list
+void EntityManager::RemoveEntity(Entity* entity)
 {
 	ListItem<Entity*>* item;
 
 	for (item = entities.start; item != NULL; item = item->next)
 	{
-		if (item->data == entity) 
+		if (item->data == entity)
 		{
 			entities.Del(item);
 		}
@@ -144,7 +169,7 @@ void EntityManager::DestroyEntity(Entity* entity)
 
 void EntityManager::AddEntity(Entity* entity)
 {
-	if ( entity != nullptr) entities.Add(entity);
+	if (entity != nullptr) entities.Add(entity);
 }
 
 void EntityManager::SetMainCamera(Camera* c)
@@ -164,7 +189,9 @@ bool EntityManager::Update(float dt)
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		if (pEntity->setToDestroy) DestroyEntity(pEntity);
+		if (pEntity->setToDestroy) {
+			DestroyEntity(pEntity);
+			continue; }
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
 	}

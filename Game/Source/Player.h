@@ -68,6 +68,7 @@ private:
 	uint maxJumps;
 	float jumpPower;
 	bool grounded = false;
+	float maxSlope;
 	Animation* currentAnimation = nullptr;
 
 	Animation* idleAnim;

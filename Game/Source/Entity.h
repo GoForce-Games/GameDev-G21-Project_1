@@ -5,15 +5,19 @@
 #include "SString.h"
 #include "Input.h"
 #include "Render.h"
+#include "PugiXml/src/pugixml.hpp"
+#include "Physics.h"
 
 class PhysBody;
 class b2Contact;
 
+// TODO add new entity types here
 enum class EntityType
 {
 	PLAYER,
 	ITEM,
 	CAMERA,
+	ENEMY,
 	UNKNOWN
 };
 
@@ -75,29 +79,42 @@ public:
 		}
 	}
 
-	bool SetToDestroy();
+	virtual void SetPosition(const iPoint& newPos) {
+		if (pbody == nullptr) {
+			position.Create(newPos.x, newPos.y);
+			return;
+		}
+		b2Transform t = pbody->body->GetTransform();
+		t.p.Set(PIXEL_TO_METERS(newPos.x), PIXEL_TO_METERS(newPos.y));
+		pbody->body->SetTransform(t.p, t.q.GetAngle());
+	}
 
 	void SetPBody(PhysBody* pb) {
 		pbody = pb;
 	}
+	
+	bool SetToDestroy();
 
 public:
-
+	 
 	SString name;
 	EntityType type;
 	bool active = true;
-	bool setToDestroy = false;
-	pugi::xml_node parameters; 
+	// To build from entity presets
+	pugi::xml_node parameters;
+	// To build from tmx file parameters
+	pugi::xml_node dataFromMap;
 
 	// Possible properties, it depends on how generic we
 	// want our Entity class, maybe it's not renderable...
-	iPoint position;       
+	iPoint position;
 	bool renderable = true;
-	
+
 	Camera* boundCam = nullptr; // Used to unbind camera if this entity is set to be deleted
 
 	PhysBody* pbody = nullptr;
 
+	bool setToDestroy = false;
 };
 
 #endif // __ENTITY_H__

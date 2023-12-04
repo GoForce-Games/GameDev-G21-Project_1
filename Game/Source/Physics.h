@@ -1,6 +1,5 @@
 #pragma once
 #include "Module.h"
-#include "Entity.h"
 #include "PropertiesStruct.h"
 
 #include "Box2D/Box2D/Box2D.h"
@@ -17,6 +16,8 @@
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 
+class Entity;
+
 // types of bodies
 enum bodyType {
 	DYNAMIC,
@@ -28,7 +29,7 @@ enum class ColliderType {
 	PLAYER, 
 	ENEMY,
 	ITEM,
-	PLATFORM, 
+	PLATFORM,
 	UNKNOWN
 	// ..
 };
@@ -40,7 +41,7 @@ public:
 	PhysBody() : listener(NULL), body(NULL), ctype(ColliderType::UNKNOWN)
 	{}
 
-	~PhysBody() { }
+	~PhysBody() {}
 
 	void GetPosition(int& x, int& y) const;
 	float GetRotation() const;
@@ -66,7 +67,7 @@ class Physics : public Module, public b2ContactListener // TODO
 public:
 
 	// Constructors & Destructors
-	Physics();
+	Physics(bool startEnabled = true);
 	~Physics();
 
 	// Main module steps
@@ -80,8 +81,8 @@ public:
 	PhysBody* CreateCircle(int x, int y, int radious, bodyType type);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type);
-	
-	void DestroyBody(b2Body * body);
+
+	void DestroyBody(b2Body* body, bool destroyEntity = true);
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
@@ -89,12 +90,9 @@ public:
 	// Getters
 	const b2World& GetWorld() const { return *world; }
 
-	// Debug mode
-	//bool debug;
 
 private:
-
-
+	
 	// Box2D World
 	b2World* world;
 };

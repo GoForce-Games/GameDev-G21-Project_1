@@ -2,7 +2,9 @@
 #define __ENTITYMANAGER_H__
 
 #include "Module.h"
+
 #include "Entity.h"
+
 #include "List.h"
 
 class Player;
@@ -12,7 +14,7 @@ class EntityManager : public Module
 {
 public:
 
-	EntityManager();
+	EntityManager(bool startEnabled = true);
 
 	// Destructor
 	virtual ~EntityManager();
@@ -30,11 +32,15 @@ public:
 	bool CleanUp();
 
 	// Additional methods
-	Entity* CreateEntity(EntityType type);
+	Entity* CreateEntity(EntityType type, pugi::xml_node objectData = pugi::xml_node());
 
 	Camera* CreateCamera(Entity* target = nullptr);
 
+	Entity* CreateEntityFromMapData(SString name, pugi::xml_node objectData = pugi::xml_node());
+
 	void DestroyEntity(Entity* entity);
+
+	void RemoveEntity(Entity* entity);
 
 	void AddEntity(Entity* entity);
 
@@ -45,9 +51,9 @@ public:
 	List<Entity*> entities;
 
 	List<Player*> players;
-
 	List<Camera*> cameras;
 
+	pugi::xml_node entityPresets;
 	Camera* mainCamera;
 
 };
