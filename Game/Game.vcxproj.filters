@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Log.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -54,15 +52,27 @@
     <ClCompile Include="Source\Entity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Path.cpp" />
     <ClCompile Include="Source\Reload.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Pathfinding.cpp" />
-    <ClCompile Include="Source\NotAGoomba.cpp" />
+    <ClCompile Include="Source\App.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Path.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pathfinding.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NotAGoomba.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Defs.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -147,12 +157,22 @@
     <ClInclude Include="Source\Animation.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Path.h" />
     <ClInclude Include="Source\Reload.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Pathfinding.h" />
-    <ClInclude Include="Source\NotAGoomba.h" />
+    <ClInclude Include="Source\App.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Path.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Pathfinding.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NotAGoomba.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -172,6 +192,12 @@
     </Filter>
     <Filter Include="Tools">
       <UniqueIdentifier>{f25fa525-1099-4568-b48d-546b8acf64f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{af0c0b60-e4f7-4074-97c7-ef41d7232c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Enemies">
+      <UniqueIdentifier>{1179e8c8-945d-43b1-bd8d-ad8ba6b288a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
