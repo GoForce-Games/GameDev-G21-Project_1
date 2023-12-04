@@ -59,6 +59,7 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Pathfinding.cpp" />
+    <ClCompile Include="Source\NotAGoomba.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -151,6 +152,7 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h" />
+    <ClInclude Include="Source\NotAGoomba.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
