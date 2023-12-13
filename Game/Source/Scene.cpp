@@ -15,6 +15,7 @@
 
 #include "Defs.h"
 #include "Log.h"
+#include "Enemy.h"
 
 Scene::Scene() : Module()
 {
@@ -172,7 +173,9 @@ bool Scene::CleanUp()
 void Scene::DebugActions()
 {
 	if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-		app->entityManager->CreateEntity(EntityType::ENEMY_GROUNDED);
+		Entity* e = app->entityManager->CreateEntity(EntityType::ENEMY_GROUNDED);
+		e->SetPosition(app->render->cam->position);
+		
 	}
 
 }
