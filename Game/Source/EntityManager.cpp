@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Item.h"
+#include "NotAGoomba.h"
 
 #include "App.h"
 #include "Textures.h"
@@ -68,6 +69,7 @@ bool EntityManager::Start() {
 // Called before quitting
 bool EntityManager::CleanUp()
 {
+	Module::CleanUp();
 	bool ret = true;
 	ListItem<Entity*>* item;
 	item = entities.end;
@@ -102,7 +104,9 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 		LOG("Use CreateCamera() to create cameras!");
 		CreateCamera(nullptr);
 		break;
+	case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba();
 	default:
+		LOG("Invalid EntityType");
 		break;
 	}
 

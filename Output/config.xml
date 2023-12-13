@@ -24,7 +24,7 @@
   <scene>
     <map path="Assets/Maps/" name="MapaProyecto.tmx"/>
 	  <gameover path="Assets/Textures/GameOverScreen.jpg"/>
-    <player x="100" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f" maxPlatformAngle="40">
+    <player x="100" y="800" sizeX="16" sizeY="16" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f" maxPlatformAngle="40">
       <animation name="idle" loop="true" pingpong="true">
         <frame x="182" y="314" w="21" h="33"/>
       </animation>

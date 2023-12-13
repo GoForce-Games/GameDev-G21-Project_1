@@ -34,6 +34,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void DebugActions();
+
 	Timer timer;
 
 private:

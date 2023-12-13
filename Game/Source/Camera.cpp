@@ -5,6 +5,7 @@
 #include "Physics.h"
 #include "Render.h"
 #include "Window.h"
+#include "Map.h"
 
 #include "MathUtil.h"
 #include "Log.h"
@@ -38,7 +39,7 @@ bool Camera::Awake()
 
 bool Camera::Start()
 {
-	
+	mapBounds = app->map->mapData.GetMapSize();
 	if (target != nullptr) {
 		iPoint pos = target->position;
 		rect.x = pos.x + offset.x;
@@ -57,6 +58,11 @@ bool Camera::Update(float dt)
 		position.x = rect.x = LERP(rect.x, pos.x + offset.x + targetOffset.x, camSpeed * dt);
 		position.y = rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
 	}
+
+	rect.x = position.x = b2Clamp(position.x, 0, mapBounds.x - rect.w);
+	rect.y = position.y = b2Clamp(position.y, 0, mapBounds.y - rect.h);
+	
+	
 
 	return true;
 }

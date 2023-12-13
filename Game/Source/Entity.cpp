@@ -1,6 +1,4 @@
 #include "Entity.h"
-#include "Physics.h"
-
 #include "Camera.h"
 
 bool Entity::CleanUp()
@@ -10,18 +8,4 @@ bool Entity::CleanUp()
 	renderable = false;
 
 	return true;
-}
-
-bool Entity::SetToDestroy()
-{
-	setToDestroy = true;
-	if (pbody != nullptr) {
-		pbody->setToDestroy = true;
-		if (pbody->body != nullptr)
-			pbody->body->SetActive(false);
-		if (pbody->boundEntity != nullptr)
-			pbody->boundEntity = nullptr;
-		pbody = nullptr;
-	}
-	return setToDestroy;
 }

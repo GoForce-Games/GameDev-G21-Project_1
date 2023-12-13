@@ -3,8 +3,10 @@
 #include "App.h"
 #include "Textures.h"
 #include "Physics.h"
+#include "Player.h"
+#include "Log.h"
 
-NotAGoomba::NotAGoomba(EntityType type) : Entity(type)
+NotAGoomba::NotAGoomba() : Enemy(EntityType::ENEMY_GROUNDED)
 {
 	name.Create("notGoomba");
 }
@@ -40,6 +42,13 @@ bool NotAGoomba::Start()
 
 bool NotAGoomba::Update(float dt)
 {
+	b2Vec2 movement = b2Vec2_zero;
+
+	//TODO implementar pathfinding
+	movement.x-=5;
+
+	pbody->body->ApplyForceToCenter(movement,true);
+
 	return true;
 }
 
@@ -60,9 +69,20 @@ bool NotAGoomba::SaveState(pugi::xml_node& objRootNode)
 
 void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 {
+	if (dynamic_cast<Player*>(physB->boundEntity)) {
+		if (contactInfo->GetManifold()->localNormal.y < 0) {
+			LOG("Enemy \"%s\"stomped", name);
+			SetToDestroy();
+		}
+	}
 }
 
 iPoint NotAGoomba::GetOrigin() const
 {
 	return position; //TODO poner el valor correcto segun la textura usada (los valores se calculan al cargar la textura)
+}
+
+bool NotAGoomba::FindPath(iPoint& destination)
+{
+	return true;
 }

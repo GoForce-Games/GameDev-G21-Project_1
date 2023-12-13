@@ -61,6 +61,9 @@ public:
 	bool SaveState(pugi::xml_node node);
 
 private:
+	iPoint mapBounds;
+	iPoint playerHSize;
+
 	float accel;
 	b2Vec2 velCap;
 

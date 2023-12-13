@@ -65,6 +65,7 @@ bool Textures::CleanUp()
 // Load new texture from file path
 SDL_Texture* const Textures::Load(const char* path)
 {
+	if (path == nullptr) return nullptr;
 	SDL_Texture* texture = NULL;
 	SDL_Surface* surface = IMG_Load(path);
 

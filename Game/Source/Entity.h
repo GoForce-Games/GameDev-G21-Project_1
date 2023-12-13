@@ -18,6 +18,8 @@ enum class EntityType
 	ITEM,
 	CAMERA,
 	ENEMY,
+	ENEMY_GROUNDED,
+	ENEMY_FLYING,
 	UNKNOWN
 };
 
@@ -54,10 +56,10 @@ public:
 		return true;
 	}
 
-	// Contact bodies may not be in the same order as parameters
 	virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
 
-	virtual iPoint GetOrigin() const {
+	virtual iPoint GetOrigin() const
+	{
 		return iPoint(0,0);
 	}
 
@@ -79,7 +81,8 @@ public:
 		}
 	}
 
-	virtual void SetPosition(const iPoint& newPos) {
+	virtual void SetPosition(const iPoint& newPos)
+	{
 		if (pbody == nullptr) {
 			position.Create(newPos.x, newPos.y);
 			return;
@@ -93,7 +96,20 @@ public:
 		pbody = pb;
 	}
 	
-	bool SetToDestroy();
+	bool SetToDestroy()
+	{
+		setToDestroy = true;
+		if (pbody != nullptr) {
+			pbody->setToDestroy = true;
+			if (pbody->body != nullptr)
+				pbody->body->SetActive(false);
+			if (pbody->boundEntity != nullptr)
+				pbody->boundEntity = nullptr;
+			pbody = nullptr;
+			active = false;
+		}
+		return setToDestroy;
+	}
 
 public:
 	 

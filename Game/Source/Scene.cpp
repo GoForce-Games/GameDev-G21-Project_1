@@ -130,6 +130,11 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest();
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest();
 
+	//DEBUG
+	if (app->debug)
+		DebugActions();
+
+
 	return true;
 }
 
@@ -162,4 +167,12 @@ bool Scene::CleanUp()
 	app->tex->UnLoad(img);
 
 	return true;
+}
+
+void Scene::DebugActions()
+{
+	if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
+		app->entityManager->CreateEntity(EntityType::ENEMY_GROUNDED);
+	}
+
 }

@@ -36,6 +36,8 @@ private:
     SDL_Rect rect{ 0,0,0,0 };
     Entity* target = nullptr;
 
+    iPoint mapBounds{ 0,0 };
+
     friend class Render;
 
     bool awoken = false;

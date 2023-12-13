@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Map.h"
 #include "Timer.h"
 
 #include "Camera.h"
@@ -28,6 +29,8 @@ bool Player::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	playerHSize.x = parameters.attribute("sizeX").as_int();
+	playerHSize.y = parameters.attribute("sizeY").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	accel = parameters.attribute("accel").as_float();
 	maxJumps = parameters.attribute("maxJumps").as_int();
@@ -44,11 +47,13 @@ bool Player::Awake() {
 
 bool Player::Start() {
 
+	mapBounds = app->map->mapData.GetMapSize();
+
 	//initilize textures
 
 	texture = app->tex->Load(texturePath);
 
-	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x + playerHSize.x, position.y + playerHSize.y, playerHSize.x, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::PLAYER;
 	pbody->body->SetLinearDamping(1.0f);
@@ -124,7 +129,7 @@ bool Player::Update(float dt)
 		if (pbody->body->GetLinearVelocity().x < 0) {
 			currentAnimation = backwardjump;
 		}
-		else if (pbody->body->GetLinearVelocity().x >= 0) {
+		else if (pbody->body->GetLinearVelocity().x > 0) {
 			currentAnimation = forwardjump;
 		}
 	}
@@ -135,17 +140,26 @@ bool Player::Update(float dt)
 
 	//Limit de velocitat
 	impulse.x = b2Clamp(impulse.x, -velCap.x, velCap.x);
-
 	impulse.y = b2Clamp(impulse.y, -velCap.y, velCap.y);
 
 	//Set the velocity of the pbody of the player
 	pbody->body->ApplyLinearImpulse(impulse, pbody->body->GetPosition(), false);
 	pbody->body->SetLinearVelocity(b2Clamp(pbody->body->GetLinearVelocity(), -velCap, velCap));
 	
+	//Limit horizontal movement
+	int clampedPosX;
+	clampedPosX = b2Clamp(position.x, 0, mapBounds.x - playerHSize.x);
+	if (clampedPosX != position.x) {
+		position.x = clampedPosX;
+		b2Transform pbT = pbody->body->GetTransform(); pbT.p.x = PIXEL_TO_METERS((position.x+playerHSize.x));
+		pbody->body->SetTransform(pbT.p, pbT.q.GetAngle());
+		
+		pbody->body->SetLinearVelocity(b2Vec2(0, pbody->body->GetLinearVelocity().y));
+	}
 
 	//Update player position in pixels
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - playerHSize.x;
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - playerHSize.y;
 
 	currentAnimation->Update();
 

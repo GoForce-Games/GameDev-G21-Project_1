@@ -1,37 +1,39 @@
 #pragma once
-#include "Entity.h"
+#include "Enemy.h"
 
 struct SDL_Texture;
 
-class NotAGoomba : public Entity
+class NotAGoomba : public Enemy
 {
 public:
 
-	NotAGoomba(EntityType type);
+	NotAGoomba();
 
 	~NotAGoomba();
 
-	virtual bool Awake();
+	bool Awake() override;
 
-	virtual bool Start();
+	bool Start() override;
 
-	virtual bool Update(float dt);
+	bool Update(float dt) override;
 
-	virtual bool CleanUp();
+	bool CleanUp() override;
 
-	virtual bool LoadState(pugi::xml_node& objRootNode);
+	bool LoadState(pugi::xml_node& objRootNode) override;
 
-	virtual bool SaveState(pugi::xml_node& objRootNode);
+	bool SaveState(pugi::xml_node& objRootNode) override;
 
 	// Contact bodies may not be in the same order as parameters
-	virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo);
+	void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo);
 
-	virtual iPoint GetOrigin() const override;
+	iPoint GetOrigin() const override;
+
+	bool FindPath(iPoint& destination) override;
 
 private:
 
 	SString texturePath;
-	SDL_Texture* texture;
+	SDL_Texture* texture = nullptr;
 
 };
 
