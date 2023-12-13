@@ -46,6 +46,10 @@ public:
 
 	void SetMainCamera(Camera* c);
 
+	bool LoadState(pugi::xml_node node);
+
+	bool SaveState(pugi::xml_node node);
+
 public:
 
 	List<Entity*> entities;
