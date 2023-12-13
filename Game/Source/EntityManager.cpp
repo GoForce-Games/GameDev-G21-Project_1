@@ -41,7 +41,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 		ret = item->data->Awake();
 	}
 
-	entityPresets = config.child("entitypresets");
+	entityPresets = config.child("entitypresets"); // TODO crear presets en el config.xml
 
 	return ret;
 
