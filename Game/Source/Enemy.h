@@ -12,13 +12,15 @@ public:
 
     virtual bool Start() = 0;
 
-    virtual bool Update(float dt) = 0;
+    virtual bool Update(float dt) { return true; }
 
     virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
 
     virtual bool CleanUp() { return Entity::CleanUp(); }
 
-    virtual bool FindPath(iPoint& destination) = 0;
+    virtual bool FindPath(iPoint& destination) { return true; }
+
+    virtual bool EnemyBehaviour(float dt) = 0;
 
 public:
 

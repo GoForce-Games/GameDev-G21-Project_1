@@ -102,9 +102,8 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 	case EntityType::ITEM:				entity = new Item(); break;
 	case EntityType::CAMERA:
 		LOG("Use CreateCamera() to create cameras!");
-		CreateCamera(nullptr);
-		break;
-	case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba();
+		return CreateCamera(nullptr);
+	case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba(); break;
 	default:
 		LOG("Invalid EntityType");
 		break;
@@ -126,12 +125,17 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 Camera* EntityManager::CreateCamera(Entity* target)
 {
 	Camera* camera = new Camera(target);
+	camera->parameters = entityPresets.child(camera->name.GetString());
 	entities.Add(camera);
 	cameras.Add(camera);
 	if (mainCamera == nullptr) {
 		SetMainCamera(camera); // If there's no main camera, assign this camera as it
 	}
 	camera->SetTarget(target);
+
+	//If module is already initialized, enable the camera
+	if (awoken) camera->Awake();
+	if (started) camera->Start();
 
 	return camera;
 }

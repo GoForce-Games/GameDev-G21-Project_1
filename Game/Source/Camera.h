@@ -25,7 +25,7 @@ public:
     bool DebugDraw();
 
     void SetTarget(Entity* e);
-    Entity* GetTarget() const;
+    const Entity* GetTarget() const;
 
 private:
 

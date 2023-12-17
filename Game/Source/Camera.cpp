@@ -11,8 +11,8 @@
 #include "Log.h"
 
 Camera::Camera(Entity* e) : Entity(EntityType::CAMERA) {
+	name.Create("camera");
 	SetTarget(e);
-	Awake();
 }
 
 Camera::~Camera()
@@ -21,8 +21,7 @@ Camera::~Camera()
 
 bool Camera::Awake()
 {
-	if (!awoken) {
-		awoken = true;
+	if (awoken) {
 		return true;
 	}
 	camSpeed = parameters.attribute("speed").as_float();
@@ -34,17 +33,19 @@ bool Camera::Awake()
 	
 	rect.w = app->win->screenSurface->w;
 	rect.h = app->win->screenSurface->h;
+
 	return true;
 }
 
 bool Camera::Start()
 {
 	mapBounds = app->map->mapData.GetMapSize();
+	//If created with a target, starting position is centered on said target
 	if (target != nullptr) {
 		iPoint pos = target->position;
 		rect.x = pos.x + offset.x;
 		rect.y = pos.y + offset.y;
-		targetOffset = target->GetOrigin();
+		targetOffset = target->GetOrigin(); // This is already set on SetTarget() but target position possibly not defined on camera creation
 	}
 	return true;
 }
@@ -59,11 +60,10 @@ bool Camera::Update(float dt)
 		position.y = rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
 	}
 
+	//Prevent from going beyond world bounds
 	rect.x = position.x = b2Clamp(position.x, 0, mapBounds.x - rect.w);
 	rect.y = position.y = b2Clamp(position.y, 0, mapBounds.y - rect.h);
 	
-	
-
 	return true;
 }
 
@@ -94,7 +94,7 @@ void Camera::SetTarget(Entity* e)
 	}
 }
 
-Entity* Camera::GetTarget() const
+const Entity* Camera::GetTarget() const
 {
 	return target;
 }

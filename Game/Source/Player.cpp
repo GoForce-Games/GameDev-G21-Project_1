@@ -59,6 +59,7 @@ bool Player::Start() {
 	pbody->body->SetLinearDamping(1.0f);
 	pbody->body->SetFixedRotation(true);
 	pbody->body->SetSleepingAllowed(false);
+	gravityScale = pbody->body->GetGravityScale();
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
@@ -76,6 +77,8 @@ bool Player::Update(float dt)
 
 	b2Vec2 impulse = b2Vec2_zero;
 	if (godMode) {
+
+		pbody->body->SetGravityScale(0);
 
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			impulse.y -= accel;
@@ -96,6 +99,10 @@ bool Player::Update(float dt)
 
 		}
 	}
+	else if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_UP)
+		pbody->body->SetGravityScale(gravityScale);
+
+
 	if (alive)
 	{
 
@@ -106,9 +113,6 @@ bool Player::Update(float dt)
 			grounded = false;
 			
 		}
-		//if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			//
-		//}
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 			impulse.x -= accel;

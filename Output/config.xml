@@ -142,5 +142,11 @@
     <item x="3160" y="100" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="3256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
   </scene>
-  
+
+	<entitymanager>
+		<entitypresets>
+			<camera speed="0.02"/>
+		</entitypresets>
+	</entitymanager>
+	
 </config>
