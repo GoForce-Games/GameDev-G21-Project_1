@@ -57,13 +57,20 @@ bool NotAGoomba::CleanUp()
 	return true;
 }
 
-bool NotAGoomba::LoadState(pugi::xml_node& objRootNode)
+bool NotAGoomba::LoadState(pugi::xml_node& node)
 {
+	position.x = node.child("notGoomba").attribute("x").as_int();
+	position.y = node.child("notGoomba").attribute("y").as_int();
+
 	return true;
 }
 
-bool NotAGoomba::SaveState(pugi::xml_node& objRootNode)
+bool NotAGoomba::SaveState(pugi::xml_node& node)
 {
+	pugi::xml_node GoombaNode = node.append_child("notGoomba");
+	GoombaNode.append_attribute("x").set_value(position.x);
+	GoombaNode.append_attribute("y").set_value(position.y);
+
 	return true;
 }
 
