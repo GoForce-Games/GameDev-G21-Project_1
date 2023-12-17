@@ -33,6 +33,10 @@ public:
 
 	void OnDeath();
 
+	bool LoadState(pugi::xml_node node);
+
+	bool SaveState(pugi::xml_node node);
+
 	iPoint GetOrigin() const override;
 
 private:
@@ -55,7 +59,9 @@ public:
 
 	bool alive = true;
 
-	
+	int position_save_x;
+	int position_save_y;
+
 
 private:
 	iPoint mapBounds;

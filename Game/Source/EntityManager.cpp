@@ -188,15 +188,8 @@ void EntityManager::SetMainCamera(Camera* c)
 	}
 }
 
-bool EntityManager::LoadState(pugi::xml_node node)
-{
-	return true;
-}
 
-bool EntityManager::SaveState(pugi::xml_node node)
-{
-	return true;
-}
+
 
 bool EntityManager::Update(float dt)
 {
@@ -217,19 +210,19 @@ bool EntityManager::Update(float dt)
 	return ret;
 }
 
-//bool EntityManager::LoadState(pugi::xml_node node) {
-//
-//	position.x = node.child("player").attribute("x").as_int();
-//	position.y = node.child("player").attribute("y").as_int();
-//
-//	return true;
-//}
-//
-//bool EntityManager::SaveState(pugi::xml_node node) {
-//
-//	pugi::xml_node playerNode = node.append_child("player");
-//	playerNode.append_attribute("x").set_value(position.x);
-//	playerNode.append_attribute("y").set_value(position.y);
-//
-//	return true;
-//}
+bool EntityManager::LoadState(pugi::xml_node node) {
+
+	entities = node.child("entitymanager").attribute("list").as_string();
+	
+
+	return true;
+}
+
+bool EntityManager::SaveState(pugi::xml_node node) {
+
+	pugi::xml_node ManagerNode = node.append_child("entitymanager");
+	ManagerNode.append_attribute("").set_value(position.x);
+	
+
+	return true;
+}
