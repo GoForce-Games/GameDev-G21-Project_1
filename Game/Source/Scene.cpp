@@ -171,10 +171,18 @@ bool Scene::CleanUp()
 }
 bool Scene::LoadState(pugi::xml_node node)
 {
+	b2Vec2 posMeters = b2Vec2(PIXEL_TO_METERS(node.child("player").attribute("x").as_int()), 
+		                      PIXEL_TO_METERS(node.child("player").attribute("y").as_int()));
+
+	player->pbody->body->SetTransform(posMeters, 0);
 	return true;
 }
+
 bool Scene::SaveState(pugi::xml_node node)
 {
+	pugi::xml_node playerNode = node.append_child("player");
+	playerNode.append_attribute("x").set_value(player->position.x);
+	playerNode.append_attribute("y").set_value(player->position.y);
 	return true;
 }
 

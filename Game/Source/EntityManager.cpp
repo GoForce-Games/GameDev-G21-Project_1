@@ -103,7 +103,7 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 	case EntityType::CAMERA:
 		LOG("Use CreateCamera() to create cameras!");
 		return CreateCamera(nullptr);
-	case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba(); break;
+	/*case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba(); break;*/
 	default:
 		LOG("Invalid EntityType");
 		break;
@@ -212,17 +212,10 @@ bool EntityManager::Update(float dt)
 
 bool EntityManager::LoadState(pugi::xml_node node) {
 
-	entities = node.child("entitymanager").attribute("list").as_string();
-	
-
 	return true;
 }
 
 bool EntityManager::SaveState(pugi::xml_node node) {
-
-	pugi::xml_node ManagerNode = node.append_child("entitymanager");
-	ManagerNode.append_attribute("").set_value(position.x);
-	
 
 	return true;
 }

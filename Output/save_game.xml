@@ -4,11 +4,13 @@
 	<input />
 	<textures />
 	<audio />
-	
-	<scene />
-	
+	<physics />
+	<scene>
+		<player x="198" y="867" />
+	</scene>
+	<:anonymous />
 	<entitymanager />
-	
+	<:anonymous />
 	<renderer>
 		<camera x="0" y="0" />
 	</renderer>
