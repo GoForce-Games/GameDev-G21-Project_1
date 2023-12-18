@@ -12,14 +12,23 @@ public:
 
     virtual bool Start() = 0;
 
-    virtual bool Update(float dt) { return true; }
+    virtual bool Update(float dt) 
+    {
+        // TODO: General enemy behaviour (recalculate path, roam home, etc.)
+        return EnemyBehaviour(dt);
+    }
 
     virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
 
     virtual bool CleanUp() { return Entity::CleanUp(); }
 
-    virtual bool FindPath(iPoint& destination) { return true; }
+    virtual bool FindPath(iPoint& destination)
+    {
+        // TODO: Define pathfinding
+        return true;
+    }
 
+    // Specific enemy behaviour. Must be defined
     virtual bool EnemyBehaviour(float dt) = 0;
 
 public:

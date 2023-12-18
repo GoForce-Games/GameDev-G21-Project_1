@@ -30,6 +30,8 @@ public:
 
 	bool FindPath(iPoint& destination) override;
 
+	bool EnemyBehaviour(float dt) override;
+
 private:
 
 	SString texturePath;

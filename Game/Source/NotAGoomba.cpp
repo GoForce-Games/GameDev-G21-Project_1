@@ -93,3 +93,8 @@ bool NotAGoomba::FindPath(iPoint& destination)
 {
 	return true;
 }
+
+bool NotAGoomba::EnemyBehaviour(float dt)
+{
+	return true;
+}
