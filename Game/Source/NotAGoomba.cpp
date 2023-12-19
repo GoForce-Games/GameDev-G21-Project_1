@@ -111,6 +111,7 @@ bool NotAGoomba::EnemyBehaviour(float dt)
 	{
 		b2Vec2 movement = b2Vec2_zero;
 		movement.x = moveDirection.x * speed;
+		//TODO si choca contra una pared, cambia la direccion (comprobar en OnCollision)
 		if (position.x < home.x - homeRadius)
 			moveDirection.x = 1;
 		else if (position.x > home.x + homeRadius)

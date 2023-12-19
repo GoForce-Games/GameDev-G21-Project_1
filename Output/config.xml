@@ -145,7 +145,7 @@
 
 	<entitymanager>
 		<entitypresets>
-			<notGoomba x="140" y="800" sizeX="32" sizeY="32" speed="2.5" actionRadius="30.0" homeRadius="15.0" texturepath="Assets/Textures/Sprite_skeleton.png">
+			<notGoomba x="140" y="800" sizeX="32" sizeY="32" speed="1.5" actionRadius="150.0" homeRadius="50.0" texturepath="Assets/Textures/Sprite_skeleton.png">
 				<animation name="idle" loop="true" pingpong="true">
 					<frame x="0" y="67" w="32" h="29"/>
 				</animation>
