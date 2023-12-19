@@ -6,7 +6,7 @@
 	<audio />
 	<physics />
 	<scene>
-		<player x="198" y="867" />
+		<player x="127" y="767" />
 	</scene>
 	<:anonymous />
 	<entitymanager />
