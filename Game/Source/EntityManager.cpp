@@ -216,6 +216,11 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 }
 
 bool EntityManager::SaveState(pugi::xml_node node) {
+	pugi::xml_node managerNode = node.append_child("entitymanager");
+	for (ListItem<Entity*>* item = entities.start; item != NULL; item = item->next) {
+		pugi::xml_node entityNode = managerNode.append_child(item->data->name.GetString());
+		item->data->SaveState(entityNode);
 
+	}
 	return true;
 }

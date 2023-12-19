@@ -6,10 +6,61 @@
 	<audio />
 	<physics />
 	<scene>
-		<player x="127" y="767" />
+		<player x="1660" y="817" />
 	</scene>
 	<:anonymous />
-	<entitymanager />
+	<entitymanager>
+		<entitymanager>
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<item />
+			<Player />
+			<camera />
+		</entitymanager>
+	</entitymanager>
 	<:anonymous />
 	<renderer>
 		<camera x="0" y="0" />

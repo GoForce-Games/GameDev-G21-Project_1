@@ -313,8 +313,8 @@ bool Player::LoadState(pugi::xml_node node)
 {
 	int x;
 	int y;
-	x = PIXEL_TO_METERS(node.append_child("player").attribute("x").as_int());
-	y = PIXEL_TO_METERS(node.append_child("player").attribute("y").as_int());
+	x = PIXEL_TO_METERS(node.append_child("Player").attribute("x").as_int());
+	y = PIXEL_TO_METERS(node.append_child("Player").attribute("y").as_int());
 	position.x = x;
 	position.y = y;
 	return true;
@@ -322,7 +322,7 @@ bool Player::LoadState(pugi::xml_node node)
 
 bool Player::SaveState(pugi::xml_node node)
 {
-	pugi::xml_node playerNode = node.append_child("player");
+	pugi::xml_node playerNode = node.append_child("Player");
 	playerNode.append_attribute("x").set_value(position.x);
 	playerNode.append_attribute("y").set_value(position.y);
 	return true;
