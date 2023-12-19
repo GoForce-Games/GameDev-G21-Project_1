@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\NotAGoomba.cpp" />
     <ClCompile Include="Source\Reload.cpp" />

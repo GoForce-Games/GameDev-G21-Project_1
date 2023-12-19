@@ -27,11 +27,14 @@ public:
     void SetTarget(Entity* e);
     const Entity* GetTarget() const;
 
+public:
+
+    iPoint offset{ 0,0 };
+
 private:
 
     float camSpeed;
 
-    iPoint offset{ 0,0 };
     iPoint targetOffset{ 0,0 };
     SDL_Rect rect{ 0,0,0,0 };
     Entity* target = nullptr;

@@ -1,6 +1,18 @@
 #pragma once
 #include "Entity.h"
 
+#include "Animation.h"
+
+enum class EnemyState
+{
+    IDLE,
+    PURSUIT,
+    ROAMING,
+    FLEEING,
+    DEAD,
+    UNKNOWN
+};
+
 class Enemy : public Entity
 {
 public:
@@ -12,32 +24,50 @@ public:
 
     virtual bool Start() = 0;
 
-    virtual bool Update(float dt) 
-    {
-        // TODO: General enemy behaviour (recalculate path, roam home, etc.)
-        return EnemyBehaviour(dt);
-    }
+    virtual bool Update(float dt);
 
     virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
 
-    virtual bool CleanUp() { return Entity::CleanUp(); }
-
-    virtual bool FindPath(iPoint& destination)
-    {
-        // TODO: Define pathfinding
-        return true;
+    virtual bool CleanUp() 
+    { 
+        for (ListItem<Animation*>* item = animationList.start; item; item=item->next)
+        {
+            RELEASE(item->data);
+        }
+        animationList.Clear();
+        return Entity::CleanUp();
     }
+
+    void SetPosition(const iPoint& newPos, bool newHome = false) {
+        Entity::SetPosition(newPos);
+        if (newHome)
+            home = newPos;
+    }
+
+    // General pathfinding
+    virtual bool FindPath(iPoint& destination);
 
     // Specific enemy behaviour. Must be defined
     virtual bool EnemyBehaviour(float dt) = 0;
+
+    void LoadAllAnimations();
+
+    Animation* GetAnimation(SString name);
 
 public:
 
     float actionRadius;
     float speed;
+    float homeRadius;
+    iPoint home;
+    iPoint moveDirection;
 
-    bool pursuit;
+    EnemyState state = EnemyState::IDLE;
     List<iPoint> pathToPlayer;
+
+    SDL_Texture* texture = nullptr;
+    Animation* currentAnimation = nullptr;
+    List<Animation*> animationList;
 
 };
 

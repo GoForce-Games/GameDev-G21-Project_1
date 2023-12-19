@@ -43,12 +43,12 @@ bool Scene::Awake(pugi::xml_node& config)
 
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-		player->parameters = config.child("player");
+		player->parameters = config.child("player"); // Sobreescribe los datos del preset con los que hay en la escena
 	}
 
 	if (config.child("camera")) {
 		Camera* cam = app->entityManager->CreateCamera(player);
-		cam->parameters = config.child("camera");
+		cam->parameters = config.child("camera"); // Sobreescribe los datos del preset con los que hay en la escena
 	}
 
 	if (config.child("map")) {
@@ -190,8 +190,8 @@ bool Scene::SaveState(pugi::xml_node node)
 void Scene::DebugActions()
 {
 	if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-		Entity* e = app->entityManager->CreateEntity(EntityType::ENEMY_GROUNDED);
-		e->SetPosition(app->render->cam->position);
+		Enemy* e = (Enemy*)app->entityManager->CreateEntity(EntityType::ENEMY_GROUNDED);
+		e->SetPosition(app->render->cam->position-app->render->cam->offset, true);
 		
 	}
 

@@ -70,6 +70,7 @@
     <ClCompile Include="Source\NotAGoomba.cpp">
       <Filter>Entities\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">

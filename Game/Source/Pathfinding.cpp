@@ -84,14 +84,12 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	int ret = -1;
 	int iterations = 0;
 
-	// L13: TODO 1: if origin or destination are not walkable, return -1
+	// if origin or destination are not walkable, return -1
 
 	if (!IsWalkable(origin) || !IsWalkable(destination)) {
 		return ret;
 	}
 	
-	// Iterate while we have node in the frontier list
-
 	//Create two lists: frontier, visited
 	PathList frontier, visited;
 	
@@ -99,14 +97,15 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	List<PathNode*> ptrList;
 	
 	// Create a PathNode with the origin position and add it to frontier list
-	{ //Contained in extra scope to free variable (not really needed)
+	{ //Contained in extra scope to free variable (not really needed). Could do a one-liner, but this is more readable
 		ListItem<PathNode*>* item = ptrList.Add(new PathNode(0, 0, origin, nullptr));
 		frontier.list.Add(*item->data);
 	}
 
+	// Iterate while we have node in the frontier list
 	while (frontier.list.Count() > 0) {
 
-		// L13: TODO 3: Get the lowest score cell from frontier list and delete it from the frontier list
+		//Get the lowest score cell from frontier list and delete it from the frontier list
 		// Keep a reference to the node before deleting the node from the list
 
 		ListItem<PathNode>* lowest = frontier.GetNodeLowestScore();
@@ -115,9 +114,8 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		lowest = nullptr;
 
 
-		// L13: TODO 6: If we just added the destination, we are done!
 		// Backtrack to create the final path
-		// Use the Pathnode::parent and Flip() the path when you are finish
+		// Use the Pathnode::parent and Flip() the path when finished
 
 		if (node->pos == destination) {
 			ClearLastPath();

@@ -35,7 +35,7 @@ public:
 private:
 
 	SString texturePath;
-	SDL_Texture* texture = nullptr;
+
 
 };
 

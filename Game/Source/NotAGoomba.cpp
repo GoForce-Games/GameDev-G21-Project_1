@@ -19,7 +19,15 @@ bool NotAGoomba::Awake()
 {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	speed = parameters.attribute("speed").as_float();
+	actionRadius = parameters.attribute("actionRadius").as_float();
+	homeRadius = parameters.attribute("homeRadius").as_float();
 	texturePath = parameters.attribute("texturepath").as_string();
+	moveDirection.Create(-1, 0);
+
+	LoadAllAnimations();
+
+	currentAnimation = GetAnimation("Idle");
 
 	return true;
 }
@@ -33,23 +41,17 @@ bool NotAGoomba::Start()
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetLinearDamping(1.0f);
 	pbody->body->SetFixedRotation(true);
-	pbody->body->SetSleepingAllowed(false);
+	pbody->body->SetSleepingAllowed(true);
 
-
+	home.x = position.x;
+	home.x = position.y;
 
 	return true;
 }
 
 bool NotAGoomba::Update(float dt)
 {
-	b2Vec2 movement = b2Vec2_zero;
-
-	//TODO implementar pathfinding
-	movement.x-=5;
-
-	pbody->body->ApplyForceToCenter(movement,true);
-
-	return true;
+	return Enemy::Update(dt);
 }
 
 bool NotAGoomba::CleanUp()
@@ -91,10 +93,48 @@ iPoint NotAGoomba::GetOrigin() const
 
 bool NotAGoomba::FindPath(iPoint& destination)
 {
-	return true;
+	return Enemy::FindPath(destination);
 }
 
 bool NotAGoomba::EnemyBehaviour(float dt)
 {
-	return true;
+	bool ret = true;
+
+	switch (state)
+	{
+	case EnemyState::IDLE:
+	{
+		state = EnemyState::ROAMING;
+		break;
+	}
+	case EnemyState::ROAMING:
+	{
+		b2Vec2 movement = b2Vec2_zero;
+		movement.x = moveDirection.x * speed;
+		if (position.x < home.x - homeRadius)
+			moveDirection.x = 1;
+		else if (position.x > home.x + homeRadius)
+			moveDirection.x = -1;
+
+		pbody->body->ApplyForceToCenter(movement,true);
+
+		break;
+	}
+	case EnemyState::PURSUIT:
+	{
+		break;
+	}
+	case EnemyState::FLEEING:
+	{
+		break;
+	}
+	case EnemyState::DEAD:
+	{
+		break;
+	}
+	default:
+		break;
+	}
+
+	return ret;
 }
