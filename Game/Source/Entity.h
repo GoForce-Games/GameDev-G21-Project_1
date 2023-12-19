@@ -96,10 +96,13 @@ public:
 		pbody = pb;
 	}
 	
-	bool SetToDestroy()
+	bool SetToDestroy(bool _destroyBody)
 	{
 		setToDestroy = true;
-		if (pbody != nullptr) {
+		destroyBody = _destroyBody;
+		if (_destroyBody && pbody != nullptr)
+			pbody->body->SetActive(false);
+		/*if (pbody != nullptr) {
 			pbody->setToDestroy = true;
 			if (pbody->body != nullptr)
 				pbody->body->SetActive(false);
@@ -107,7 +110,7 @@ public:
 				pbody->boundEntity = nullptr;
 			pbody = nullptr;
 			active = false;
-		}
+		}*/
 		return setToDestroy;
 	}
 
@@ -133,6 +136,7 @@ public:
 	PhysBody* pbody = nullptr;
 
 	bool setToDestroy = false;
+	bool destroyBody = false;
 };
 
 #endif // __ENTITY_H__

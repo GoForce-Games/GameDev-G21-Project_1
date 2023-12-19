@@ -56,7 +56,7 @@ bool NotAGoomba::Update(float dt)
 
 bool NotAGoomba::CleanUp()
 {
-	return true;
+	return Enemy::CleanUp();
 }
 
 bool NotAGoomba::LoadState(pugi::xml_node& node)
@@ -78,10 +78,17 @@ bool NotAGoomba::SaveState(pugi::xml_node& node)
 
 void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 {
-	if (dynamic_cast<Player*>(physB->boundEntity)) {
-		if (contactInfo->GetManifold()->localNormal.y < 0) {
+	if (physB->ctype == ColliderType::PLAYER) {
+		int x, y;
+		physA->GetPosition(x, y);
+		fPoint posA(x, y);
+		physB->GetPosition(x, y);
+		fPoint posB(x, y);
+		fPoint d = (posB-posA);
+		d = d / sqrtf(d.x * d.x + d.y * d.y);
+		if (d.y < 0.0f && abs(d.x) < 0.5f) {
 			LOG("Enemy \"%s\"stomped", name);
-			SetToDestroy();
+			SetToDestroy(true);
 		}
 	}
 }

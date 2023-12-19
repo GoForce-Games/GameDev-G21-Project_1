@@ -235,7 +235,7 @@ void Physics::DestroyBody(b2Body* body, bool destroyEntity)
 		if (pBody->boundEntity != nullptr)
 		{
 			// If destroyEntity is false and boundEntity's setToDestroy is true, don't change (shouldn't happen)
-			pBody->boundEntity->setToDestroy |= destroyEntity;
+			pBody->boundEntity->SetToDestroy(true);
 			pBody->boundEntity = nullptr;
 		}
 		delete pBody;

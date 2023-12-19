@@ -196,16 +196,26 @@ bool EntityManager::Update(float dt)
 	bool ret = true;
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
+	List<ListItem<Entity*>*> itemstoremove;
 
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
 		if (pEntity->setToDestroy) {
 			DestroyEntity(pEntity);
+			itemstoremove.Add(item);
 			continue; }
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
 	}
+	// UNTESTED Repara la lista (espero que esto funcione)
+	ListItem<ListItem<Entity*>*>* i = itemstoremove.start;
+	while (i)
+	{
+		ListItem<ListItem<Entity*>*>* next = i->next;
+		entities.Del(i->data);
+	}
+	itemstoremove.Clear();
 
 	return ret;
 }

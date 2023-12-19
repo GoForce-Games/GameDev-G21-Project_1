@@ -51,12 +51,11 @@ bool Item::Update(float dt)
 void Item::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 {
 	if (physB->ctype == ColliderType::PLAYER) {
-		SetToDestroy();
+		SetToDestroy(true);
 	}
 }
 
 bool Item::CleanUp()
 {
-	SetToDestroy();
-	return true;
+	return Entity::CleanUp();
 }
