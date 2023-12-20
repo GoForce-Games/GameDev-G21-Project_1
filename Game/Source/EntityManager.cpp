@@ -96,18 +96,20 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 	Entity* entity = GetEntityFromCache(type);
 
 	// If there's no available cached entity, create a new one
-	if (entity == nullptr)
-	switch (type)
-	{// TODO add new entities here
-	case EntityType::PLAYER:			entity = players.Add(new Player())->data; break;
-	case EntityType::ITEM:				entity = new Item(); break;
-	case EntityType::CAMERA:
-		LOG("Use CreateCamera() to create cameras!");
-		return CreateCamera(nullptr);
-	case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba(); break;
-	default:
-		LOG("Invalid EntityType");
-		break;
+	if (entity == nullptr) {
+
+		switch (type)
+		{// TODO add new entities here
+		case EntityType::PLAYER:			entity = players.Add(new Player())->data; break;
+		case EntityType::ITEM:				entity = new Item(); break;
+		case EntityType::CAMERA:
+			LOG("Use CreateCamera() to create cameras!");
+			return CreateCamera(nullptr);
+		case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba(); break;
+		default:
+			LOG("Invalid EntityType");
+			break;
+		}
 	}
 
 	if (entity != nullptr) {
