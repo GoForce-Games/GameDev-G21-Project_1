@@ -49,7 +49,18 @@ bool Physics::PreUpdate()
 {
 	bool ret = true;
 
-	
+	//Delete bodies marked for deletion
+	b2Body* b = world->GetBodyList();
+	while (b) {
+		PhysBody* pb = SDL_reinterpret_cast(PhysBody*, b->GetUserData());
+		if (pb != nullptr && pb->setToDestroy) {
+			DestroyBody(b);
+			b = world->GetBodyList();
+		}
+		else {
+			b = b->GetNext();
+		}
+	}
 
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
@@ -68,19 +79,6 @@ bool Physics::PreUpdate()
 
 			if (pb1 && pb2 && pb1->listener)
 				pb1->listener->OnCollision(pb1, pb2, c);
-		}
-	}
-
-	//Delete bodies marked for deletion
-	b2Body* b = world->GetBodyList();
-	while (b) {
-		PhysBody* pb = SDL_reinterpret_cast(PhysBody*, b->GetUserData());
-		if (pb != nullptr && pb->setToDestroy) {
-			DestroyBody(b);
-			b = world->GetBodyList();
-		}
-		else {
-			b = b->GetNext();
 		}
 	}
 

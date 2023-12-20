@@ -204,4 +204,8 @@ void Scene::DebugActions()
 		e->SetPosition(app->render->cam->position - app->render->cam->offset);
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN) {
+
+	}
+
 }

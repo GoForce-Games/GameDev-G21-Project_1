@@ -8,73 +8,84 @@
 
 enum class EnemyState
 {
-    IDLE,
-    PURSUIT,
-    ROAMING,
-    FLEEING,
-    DEAD,
-    UNKNOWN
+	IDLE,
+	PURSUIT,
+	ROAMING,
+	FLEEING,
+	DEAD,
+	UNKNOWN
 };
 
 class Enemy : public Entity
 {
 public:
-    //TODO poner los métodos que hace falta para una entidad (copia de Item por ahora)
-    Enemy(EntityType _type = EntityType::ENEMY) : Entity(_type) {}
-    ~Enemy() {}
+	//TODO poner los métodos que hace falta para una entidad (copia de Item por ahora)
+	Enemy(EntityType _type = EntityType::ENEMY) : Entity(_type) {}
+	~Enemy() {}
 
-    virtual bool Awake() = 0;
+	virtual bool Awake() = 0;
 
-    virtual bool Start() = 0;
+	virtual bool Start() = 0;
 
-    virtual bool Update(float dt);
+	virtual bool Update(float dt);
 
-    virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
+	virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
 
-    virtual bool CleanUp() 
-    { 
-        // TODO HAZ QUE SE PUEDAN REUTILIZAR ENTIDADES
-        for (ListItem<Animation*>* item = animationList.start; item; item=item->next)
-        {
-            RELEASE(item->data);
-        }
-        animationList.Clear();
-        currentAnimation = nullptr;
-        app->tex->UnLoad(texture);
-        texture = nullptr;
-        return Entity::CleanUp();
-    }
+	virtual bool CleanUp(bool reuse = false)
+	{
+		if (!reuse) {
+			for (ListItem<Animation*>* item = animationList.start; item; item = item->next)
+			{
+				RELEASE(item->data);
+			}
+			animationList.Clear();
+			app->tex->UnLoad(texture);
+			texture = nullptr;
+		}
+		else {
+			currentAnimation = GetAnimation("Idle");
+		}
+		return Entity::CleanUp();
+	}
 
-    void SetPosition(const iPoint& newPos, bool newHome = false) {
-        Entity::SetPosition(newPos);
-        if (newHome)
-            home = newPos;
-    }
+	void Disable() override {
+		if (active)
+		{
+			active = false;
+			CleanUp();
+		}
+	}
 
-    // General pathfinding
-    virtual bool FindPath(iPoint& destination);
+	void SetPosition(const iPoint& newPos, bool newHome = false) {
+		Entity::SetPosition(newPos);
+		if (newHome)
+			home = newPos;
+	}
 
-    // Specific enemy behaviour. Must be defined
-    virtual bool EnemyBehaviour(float dt) = 0;
+	// General pathfinding
+	virtual bool FindPath(iPoint& destination);
 
-    void LoadAllAnimations();
+	// Specific enemy behaviour. Must be defined
+	virtual bool EnemyBehaviour(float dt) = 0;
 
-    Animation* GetAnimation(SString name);
+	void LoadAllAnimations();
+
+	Animation* GetAnimation(SString name);
 
 public:
 
-    float actionRadius;
-    float speed;
-    float homeRadius;
-    iPoint home;
-    iPoint moveDirection;
+	float actionRadius;
+	float speed;
+	float homeRadius;
+	iPoint home;
+	iPoint moveDirection;
 
-    EnemyState state = EnemyState::IDLE;
-    List<iPoint> pathToPlayer;
+	EnemyState state = EnemyState::IDLE;
+	List<iPoint> pathToPlayer;
 
-    SDL_Texture* texture = nullptr;
-    Animation* currentAnimation = nullptr;
-    List<Animation*> animationList;
+	SDL_Texture* texture = nullptr;
+	Animation* currentAnimation = nullptr;
+	List<Animation*> animationList;
 
 };
 

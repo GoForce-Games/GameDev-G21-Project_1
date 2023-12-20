@@ -63,7 +63,7 @@ public:
 		return iPoint(0,0);
 	}
 
-	void Entity::Enable()
+	virtual void Enable()
 	{
 		if (!active)
 		{
@@ -72,7 +72,7 @@ public:
 		}
 	}
 
-	void Entity::Disable()
+	virtual void Disable()
 	{
 		if (active)
 		{
@@ -81,15 +81,22 @@ public:
 		}
 	}
 
+	virtual void SetActive(bool newState) {
+		active = newState;
+		if (pbody != nullptr)
+			pbody->body->SetActive(newState);
+	}
+
 	virtual void SetPosition(const iPoint& newPos)
 	{
-		if (pbody == nullptr) {
 			position.Create(newPos.x, newPos.y);
+		if (pbody == nullptr) {
 			return;
 		}
 		b2Transform t = pbody->body->GetTransform();
-		t.p.Set(PIXEL_TO_METERS(newPos.x), PIXEL_TO_METERS(newPos.y));
-		pbody->body->SetTransform(t.p, t.q.GetAngle());
+		b2Vec2 pos(PIXEL_TO_METERS(newPos.x), PIXEL_TO_METERS(newPos.y));
+		pbody->body->SetTransform(pos, t.q.GetAngle());
+		pbody->body->SetAwake(true);
 	}
 
 	void SetPBody(PhysBody* pb) {

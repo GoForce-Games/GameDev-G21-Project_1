@@ -93,11 +93,12 @@ bool EntityManager::CleanUp()
 
 Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 {
-	Entity* entity = nullptr;
+	Entity* entity = GetEntityFromCache(type);
 
-	// TODO add new entities here
+	// If there's no available cached entity, create a new one
+	if (entity == nullptr)
 	switch (type)
-	{
+	{// TODO add new entities here
 	case EntityType::PLAYER:			entity = players.Add(new Player())->data; break;
 	case EntityType::ITEM:				entity = new Item(); break;
 	case EntityType::CAMERA:
@@ -113,6 +114,7 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 		entity->dataFromMap = objectData;
 		entity->parameters = entityPresets.child(entity->name.GetString());
 		// Si ya ha pasado la fase de inicializacion (Awake() y Start()), ejecuta manualmente la función correspondiente para esta entidad
+		// IMPORTANTE: para reutilizar entidades hace falta que no se repita instanciaciones innecesarias en estas funciones
 		if (awoken) entity->Awake();
 		if (started) entity->Start();
 
@@ -161,7 +163,7 @@ void EntityManager::DestroyEntity(Entity* entity)
 	delete entity;
 }
 
-// Removes the entity from the list
+// Removes the entity from the main entity list
 void EntityManager::RemoveEntity(Entity* entity)
 {
 	ListItem<Entity*>* item;
@@ -171,6 +173,7 @@ void EntityManager::RemoveEntity(Entity* entity)
 		if (item->data == entity)
 		{
 			entities.Del(item);
+			break;
 		}
 	}
 }
@@ -178,6 +181,31 @@ void EntityManager::RemoveEntity(Entity* entity)
 void EntityManager::AddEntity(Entity* entity)
 {
 	if (entity != nullptr) entities.Add(entity);
+}
+
+// Instead of deleting the entity, caches it for later use
+void EntityManager::CacheEntity(Entity* entity)
+{
+	RemoveEntity(entity);
+	entityCache.Add(entity);
+}
+
+Entity* EntityManager::GetEntityFromCache(EntityType type)
+{
+	Entity* ret = nullptr;
+
+	for (ListItem<Entity*>* item = entityCache.start; item != nullptr; item = item->next)
+	{
+		if (item->data->type == type) {
+			ret = item->data;
+			ret->SetActive(true);
+			item->data = nullptr;
+			entityCache.Del(item);
+			break;
+		}
+	}
+
+	return ret;
 }
 
 void EntityManager::SetMainCamera(Camera* c)
@@ -201,11 +229,24 @@ bool EntityManager::Update(float dt)
 	{
 		pEntity = item->data;
 		if (pEntity->setToDestroy) {
-			DestroyEntity(pEntity);
+			if (pEntity->type == EntityType::ENEMY_GROUNDED || pEntity->type == EntityType::ENEMY_FLYING)
+			{
+				RemoveEntity(pEntity);
+				entityCache.Add(pEntity);
+			}
+			else
+				DestroyEntity(pEntity);
 			continue;
 		}
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
+	}
+
+	for (item = entityCache.start; item != NULL && ret == true; item = item->next) {
+		if (item->data->active) {
+			item->data->SetActive(false);
+			item->data->SetPosition({ -10000,10000 });
+		}
 	}
 
 	return ret;

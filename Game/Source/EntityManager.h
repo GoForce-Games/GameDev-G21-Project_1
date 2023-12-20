@@ -9,6 +9,7 @@
 
 class Player;
 class Camera;
+class Enemy;
 
 class EntityManager : public Module
 {
@@ -44,6 +45,10 @@ public:
 
 	void AddEntity(Entity* entity);
 
+	void CacheEntity(Entity* entity);
+
+	Entity* GetEntityFromCache(EntityType type);
+
 	void SetMainCamera(Camera* c);
 
 	bool LoadState(pugi::xml_node node);
@@ -56,6 +61,7 @@ public:
 
 	List<Player*> players;
 	List<Camera*> cameras;
+	List<Entity*> entityCache; // List of unused entities
 
 	pugi::xml_node entityPresets;
 	Camera* mainCamera;

@@ -17,7 +17,7 @@ public:
 
 	bool Update(float dt) override;
 
-	bool CleanUp() override;
+	bool CleanUp(bool reuse) override;
 
 	bool LoadState(pugi::xml_node& objRootNode) override;
 
