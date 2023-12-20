@@ -19,7 +19,7 @@
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
-	name.Create("Player");
+	name.Create("player");
 }
 
 Player::~Player() {
@@ -313,8 +313,8 @@ bool Player::LoadState(pugi::xml_node& node)
 {
 	int x;
 	int y;
-	x = PIXEL_TO_METERS(node.append_child("Player").attribute("x").as_int());
-	y = PIXEL_TO_METERS(node.append_child("Player").attribute("y").as_int());
+	x = (node.attribute("x").as_int());
+	y = (node.attribute("y").as_int());
 	position.x = x;
 	position.y = y;
 	SetPosition(position);

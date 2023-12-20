@@ -256,11 +256,14 @@ bool EntityManager::Update(float dt)
 
 bool EntityManager::LoadState(pugi::xml_node node) {
 	Disable();
+	app->physics->Disable();
+	Awake(app->GetConfig(*this));
+	app->physics->Enable();
 	Enable();
 	
 	pugi::xml_node managerNode = node.child("entitymanager");
 
-
+	
 	for (pugi::xml_node entityNode = managerNode.first_child(); entityNode; entityNode = entityNode.next_sibling()) {
 		SString entityName(entityNode.name());
 
@@ -273,14 +276,14 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 				}
 			}
 		}
-		else if (entityName == "Player") {
-			/*Entity* entity = CreateEntity(EntityType::PLAYER, entityNode);
+		else if (entityName == "player") {
+			Entity* entity = CreateEntity(EntityType::PLAYER, entityNode);
 			if (entity != nullptr) {
 				Player* player = dynamic_cast<Player*>(entity);
 				if (player != nullptr) {
 					player->LoadState(entityNode);
 				}
-			}*/
+			}
 		}		
 		else if (entityName == "notGoomba") {
 			Entity* entity = CreateEntity(EntityType::ENEMY_GROUNDED, entityNode);
@@ -291,9 +294,9 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 				}
 			}
 		}
-		// Repite el proceso para otras entidades según sea necesario
 	}
-	
+	CreateCamera();
+
 	return true;
 }
 
