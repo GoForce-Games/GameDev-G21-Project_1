@@ -15,7 +15,9 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
 - Enemigos terrestres y voladores que persiguen al jugador si este se acerca demasiado
 - Los enemigos pueden ser derrotados saltando encima suyo
 - Guardado y carga de estado de juego
- 
+
+(NOTA: debido a problemas personales y bugs muy importantes del proyecto en los últimos días de trabajo, ambos enemigos tienen el mismo patrón de pathfinding) 
+
 ## Controls
 
  - WASD -> Movimiento

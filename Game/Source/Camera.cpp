@@ -85,7 +85,7 @@ void Camera::SetTarget(Entity* e)
 {
 	if (e != nullptr) {
 		target = e;
-		e->boundCam = this;
+		e->BindCamera(this);
 		targetOffset = e->GetOrigin();
 	}
 	else {

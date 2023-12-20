@@ -70,8 +70,12 @@
     <ClCompile Include="Source\NotAGoomba.cpp">
       <Filter>Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Enemy.cpp" />
-    <ClCompile Include="Source\FlyingEnemy.cpp" />
+    <ClCompile Include="Source\Enemy.cpp">
+      <Filter>Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FlyingEnemy.cpp">
+      <Filter>Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -176,7 +180,9 @@
     <ClInclude Include="Source\Enemy.h">
       <Filter>Entities\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Source\FlyingEnemy.h" />
+    <ClInclude Include="Source\FlyingEnemy.h">
+      <Filter>Entities\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

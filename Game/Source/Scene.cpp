@@ -94,8 +94,8 @@ bool Scene::Start()
 		app->map->mapData.tileHeight,
 		app->map->mapData.tilesets.Count());
 
-	if (app->entityManager->mainCamera != nullptr)
-		app->entityManager->mainCamera->SetTarget(player);
+	//if (app->entityManager->mainCamera != nullptr)
+		//app->entityManager->mainCamera->SetTarget(player);
 
 	return true;
 }

@@ -15,7 +15,6 @@
 			<item x="756" y="742" />
 			<item x="725" y="742" />
 			<item x="742" y="867" />
-			<item x="710" y="867" />
 			<item x="1655" y="817" />
 			<item x="1755" y="817" />
 			<item x="1855" y="817" />
@@ -55,10 +54,10 @@
 			<item x="4355" y="217" />
 			<item x="3750" y="367" />
 			<item x="3781" y="367" />
-			<item x="3470" y="292" />
+			<item x="3480" y="292" />
 			<item x="3160" y="92" />
-			<item x="3438" y="292" />
-			<player x="106" y="867" />
+			<item x="3448" y="292" />
+			<player x="623" y="812" />
 			<camera />
 		</entitymanager>
 	</entitymanager>

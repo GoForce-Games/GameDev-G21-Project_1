@@ -49,6 +49,7 @@ bool FlyingEnemy::Start()
 		pbody->body->SetLinearDamping(1.0f);
 		pbody->body->SetFixedRotation(true);
 		pbody->body->SetSleepingAllowed(true);
+		pbody->body->SetGravityScale(0.0f);
 	}
 
 	SetPosition(position);

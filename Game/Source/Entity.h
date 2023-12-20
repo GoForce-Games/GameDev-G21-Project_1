@@ -122,6 +122,10 @@ public:
 		return setToDestroy;
 	}
 
+	void BindCamera(Camera* c) {
+		boundCam = c;
+	}
+
 	
 
 public:

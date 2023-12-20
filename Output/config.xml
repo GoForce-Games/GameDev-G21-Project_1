@@ -211,7 +211,7 @@
 					<frame x="33" y="98" w="21" h="31"/>
 				</animation>
 			</notGoomba>
-			<flyingEnemy  x="140" y="400" sizeX="32" sizeY="32" speed="0.01f" velCap_x="3.0f" velCap_y="3.0f" actionRadius="500.0" homeRadius="50.0" texturepath="Assets/Textures/Sprite_pajaro.png">
+			<flyingEnemy  x="140" y="400" sizeX="32" sizeY="32" speed="0.01f" velCap_x="3.0f" velCap_y="3.0f" actionRadius="300.0" homeRadius="50.0" texturepath="Assets/Textures/Sprite_pajaro.png">
 				<animation name="idle" loop="true" speed = "0.2f" pingpong="true">
 					<frame x="8" y="2" w="33" h="33"/>
 					<frame x="51" y="2" w="31" h="33"/>
