@@ -37,8 +37,8 @@ bool NotAGoomba::Start()
 	texture = app->tex->Load(texturePath.GetString());
 
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
-	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
+	pbody->listener = this;
 	pbody->body->SetLinearDamping(1.0f);
 	pbody->body->SetFixedRotation(true);
 	pbody->body->SetSleepingAllowed(true);
@@ -91,6 +91,7 @@ void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contac
 		d = d / sqrtf(d.x * d.x + d.y * d.y);
 		if (d.y < 0.0f && abs(d.x) < 0.5f) {
 			LOG("Enemy \"%s\"stomped", name);
+			state = EnemyState::DEAD;
 			SetToDestroy(true);
 		}
 	}

@@ -22,7 +22,7 @@ EntityManager::EntityManager(bool startEnabled) : Module(startEnabled)
 EntityManager::~EntityManager()
 {}
 
-// Called before render is available
+// Called before render is available 
 bool EntityManager::Awake(pugi::xml_node& config)
 {
 	Module::Awake(config); //Call base module config (general behavior)
@@ -196,26 +196,17 @@ bool EntityManager::Update(float dt)
 	bool ret = true;
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
-	List<ListItem<Entity*>*> itemstoremove;
 
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
 		if (pEntity->setToDestroy) {
 			DestroyEntity(pEntity);
-			itemstoremove.Add(item);
-			continue; }
+			continue;
+		}
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
 	}
-	// UNTESTED Repara la lista (espero que esto funcione)
-	ListItem<ListItem<Entity*>*>* i = itemstoremove.start;
-	while (i)
-	{
-		ListItem<ListItem<Entity*>*>* next = i->next;
-		entities.Del(i->data);
-	}
-	itemstoremove.Clear();
 
 	return ret;
 }

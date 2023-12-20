@@ -49,13 +49,7 @@ bool Physics::PreUpdate()
 {
 	bool ret = true;
 
-	//Delete bodies marked for deletion
-	for (b2Body* b = world->GetBodyList(); b != nullptr; b=b->GetNext())
-	{
-		PhysBody* pb = SDL_reinterpret_cast(PhysBody*, b->GetUserData());
-		if (pb != nullptr && pb->setToDestroy)
-			DestroyBody(b);
-	}
+	
 
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
@@ -76,6 +70,28 @@ bool Physics::PreUpdate()
 				pb1->listener->OnCollision(pb1, pb2, c);
 		}
 	}
+
+	//Delete bodies marked for deletion
+	b2Body* b = world->GetBodyList();
+	while (b) {
+		PhysBody* pb = SDL_reinterpret_cast(PhysBody*, b->GetUserData());
+		if (pb != nullptr && pb->setToDestroy) {
+			DestroyBody(b);
+			b = world->GetBodyList();
+		}
+		else {
+			b = b->GetNext();
+		}
+	}
+
+	/*for (b2Body* b = world->GetBodyList(); b != nullptr; b=b->GetNext())
+	{
+		PhysBody* pb = SDL_reinterpret_cast(PhysBody*, b->GetUserData());
+		if (pb != nullptr && pb->setToDestroy) {
+			DestroyBody(b);
+			b = world->GetBodyList();
+		}
+	}*/
 
 	return ret;
 }
@@ -229,18 +245,19 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 // Destroys the body the pointer points to, along with Userdata in the form of PhysBody*
 void Physics::DestroyBody(b2Body* body, bool destroyEntity)
 {
-	PhysBody* pBody = reinterpret_cast<PhysBody*>(body->GetUserData());
+	PhysBody* pBody = SDL_reinterpret_cast(PhysBody*, body->GetUserData());
+	body->SetUserData(nullptr);
+	body->GetWorld()->DestroyBody(body);
 	if (pBody != nullptr) {
 		pBody->body = nullptr;
 		if (pBody->boundEntity != nullptr)
 		{
 			// If destroyEntity is false and boundEntity's setToDestroy is true, don't change (shouldn't happen)
-			pBody->boundEntity->SetToDestroy(true);
+			//pBody->boundEntity->SetToDestroy(true);
 			pBody->boundEntity = nullptr;
 		}
 		delete pBody;
 	}
-	world->DestroyBody(body);
 }
 
 // 

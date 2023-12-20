@@ -1,6 +1,9 @@
 #pragma once
 #include "Entity.h"
 
+#include "App.h"
+#include "Textures.h"
+
 #include "Animation.h"
 
 enum class EnemyState
@@ -30,11 +33,15 @@ public:
 
     virtual bool CleanUp() 
     { 
+        // TODO HAZ QUE SE PUEDAN REUTILIZAR ENTIDADES
         for (ListItem<Animation*>* item = animationList.start; item; item=item->next)
         {
             RELEASE(item->data);
         }
         animationList.Clear();
+        currentAnimation = nullptr;
+        app->tex->UnLoad(texture);
+        texture = nullptr;
         return Entity::CleanUp();
     }
 

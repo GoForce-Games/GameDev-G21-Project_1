@@ -82,7 +82,7 @@ public:
 		return (x != v.x || y != v.y);
 	}
 
-	const Point& operator /(const float f)
+	Point operator /(const float f)
 	{
 		Point r;
 
@@ -92,7 +92,7 @@ public:
 		return (r);
 	}
 
-	const Point& operator *(const float f)
+	Point operator *(const float f)
 	{
 		Point r;
 
