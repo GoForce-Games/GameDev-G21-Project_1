@@ -212,14 +212,45 @@ bool EntityManager::Update(float dt)
 }
 
 bool EntityManager::LoadState(pugi::xml_node node) {
-	bool ret = true;
-	for (pugi::xml_node managerNode = node.child("entitymanager").child("notGoomba"); managerNode && ret; managerNode = managerNode.next_sibling("notBoomba")) {
-		
-		ret = CreateEntity(EntityType::ENEMY_GROUNDED, managerNode);
+	/*Disable();
+	Enable();*/
+	
+	pugi::xml_node managerNode = node.child("entitymanager");
 
 
+	for (pugi::xml_node entityNode = managerNode.first_child(); entityNode; entityNode = entityNode.next_sibling()) {
+		SString entityName(entityNode.name());
+
+		if (entityName == "item") {
+			Entity* entity = CreateEntity(EntityType::ITEM, entityNode);
+			if (entity != nullptr) {
+				Item* item = dynamic_cast<Item*>(entity);
+				if (item != nullptr) {
+					item->LoadState(entityNode);
+				}
+			}
+		}
+		else if (entityName == "Player") {
+			/*Entity* entity = CreateEntity(EntityType::PLAYER, entityNode);
+			if (entity != nullptr) {
+				Player* player = dynamic_cast<Player*>(entity);
+				if (player != nullptr) {
+					player->LoadState(entityNode);
+				}
+			}*/
+		}		
+		else if (entityName == "notGoomba") {
+			Entity* entity = CreateEntity(EntityType::ENEMY_GROUNDED, entityNode);
+			if (entity != nullptr) {
+				NotAGoomba* notAGoomba = dynamic_cast<NotAGoomba*>(entity);
+				if (notAGoomba != nullptr) {
+					notAGoomba->LoadState(entityNode);
+				}
+			}
+		}
+		// Repite el proceso para otras entidades según sea necesario
 	}
-
+	
 	return true;
 }
 

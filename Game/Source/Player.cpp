@@ -309,7 +309,7 @@ Animation* Player::GetAnimation(SString name)
 	}
 	return nullptr;
 }
-bool Player::LoadState(pugi::xml_node node)
+bool Player::LoadState(pugi::xml_node& node)
 {
 	int x;
 	int y;
@@ -317,12 +317,13 @@ bool Player::LoadState(pugi::xml_node node)
 	y = PIXEL_TO_METERS(node.append_child("Player").attribute("y").as_int());
 	position.x = x;
 	position.y = y;
+	SetPosition(position);
 	return true;
 }
 
-bool Player::SaveState(pugi::xml_node node)
+bool Player::SaveState(pugi::xml_node& node)
 {
-	pugi::xml_node playerNode = node.append_child("Player");
+	pugi::xml_node playerNode = node;
 	playerNode.append_attribute("x").set_value(position.x);
 	playerNode.append_attribute("y").set_value(position.y);
 	return true;

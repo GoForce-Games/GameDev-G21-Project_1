@@ -33,9 +33,9 @@ public:
 
 	void OnDeath();
 
-	bool LoadState(pugi::xml_node node);
+	bool LoadState(pugi::xml_node& node);
 
-	bool SaveState(pugi::xml_node node);
+	bool SaveState(pugi::xml_node& node);
 
 	iPoint GetOrigin() const override;
 

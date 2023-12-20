@@ -24,6 +24,10 @@ public:
 
 	bool CleanUp();
 
+	bool LoadState(pugi::xml_node& node);
+
+	bool SaveState(pugi::xml_node& node);
+
 public:
 
 	bool isPicked = false;

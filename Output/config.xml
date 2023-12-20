@@ -67,7 +67,7 @@
         <frame x="948" y="587" w="28" h="28"/>
       </animation>
     </player>
-	  <enemy1 x="140" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Sprite_skeleton.png">
+	  <enemy1 x="140" y="400" sizeX="32" sizeY="32" texturepath="Assets/Textures/Sprite_skeleton.png">
 		  <animation name="idle" loop="true" pingpong="true">
 			  <frame x="0" y="67" w="32" h="29"/>
 		  </animation>
@@ -84,7 +84,7 @@
 			  <frame x="33" y="98" w="21" h="31"/>
 		  </animation>
 	  </enemy1>
-	  <enemy2  x="140" y="800" sizeX="32" sizeY="32" texturepath="Assets/Textures/Sprite_pajaro.png">
+	  <enemy2  x="140" y="400" sizeX="32" sizeY="32" texturepath="Assets/Textures/Sprite_pajaro.png">
 		  <animation name="idle" loop="true" speed = "0.2f" pingpong="true">
 			  <frame x="8" y="2" w="33" h="33"/>
 			  <frame x="51" y="2" w="31" h="33"/>
@@ -160,6 +160,12 @@
 					<frame x="0" y="35" w="32" h="30"/>
 					<frame x="0" y="67" w="32" h="29"/>
 					<frame x="0" y="97" w="32" h="32"/>
+				</animation>
+				<animation name="backwardAnim" loop="true" speed = "0.2f" pingpong="true">
+					<frame x="33" y="0" w="21" h="33"/>
+					<frame x="33" y="35" w="21" h="30"/>
+					<frame x="33" y="67" w="21" h="30"/>
+					<frame x="33" y="98" w="21" h="31"/>
 				</animation>
 			</notGoomba>
 			<camera speed="0.02"/>
