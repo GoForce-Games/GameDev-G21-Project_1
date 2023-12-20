@@ -55,6 +55,11 @@ void Item::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 	}
 }
 
+iPoint Item::GetOrigin() const
+{
+	return { 16,16 };
+}
+
 bool Item::CleanUp()
 {
 	return Entity::CleanUp();
@@ -66,8 +71,8 @@ bool Item::LoadState(pugi::xml_node& node)
 	int y = (node.attribute("y").as_int());
 
 	// Crear la posición adecuada y establecerla
-	position.x = x+16;
-	position.y = y+16;
+	position.x = x;
+	position.y = y;
 	SetPosition(position);
 	return true;
 }

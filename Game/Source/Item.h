@@ -22,6 +22,8 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) override;
 
+	iPoint GetOrigin() const override;
+
 	bool CleanUp();
 
 	bool LoadState(pugi::xml_node& node);

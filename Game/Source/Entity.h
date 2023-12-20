@@ -93,8 +93,9 @@ public:
 		if (pbody == nullptr) {
 			return;
 		}
+		iPoint origin = GetOrigin();
 		b2Transform t = pbody->body->GetTransform();
-		b2Vec2 pos(PIXEL_TO_METERS(newPos.x), PIXEL_TO_METERS(newPos.y));
+		b2Vec2 pos(PIXEL_TO_METERS(newPos.x+origin.x), PIXEL_TO_METERS(newPos.y+origin.x));
 		pbody->body->SetTransform(pos, t.q.GetAngle());
 		pbody->body->SetAwake(true);
 	}

@@ -138,7 +138,8 @@ Camera* EntityManager::CreateCamera(Entity* target)
 	if (mainCamera == nullptr) {
 		SetMainCamera(camera); // If there's no main camera, assign this camera as it
 	}
-	camera->SetTarget(target);
+	if (target != nullptr)
+		camera->SetTarget(target);
 
 	//If module is already initialized, enable the camera
 	if (awoken) camera->Awake();

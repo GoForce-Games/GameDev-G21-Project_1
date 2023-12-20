@@ -13,7 +13,8 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
 - Todos los parámetros configurables se encuentran en el archivo de configuración
 - Muerte del jugador si se sale del mapa o toca algún pincho
 - Enemigos terrestres y voladores que persiguen al jugador si este se acerca demasiado
-- Guardado y carga de estado de juego (no funciona correctamente, el terreno no se carga correctamente)
+- Los enemigos pueden ser derrotados saltando encima suyo
+- Guardado y carga de estado de juego
  
 ## Controls
 
@@ -23,6 +24,12 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
  - F3 -> Recargar nivel actual
  - F9 -> Modo debug
  - F10 -> God mode (permite volar)
+
+ Con modo debug activo:
+ - 1: Spawnear enemigo terrestre
+ - 2: Spawnear enemigo volador
+
+ Los enemigos aparecen al centro de la pantalla (cuidado de que no esté el jugador ahí!)
 
 ## Developers
 
