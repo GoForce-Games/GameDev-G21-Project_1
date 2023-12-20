@@ -62,10 +62,10 @@ bool Item::CleanUp()
 
 bool Item::LoadState(pugi::xml_node& node)
 {
-	int x;
-	int y;
-	x = PIXEL_TO_METERS(node.attribute("x").as_int());
-	y = PIXEL_TO_METERS(node.attribute("y").as_int());
+	int x = (node.attribute("x").as_int());
+	int y = (node.attribute("y").as_int());
+
+	// Crear la posición adecuada y establecerla
 	position.x = x;
 	position.y = y;
 	SetPosition(position);

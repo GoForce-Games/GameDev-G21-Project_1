@@ -255,8 +255,8 @@ bool EntityManager::Update(float dt)
 }
 
 bool EntityManager::LoadState(pugi::xml_node node) {
-	/*Disable();
-	Enable();*/
+	Disable();
+	Enable();
 	
 	pugi::xml_node managerNode = node.child("entitymanager");
 
