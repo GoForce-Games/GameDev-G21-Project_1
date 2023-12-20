@@ -1,4 +1,4 @@
-#include "NotAGoomba.h"
+#include "FlyingEnemy.h"
 
 #include "App.h"
 #include "Textures.h"
@@ -7,16 +7,16 @@
 #include "Player.h"
 #include "Log.h"
 
-NotAGoomba::NotAGoomba() : Enemy(EntityType::ENEMY_GROUNDED)
+FlyingEnemy::FlyingEnemy() : Enemy(EntityType::ENEMY_GROUNDED)
 {
-	name.Create("notGoomba");
+	name.Create("flyingEnemy");
 }
 
-NotAGoomba::~NotAGoomba()
+FlyingEnemy::~FlyingEnemy()
 {
 }
 
-bool NotAGoomba::Awake()
+bool FlyingEnemy::Awake()
 {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
@@ -28,7 +28,7 @@ bool NotAGoomba::Awake()
 	texturePath = parameters.attribute("texturepath").as_string();
 	moveDirection.Create(-1, 0);
 
-	if (animationList.Count()==0)
+	if (animationList.Count() == 0)
 		LoadAllAnimations();
 
 	currentAnimation = GetAnimation("idle");
@@ -37,10 +37,10 @@ bool NotAGoomba::Awake()
 	return true;
 }
 
-bool NotAGoomba::Start()
+bool FlyingEnemy::Start()
 {
 	if (texture == nullptr)
-	texture = app->tex->Load(texturePath.GetString());
+		texture = app->tex->Load(texturePath.GetString());
 
 	if (pbody == nullptr) {
 		pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
@@ -56,17 +56,17 @@ bool NotAGoomba::Start()
 	return true;
 }
 
-bool NotAGoomba::Update(float dt)
+bool FlyingEnemy::Update(float dt)
 {
 	return Enemy::Update(dt);
 }
 
-bool NotAGoomba::CleanUp(bool reuse)
+bool FlyingEnemy::CleanUp(bool reuse)
 {
 	return Enemy::CleanUp(reuse);
 }
 
-bool NotAGoomba::LoadState(pugi::xml_node& node)
+bool FlyingEnemy::LoadState(pugi::xml_node& node)
 {
 	int x;
 	int y;
@@ -78,7 +78,7 @@ bool NotAGoomba::LoadState(pugi::xml_node& node)
 	return true;
 }
 
-bool NotAGoomba::SaveState(pugi::xml_node& node)
+bool FlyingEnemy::SaveState(pugi::xml_node& node)
 {
 	pugi::xml_node GoombaNode = node;
 	GoombaNode.append_attribute("x").set_value(position.x);
@@ -87,7 +87,7 @@ bool NotAGoomba::SaveState(pugi::xml_node& node)
 	return true;
 }
 
-void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
+void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 {
 	if (physB->ctype == ColliderType::PLAYER) {
 		int x, y;
@@ -95,7 +95,7 @@ void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contac
 		fPoint posA(x, y);
 		physB->GetPosition(x, y);
 		fPoint posB(x, y);
-		fPoint d = (posB-posA);
+		fPoint d = (posB - posA);
 		d = d / sqrtf(d.x * d.x + d.y * d.y);
 		if (d.y < 0.0f && abs(d.x) < 0.5f) {
 			LOG("Enemy \"%s\" stomped", name.GetString());
@@ -105,18 +105,18 @@ void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contac
 	}
 }
 
-iPoint NotAGoomba::GetOrigin() const
+iPoint FlyingEnemy::GetOrigin() const
 {
-	return {16,16}; //TODO poner el valor correcto segun la textura usada (los valores se calculan al cargar la textura)
+	return { 16,16 }; //TODO poner el valor correcto segun la textura usada (los valores se calculan al cargar la textura)
 }
 
 //Specific logic for this enemy's pathfinding
-bool NotAGoomba::FindPath(iPoint& destination)
+bool FlyingEnemy::FindPath(iPoint& destination)
 {
-		return Enemy::FindPath(destination);
+	return Enemy::FindPath(destination);
 }
 
-bool NotAGoomba::EnemyBehaviour(float dt)
+bool FlyingEnemy::EnemyBehaviour(float dt)
 {
 	bool ret = true;
 
@@ -130,12 +130,16 @@ bool NotAGoomba::EnemyBehaviour(float dt)
 	case EnemyState::ROAMING:
 	{
 		b2Vec2 movement = b2Vec2_zero;
-		movement.x = moveDirection.x * speed*dt;
+		movement.x = moveDirection.x * speed * dt;
 		//TODO si choca contra una pared, cambia la direccion (comprobar en OnCollision)
 		if (position.x < home.x - homeRadius)
 			moveDirection.x = 1;
 		else if (position.x > home.x + homeRadius)
 			moveDirection.x = -1;
+		if (position.y == home.y)
+			moveDirection.y = 0;
+		else
+			moveDirection.y = position.y - home.y;
 
 		pbody->body->ApplyLinearImpulse(movement, pbody->body->GetPosition(), true);
 
@@ -160,18 +164,15 @@ bool NotAGoomba::EnemyBehaviour(float dt)
 
 			FindPath(app->entityManager->players[0]->position);
 
-			// No path to follow
-			if (pathToPlayer.Count() == 0) break;
-
 			iPoint targetPos = pathToPlayer.start->data;
 			if (targetPos == app->map->WorldToMap(position.x, position.y)) {
 				pathToPlayer.Del(pathToPlayer.start);
 			}
-			moveDirection = (app->map->MapToWorld(targetPos.x, targetPos.y)-position);
-			b2Vec2 movement = b2Vec2(moveDirection.x,0);
+			moveDirection = (app->map->MapToWorld(targetPos.x, targetPos.y) - position);
+			b2Vec2 movement = b2Vec2(moveDirection.x, moveDirection.y);
 			movement.Normalize();
-			movement.x *= speed*dt;
-			pbody->body->ApplyLinearImpulse(movement, pbody->body->GetPosition(),true);
+			movement *= speed * dt;
+			pbody->body->ApplyLinearImpulse(movement, pbody->body->GetPosition(), true);
 
 			if (moveDirection.x < 0)
 				LOG("Moving left. Current Speed: %f", pbody->body->GetLinearVelocity().x);

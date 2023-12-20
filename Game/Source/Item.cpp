@@ -66,8 +66,8 @@ bool Item::LoadState(pugi::xml_node& node)
 	int y = (node.attribute("y").as_int());
 
 	// Crear la posición adecuada y establecerla
-	position.x = x;
-	position.y = y;
+	position.x = x+16;
+	position.y = y+16;
 	SetPosition(position);
 	return true;
 }

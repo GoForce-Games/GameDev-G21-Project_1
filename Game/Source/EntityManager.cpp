@@ -3,10 +3,12 @@
 #include "Camera.h"
 #include "Item.h"
 #include "NotAGoomba.h"
+#include "FlyingEnemy.h"
 
 #include "App.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "Map.h"
 
 
 #include "Defs.h"
@@ -106,6 +108,7 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 			LOG("Use CreateCamera() to create cameras!");
 			return CreateCamera(nullptr);
 		case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba(); break;
+		case EntityType::ENEMY_FLYING:	entity = new FlyingEnemy(); break;
 		default:
 			LOG("Invalid EntityType");
 			break;
@@ -255,11 +258,14 @@ bool EntityManager::Update(float dt)
 }
 
 bool EntityManager::LoadState(pugi::xml_node node) {
-	Disable();
+	// TODO: mover esto a un "ReloadInstant()" en el modulo Reload o buscar un mejor método para cargar partida guardada en el gestor de entidades
+	app->map->Disable();
+	this->Disable();
 	app->physics->Disable();
 	Awake(app->GetConfig(*this));
 	app->physics->Enable();
-	Enable();
+	this->Enable();
+	app->map->Enable();
 	
 	pugi::xml_node managerNode = node.child("entitymanager");
 

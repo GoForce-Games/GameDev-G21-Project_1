@@ -189,6 +189,7 @@ bool Map::Load(SString mapFileName)
 
     if (ret == true)
     {
+        pathfinding = new PathFinding();
         ret = LoadAllLayers(mapFileXML.child("map"));
     }
 
@@ -225,6 +226,7 @@ bool Map::Load(SString mapFileName)
             LOG("Layer width : %d Layer height : %d", mapLayer->data->width, mapLayer->data->height);
             mapLayer = mapLayer->next;
         }
+
     }
 
     if (mapFileXML) mapFileXML.reset();
@@ -309,6 +311,9 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
         layer->data[i] = tile.attribute("gid").as_uint();
         i++;
     }
+
+    if (layer->name == "Navigation")
+        pathfinding->SetNavigationMap(layer->width, layer->height, layer->data);
 
     return ret;
 }

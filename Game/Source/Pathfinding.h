@@ -8,7 +8,7 @@
 #include "List.h"
 
 #define DEFAULT_PATH_LENGTH 50
-#define INVALID_WALK_CODE 255
+#define INVALID_WALK_CODE 81
 
 // --------------------------------------------------
 // Recommended reading:
@@ -29,7 +29,7 @@ public:
 	bool CleanUp();
 
 	// Sets up the walkability map
-	void SetNavigationMap(uint w, uint h, uchar* data);
+	void SetNavigationMap(uint w, uint h, uint* data);
 
 	// Main function to request a path from A to B
 	int CreatePath(const iPoint& origin, const iPoint& destination);
@@ -56,7 +56,7 @@ private:
 	uint height;
 
 	// all map walkability values [0..255]
-	uchar* map;
+	uint* map;
 
 	// we store the created path here
 	DynArray<iPoint> lastPath;

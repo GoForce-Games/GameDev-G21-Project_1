@@ -12,6 +12,8 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
 - Recarga de nivel
 - Todos los parámetros configurables se encuentran en el archivo de configuración
 - Muerte del jugador si se sale del mapa o toca algún pincho
+- Enemigos terrestres y voladores que persiguen al jugador si este se acerca demasiado
+- Guardado y carga de estado de juego (no funciona correctamente, el terreno no se carga correctamente)
  
 ## Controls
 

@@ -30,14 +30,14 @@ bool PathFinding::CleanUp()
 }
 
 // Sets up the navigation map
-void PathFinding::SetNavigationMap(uint w, uint h, uchar* data)
+void PathFinding::SetNavigationMap(uint w, uint h, uint* data)
 {
 	width = w;
 	height = h;
 
 	RELEASE_ARRAY(map);
-	map = new uchar[width*height];
-	memcpy(map, data, width*height);
+	map = new uint[width*height];
+	memcpy(map, data, width*height*sizeof(uint));
 }
 
 // Utility: return true if pos is inside the map boundaries
@@ -130,7 +130,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 			for (ListItem<PathNode*>* item = ptrList.start; item; item = item->next)
 			{
-				delete item->data;
+				RELEASE(item->data);
 			}
 			ptrList.Clear();
 
@@ -269,7 +269,7 @@ int PathNode::Score() const
 int PathNode::CalculateF(const iPoint& destination)
 {
 	g = parent->g + 1;
-	h = pos.DistanceTo(destination);
+	h = pos.DistanceTo(destination)-pos.y-pos.y;
 
 	return g + h;
 }

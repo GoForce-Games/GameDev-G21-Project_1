@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\FlyingEnemy.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\NotAGoomba.cpp" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClInclude Include="Source\FlyingEnemy.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\NotAGoomba.h" />
     <ClInclude Include="Source\Reload.h" />
@@ -156,6 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Output\config.xml" />
+    <Xml Include="..\Output\save_game.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

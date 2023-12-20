@@ -71,6 +71,7 @@
       <Filter>Entities\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\FlyingEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -175,6 +176,7 @@
     <ClInclude Include="Source\Enemy.h">
       <Filter>Entities\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Source\FlyingEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -204,5 +206,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Output\config.xml" />
+    <Xml Include="..\Output\save_game.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>

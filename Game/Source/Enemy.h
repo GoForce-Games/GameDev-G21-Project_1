@@ -62,7 +62,7 @@ public:
 			home = newPos;
 	}
 
-	// General pathfinding
+	// General path finding for enemies
 	virtual bool FindPath(iPoint& destination);
 
 	// Specific enemy behaviour. Must be defined
@@ -76,12 +76,14 @@ public:
 
 	float actionRadius;
 	float speed;
+	b2Vec2 velCap;
 	float homeRadius;
 	iPoint home;
 	iPoint moveDirection;
 
 	EnemyState state = EnemyState::IDLE;
 	List<iPoint> pathToPlayer;
+	Timer pfCooldown;
 
 	SDL_Texture* texture = nullptr;
 	Animation* currentAnimation = nullptr;

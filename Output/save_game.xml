@@ -9,6 +9,7 @@
 	<:anonymous />
 	<entitymanager>
 		<entitymanager>
+			<item x="256" y="867" />
 			<item x="421" y="767" />
 			<item x="126" y="767" />
 			<item x="756" y="742" />
@@ -54,12 +55,11 @@
 			<item x="4355" y="217" />
 			<item x="3750" y="367" />
 			<item x="3781" y="367" />
-			<item x="3446" y="292" />
+			<item x="3468" y="292" />
 			<item x="3160" y="92" />
-			<item x="3413" y="292" />
-			<player x="311" y="96" />
+			<item x="3436" y="292" />
+			<player x="43" y="867" />
 			<camera />
-			<notGoomba x="496" y="451" />
 		</entitymanager>
 	</entitymanager>
 	<:anonymous />

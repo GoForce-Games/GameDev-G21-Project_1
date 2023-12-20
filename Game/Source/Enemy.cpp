@@ -16,17 +16,37 @@ bool Enemy::Update(float dt)
     position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
     position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
 
-    app->render->DrawTexture(texture, position.x, position.y);
+	if (app->debug) {
+		for (ListItem<iPoint>* item = pathToPlayer.start; item; item=item->next)
+		{
+			iPoint worldPos = app->map->MapToWorld(item->data.x, item->data.y);
+			SDL_Rect rect = { worldPos.x, worldPos.y, app->map->mapData.tileWidth, app->map->mapData.tileHeight };
+			app->render->DrawRectangle(rect, 0, 0, 255, 150);
+		}
+	}
+	if (currentAnimation != nullptr) {
+		iPoint offset = GetOrigin();
+		app->render->DrawTexture(texture, position.x - offset.x, position.y - offset.y, &currentAnimation->GetCurrentFrame());
+		currentAnimation->Update();
+	}
 
     return ret;
 }
 
 bool Enemy::FindPath(iPoint& destination)
 {
-    // TODO: Define pathfinding
-    app->map->pathfinding->CreatePath(position, destination);
-    const DynArray<iPoint>* d = app->map->pathfinding->GetLastPath();
+	if (pfCooldown.ReadMSec() < 500) {
+		return false;
+	}
+		pfCooldown.Start();
+
+    // TODO: Define pathfinding from center of mass instead of top-left corner
+	iPoint thisPos = app->map->WorldToMap(position.x, position.y); thisPos.y;
+	iPoint destPos = app->map->WorldToMap(destination.x, destination.y); destPos.y;
+	bool ret = app->map->pathfinding->CreatePath(thisPos, destPos) > 0;
     pathToPlayer.Clear();
+	if (!ret) return ret;
+    const DynArray<iPoint>* d = app->map->pathfinding->GetLastPath();
     for (size_t i = 0; i < d->Count(); i++)
     {
         pathToPlayer.Add(*d->At(i));

@@ -188,12 +188,11 @@ void Scene::DebugActions()
 		Enemy* e = (Enemy*)app->entityManager->CreateEntity(EntityType::ENEMY_GROUNDED);
 		e->SetPosition(app->render->cam->position-app->render->cam->offset, true);
 	}
-	else if (app->input->GetKey(SDL_SCANCODE_9) == KEY_REPEAT){
-		Enemy* e = (Enemy*)app->entityManager->CreateEntity(EntityType::ENEMY_GROUNDED);
-		LOG("Enemy \"%s\"stomped", e->name.GetString());
-		e->state = EnemyState::DEAD;
-		e->SetToDestroy(true);
+	else if (app->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+		Enemy* e = (Enemy*)app->entityManager->CreateEntity(EntityType::ENEMY_FLYING);
+		e->SetPosition(app->render->cam->position - app->render->cam->offset, true);
 	}
+
 	if (app->input->GetKey(SDL_SCANCODE_3) == KEY_REPEAT) {
 		Item* e = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
 		e->SetPosition(app->render->cam->position - app->render->cam->offset);
