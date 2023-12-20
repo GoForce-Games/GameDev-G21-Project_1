@@ -211,6 +211,16 @@
 					<frame x="33" y="98" w="21" h="31"/>
 				</animation>
 			</notGoomba>
+			<flyingEnemy  x="140" y="400" sizeX="32" sizeY="32" texturepath="Assets/Textures/Sprite_pajaro.png">
+				<animation name="idle" loop="true" speed = "0.2f" pingpong="true">
+					<frame x="8" y="2" w="33" h="33"/>
+					<frame x="51" y="2" w="31" h="33"/>
+					<frame x="92" y="2" w="39" h="32"/>
+					<frame x="134" y="0" w="44" h="36"/>
+					<frame x="92" y="2" w="39" h="32"/>
+					<frame x="51" y="2" w="31" h="32"/>
+				</animation>
+			</flyingEnemy>
 			<camera speed="0.02"/>
 		</entitypresets>
 	</entitymanager>
