@@ -6,7 +6,7 @@
 	<audio />
 	<physics />
 	<scene>
-		<player x="1660" y="817" />
+		<player x="786" y="688" />
 	</scene>
 	<:anonymous />
 	<entitymanager>
@@ -57,8 +57,18 @@
 			<item />
 			<item />
 			<item />
+			<item />
+			<item />
+			<item />
+			<item />
 			<Player />
 			<camera />
+			<notGoomba>
+				<notGoomba x="668" y="3712" />
+			</notGoomba>
+			<notGoomba>
+				<notGoomba x="706" y="758" />
+			</notGoomba>
 		</entitymanager>
 	</entitymanager>
 	<:anonymous />

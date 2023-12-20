@@ -61,9 +61,12 @@ bool NotAGoomba::CleanUp()
 
 bool NotAGoomba::LoadState(pugi::xml_node& node)
 {
-	position.x = node.child("notGoomba").attribute("x").as_int();
-	position.y = node.child("notGoomba").attribute("y").as_int();
-
+	int x;
+	int y;
+	x = PIXEL_TO_METERS(node.append_child("notGoomba").attribute("x").as_int());
+	y = PIXEL_TO_METERS(node.append_child("notGoomba").attribute("y").as_int());
+	position.x = x;
+	position.y = y;
 	return true;
 }
 

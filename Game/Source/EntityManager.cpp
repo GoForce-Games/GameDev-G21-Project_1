@@ -221,6 +221,13 @@ bool EntityManager::Update(float dt)
 }
 
 bool EntityManager::LoadState(pugi::xml_node node) {
+	bool ret = true;
+	for (pugi::xml_node managerNode = node.child("entitymanager").child("notGoomba"); managerNode && ret; managerNode = managerNode.next_sibling("notBoomba")) {
+		
+		ret = CreateEntity(EntityType::ENEMY_GROUNDED, managerNode);
+
+
+	}
 
 	return true;
 }
