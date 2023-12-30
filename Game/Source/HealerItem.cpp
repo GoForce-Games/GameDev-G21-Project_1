@@ -1,4 +1,4 @@
-#include "Item.h"
+#include "HealerItem.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -9,14 +9,15 @@
 #include "Point.h"
 #include "Physics.h"
 
-Item::Item() : Entity(EntityType::ITEM)
+
+HealerItem::HealerItem() : Entity(EntityType::HEALERITEM)
 {
-	name.Create("item");
+	name.Create("healeritem");
 }
 
-Item::~Item() {}
+HealerItem::~HealerItem() {}
 
-bool Item::Awake() {
+bool HealerItem::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
@@ -25,7 +26,7 @@ bool Item::Awake() {
 	return true;
 }
 
-bool Item::Start() {
+bool HealerItem::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
@@ -36,7 +37,7 @@ bool Item::Start() {
 	return true;
 }
 
-bool Item::Update(float dt)
+bool HealerItem::Update(float dt)
 {
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	if (pbody != nullptr) {
@@ -48,7 +49,7 @@ bool Item::Update(float dt)
 	return true;
 }
 
-void Item::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
+void HealerItem::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 {
 	if (physB->ctype == ColliderType::PLAYER) {
 		
@@ -56,17 +57,17 @@ void Item::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)
 	}
 }
 
-iPoint Item::GetOrigin() const
+iPoint HealerItem::GetOrigin() const
 {
 	return { 16,16 };
 }
 
-bool Item::CleanUp()
+bool HealerItem::CleanUp()
 {
 	return Entity::CleanUp();
 }
 
-bool Item::LoadState(pugi::xml_node& node)
+bool HealerItem::LoadState(pugi::xml_node& node)
 {
 	int x = (node.attribute("x").as_int());
 	int y = (node.attribute("y").as_int());
@@ -78,7 +79,7 @@ bool Item::LoadState(pugi::xml_node& node)
 	return true;
 }
 
-bool Item::SaveState(pugi::xml_node& node)
+bool HealerItem::SaveState(pugi::xml_node& node)
 {
 	pugi::xml_node playerNode = node;
 	playerNode.append_attribute("x").set_value(position.x);

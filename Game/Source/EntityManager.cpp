@@ -104,6 +104,7 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 		{// TODO add new entities here
 		case EntityType::PLAYER:			entity = players.Add(new Player())->data; break;
 		case EntityType::ITEM:				entity = new Item(); break;
+		case EntityType::HEALERITEM:        entity = new Item(); break;
 		case EntityType::CAMERA:
 			LOG("Use CreateCamera() to create cameras!");
 			return CreateCamera(nullptr);
@@ -157,6 +158,8 @@ Entity* EntityManager::CreateEntityFromMapData(SString name, pugi::xml_node obje
 		entity = CreateEntity(EntityType::PLAYER, objectData);
 	else if (strcmp(name.GetString(), "item") == 0)
 		entity = CreateEntity(EntityType::ITEM, objectData);
+	else if (strcmp(name.GetString(), "healeritem") == 0)
+		entity = CreateEntity(EntityType::HEALERITEM, objectData);
 
 	return entity;
 }
@@ -298,6 +301,15 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 				NotAGoomba* notAGoomba = dynamic_cast<NotAGoomba*>(entity);
 				if (notAGoomba != nullptr) {
 					notAGoomba->LoadState(entityNode);
+				}
+			}
+		}
+		else if (entityName == "healeritem") {
+			Entity* entity = CreateEntity(EntityType::HEALERITEM, entityNode);
+			if (entity != nullptr) {
+				Item* item = dynamic_cast<Item*>(entity);
+				if (item != nullptr) {
+					item->LoadState(entityNode);
 				}
 			}
 		}

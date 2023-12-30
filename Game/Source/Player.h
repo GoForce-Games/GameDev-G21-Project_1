@@ -59,10 +59,9 @@ public:
 
 	bool alive = true;
 
-	int position_save_x;
-	int position_save_y;
+	int live_points = 3;
 
-
+	
 private:
 	iPoint mapBounds;
 	iPoint playerHSize;

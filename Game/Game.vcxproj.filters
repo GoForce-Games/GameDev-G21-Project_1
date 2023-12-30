@@ -76,6 +76,7 @@
     <ClCompile Include="Source\FlyingEnemy.cpp">
       <Filter>Entities\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\HealerItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -183,6 +184,7 @@
     <ClInclude Include="Source\FlyingEnemy.h">
       <Filter>Entities\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Source\HealerItem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

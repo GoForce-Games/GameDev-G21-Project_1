@@ -11,10 +11,12 @@
 		<entitymanager>
 			<item x="256" y="867" />
 			<item x="421" y="767" />
+			<item x="199" y="867" />
 			<item x="126" y="767" />
 			<item x="756" y="742" />
 			<item x="725" y="742" />
-			<item x="742" y="867" />
+			<item x="715" y="867" />
+			<item x="683" y="865" />
 			<item x="1655" y="817" />
 			<item x="1755" y="817" />
 			<item x="1855" y="817" />
@@ -54,10 +56,10 @@
 			<item x="4355" y="217" />
 			<item x="3750" y="367" />
 			<item x="3781" y="367" />
-			<item x="3480" y="292" />
+			<item x="3449" y="292" />
 			<item x="3160" y="92" />
-			<item x="3448" y="292" />
-			<player x="623" y="812" />
+			<item x="3418" y="292" />
+			<player x="100" y="867" />
 			<camera />
 		</entitymanager>
 	</entitymanager>

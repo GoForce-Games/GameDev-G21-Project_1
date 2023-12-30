@@ -16,6 +16,7 @@
 #include "Defs.h"
 #include "Log.h"
 #include "Enemy.h"
+#include "HealerItem.h"
 
 Scene::Scene() : Module()
 {
@@ -38,6 +39,11 @@ bool Scene::Awake(pugi::xml_node& config)
 	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
 	{
 		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
+		item->parameters = itemNode;
+	}
+	for (pugi::xml_node itemNode = config.child("healeritem"); itemNode; itemNode = itemNode.next_sibling("healeritem"))
+	{
+		HealerItem* item = (HealerItem*)app->entityManager->CreateEntity(EntityType::HEALERITEM);
 		item->parameters = itemNode;
 	}
 
@@ -197,5 +203,8 @@ void Scene::DebugActions()
 		Item* e = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
 		e->SetPosition(app->render->cam->position - app->render->cam->offset);
 	}
-
+	if (app->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+		HealerItem* e = (HealerItem*)app->entityManager->CreateEntity(EntityType::HEALERITEM);
+		e->SetPosition(app->render->cam->position - app->render->cam->offset);
+	}
 }

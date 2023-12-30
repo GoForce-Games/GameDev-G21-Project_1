@@ -16,6 +16,7 @@ enum class EntityType
 {
 	PLAYER,
 	ITEM,
+	HEALERITEM,
 	CAMERA,
 	ENEMY,
 	ENEMY_GROUNDED,

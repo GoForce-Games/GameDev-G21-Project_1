@@ -206,9 +206,15 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 
 void Player::OnHurt()
 {
+	const uint32 waitTimeInSec = 2;
 	if (godMode) return;
 	// TODO implement multiple health points (?)
-	OnDeath();
+	live_points--;
+	if (live_points <= 0) {
+		OnDeath();
+	}
+	
+	
 }
 
 void Player::OnDeath()
@@ -240,8 +246,11 @@ iPoint Player::GetOrigin() const
 
 void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
 {
+	live_points++;
 	app->audio->PlayFx(pickCoinFxId);
 }
+
+
 
 void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
 {
