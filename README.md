@@ -11,12 +11,11 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
 - La cámara sigue al jugador
 - Recarga de nivel
 - Todos los parámetros configurables se encuentran en el archivo de configuración
-- Muerte del jugador si se sale del mapa o toca algún pincho
+- Presets para los diferentes tipos de entidad
+- Muerte del jugador si se sale del mapa toca algún pincho o enemigo
 - Enemigos terrestres y voladores que persiguen al jugador si este se acerca demasiado
 - Los enemigos pueden ser derrotados saltando encima suyo
 - Guardado y carga de estado de juego
-
-(NOTA: debido a problemas personales y bugs muy importantes del proyecto en los últimos días de trabajo, ambos enemigos tienen el mismo patrón de pathfinding) 
 
 ## Controls
 
@@ -26,6 +25,7 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
  - F3 -> Recargar nivel actual
  - F9 -> Modo debug
  - F10 -> God mode (permite volar)
+ - Visualizar mapa de navegación
 
  Con modo debug activo:
  - 1: Spawnear enemigo terrestre

@@ -15,7 +15,7 @@ bool Enemy::Update(float dt)
     position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
     position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
 
-	if (app->debug) {
+	if (app->debug && app->map->navigationLayer->properties.GetProperty("Draw")->boolVal) {
 		for (ListItem<iPoint>* item = pathToPlayer.start; item; item=item->next)
 		{
 			iPoint worldPos = app->map->MapToWorld(item->data.x, item->data.y);
