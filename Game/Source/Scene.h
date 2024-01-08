@@ -5,6 +5,9 @@
 #include "Player.h"
 #include "Item.h"
 
+#include "GuiControl.h"
+#include "GuiControlButton.h"
+
 struct SDL_Texture;
 
 class Scene : public Module
@@ -54,7 +57,7 @@ private:
 	SString gameOverScreenTexturePath;
 
 	
-
+	GuiControlButton* gcButtom;
 
 };
 

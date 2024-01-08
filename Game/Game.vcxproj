@@ -95,6 +95,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\GuiControlButton.cpp" />
+    <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\HealerItem.cpp" />
     <ClCompile Include="Source\FlyingEnemy.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
@@ -119,6 +121,9 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClInclude Include="Source\GuiControl.h" />
+    <ClInclude Include="Source\GuiControlButton.h" />
+    <ClInclude Include="Source\GuiManager.h" />
     <ClInclude Include="Source\HealerItem.h" />
     <ClInclude Include="Source\FlyingEnemy.h" />
     <ClInclude Include="Source\Enemy.h" />

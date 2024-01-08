@@ -20,6 +20,7 @@ class EntityManager;
 class Map;
 class Physics;
 class Reload;
+class GuiManager;
 
 class App
 {
@@ -99,6 +100,7 @@ public:
 	Map* map;
 	Physics* physics;
 	Reload* reload;
+	GuiManager* guiManager;
 
 	bool debug = false;
 

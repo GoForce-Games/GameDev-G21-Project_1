@@ -94,6 +94,10 @@ public:
 		return true;
 	}
 
+	virtual bool OnGuiMouseClickEvent(GuiControl* control)
+	{
+		return true;
+	}
 
 public:
 
