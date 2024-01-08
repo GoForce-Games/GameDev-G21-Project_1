@@ -154,9 +154,13 @@ Entity* EntityManager::CreateEntityFromMapData(SString name, pugi::xml_node obje
 	Entity* entity = nullptr;
 
 	// TODO add new entities here
-	if (name == "player")
+	if (name == "grounded")
+		entity = CreateEntity(EntityType::ENEMY_GROUNDED, objectData);
+	else if (name == "flying")
+		entity = CreateEntity(EntityType::ENEMY_FLYING, objectData);
+	else if (name == "player")
 		entity = CreateEntity(EntityType::PLAYER, objectData);
-	else if (strcmp(name.GetString(), "item") == 0)
+	else if (name == "item")
 		entity = CreateEntity(EntityType::ITEM, objectData);
 	else if (strcmp(name.GetString(), "healeritem") == 0)
 		entity = CreateEntity(EntityType::HEALERITEM, objectData);

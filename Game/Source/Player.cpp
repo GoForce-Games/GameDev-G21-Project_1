@@ -39,6 +39,7 @@ bool Player::Awake() {
 	velCap.y = parameters.attribute("velCap_y").as_float();
 	maxSlope = parameters.attribute("maxPlatformAngle").as_float();
 	maxSlope = sin(maxSlope);
+	alive = true;
 
 	LoadAllAnimations();
 
@@ -59,6 +60,7 @@ bool Player::Start() {
 	pbody->body->SetLinearDamping(1.0f);
 	pbody->body->SetFixedRotation(true);
 	pbody->body->SetSleepingAllowed(false);
+	pbody->boundEntity = this;
 	gravityScale = pbody->body->GetGravityScale();
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
@@ -206,7 +208,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 
 void Player::OnHurt()
 {
-	const uint32 waitTimeInSec = 2;
 	if (godMode) return;
 	// TODO implement multiple health points (?)
 	live_points--;
@@ -219,7 +220,6 @@ void Player::OnHurt()
 
 void Player::OnDeath()
 {
-	//TODO set death animation
 	if (alive && !godMode) {
 		alive = false;
 		currentAnimation = death; death->Reset();

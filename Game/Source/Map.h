@@ -125,11 +125,11 @@ public:
 	SString name;
 	SString path;
 	PathFinding* pathfinding;
+	MapLayer* navigationLayer;
 
 private:
 
 	bool mapLoaded;
-	MapLayer* navigationLayer;
 	int blockedGid = 49; // TODO asignar el Gid correcto
 };
 

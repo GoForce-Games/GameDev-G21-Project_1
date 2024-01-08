@@ -19,7 +19,6 @@ enum class EnemyState
 class Enemy : public Entity
 {
 public:
-	//TODO poner los métodos que hace falta para una entidad (copia de Item por ahora)
 	Enemy(EntityType _type = EntityType::ENEMY) : Entity(_type) {}
 	~Enemy() {}
 
@@ -78,6 +77,7 @@ public:
 	float speed;
 	b2Vec2 velCap;
 	float homeRadius;
+	float homeInnerRadius;
 	iPoint home;
 	iPoint moveDirection;
 

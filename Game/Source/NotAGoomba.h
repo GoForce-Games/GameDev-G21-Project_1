@@ -36,6 +36,9 @@ private:
 
 	SString texturePath;
 
+	Animation* rightWalk = nullptr;
+	Animation* leftWalk = nullptr;
+
 
 };
 

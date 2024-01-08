@@ -7,7 +7,6 @@
 
 bool Enemy::Update(float dt)
 {
-    // TODO: General enemy behaviour (recalculate path, roam home, etc.)
     bool ret = true;
 
     ret |= EnemyBehaviour(dt);

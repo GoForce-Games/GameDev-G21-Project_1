@@ -25,6 +25,7 @@ bool FlyingEnemy::Awake()
 	velCap.y = parameters.attribute("velCap_y").as_float();
 	actionRadius = parameters.attribute("actionRadius").as_float();
 	homeRadius = parameters.attribute("homeRadius").as_float();
+	homeInnerRadius = parameters.attribute("homeInnerRadius").as_float();
 	texturePath = parameters.attribute("texturepath").as_string();
 	moveDirection.Create(-1, 0);
 
@@ -49,10 +50,10 @@ bool FlyingEnemy::Start()
 		pbody->body->SetLinearDamping(1.0f);
 		pbody->body->SetFixedRotation(true);
 		pbody->body->SetSleepingAllowed(true);
-		pbody->body->SetGravityScale(0.0f);
+		pbody->body->SetGravityScale(0.05f);
 	}
 
-	SetPosition(position);
+	SetPosition(position, true);
 
 	return true;
 }
@@ -103,6 +104,10 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* conta
 			state = EnemyState::DEAD;
 			app->entityManager->CacheEntity(this);
 		}
+		else {
+			Player* p = ((Player*)physB->boundEntity);
+			p->OnHurt();
+		}
 	}
 }
 
@@ -132,15 +137,17 @@ bool FlyingEnemy::EnemyBehaviour(float dt)
 	{
 		b2Vec2 movement = b2Vec2_zero;
 		movement.x = moveDirection.x * speed * dt;
+		movement.y = (moveDirection.y * speed) * dt;
 		//TODO si choca contra una pared, cambia la direccion (comprobar en OnCollision)
 		if (position.x < home.x - homeRadius)
 			moveDirection.x = 1;
 		else if (position.x > home.x + homeRadius)
 			moveDirection.x = -1;
-		if (position.y == home.y)
+
+		if (abs(home.y - position.y) < homeInnerRadius)
 			moveDirection.y = 0;
 		else
-			moveDirection.y = position.y - home.y;
+			moveDirection.y = home.y - position.y;
 
 		pbody->body->ApplyLinearImpulse(movement, pbody->body->GetPosition(), true);
 
@@ -175,12 +182,10 @@ bool FlyingEnemy::EnemyBehaviour(float dt)
 			movement *= speed * dt;
 			pbody->body->ApplyLinearImpulse(movement, pbody->body->GetPosition(), true);
 
-			if (moveDirection.x < 0)
-				LOG("Moving left. Current Speed: %f", pbody->body->GetLinearVelocity().x);
-
 			if (position.DistanceNoSqrt(app->entityManager->players[0]->position) > actionRadius * actionRadius * 1.25f) {
 				//Lost target, return to roaming
 				state = EnemyState::ROAMING;
+				pathToPlayer.Clear();
 			}
 		}
 		break;

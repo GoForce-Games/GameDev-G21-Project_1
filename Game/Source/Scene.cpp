@@ -203,8 +203,14 @@ void Scene::DebugActions()
 		Item* e = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
 		e->SetPosition(app->render->cam->position - app->render->cam->offset);
 	}
+
 	if (app->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
 		HealerItem* e = (HealerItem*)app->entityManager->CreateEntity(EntityType::HEALERITEM);
 		e->SetPosition(app->render->cam->position - app->render->cam->offset);
 	}
+
+	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+		app->map->navigationLayer->properties.GetProperty("Draw")->boolVal ^= true; // XOR eXclusive OR
+	}
+
 }

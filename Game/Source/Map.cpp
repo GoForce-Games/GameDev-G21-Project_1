@@ -312,8 +312,10 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
         i++;
     }
 
-    if (layer->name == "Navigation")
+    if (layer->name == "Navigation") {
+        navigationLayer = layer;
         pathfinding->SetNavigationMap(layer->width, layer->height, layer->data);
+    }
 
     return ret;
 }
@@ -344,9 +346,9 @@ bool Map::LoadAllObjects(pugi::xml_node mapNode) {
 
         for (pugi::xml_node objNode = objGroupNode.child("object"); objNode && ret; objNode = objNode.next_sibling("object"))
         {
-            Properties::Property* p = prop.GetProperty("Entity");
+            Properties::Property* p = prop.GetProperty("entity");
             if (p != nullptr) {
-                LoadEntity(objGroupNode, objNode, prop.GetProperty("Entity")->strVal);
+                LoadEntity(objGroupNode, objNode, p->strVal);
             }
             else if (objNode.child("ellipse")) {
                 LoadCircle(objGroupNode, objNode);
@@ -408,7 +410,7 @@ bool Map::LoadCircle(pugi::xml_node objGroupNode, pugi::xml_node objNode)
     float width = objNode.attribute("radius").as_float();
     float height = objNode.attribute("height").as_float();
 
-    float radius = (width + height) / 2; // TODO cambiar esto para elipses no regulares (requiere nueva función de creación de elipses en el entitymanager)
+    float radius = (width + height) / 2; // TODO cambiar esto para elipses no regulares (nueva función de creación de elipses en el entitymanager?)
 
     PhysBody* object = app->physics->CreateCircle(x + radius, y + radius, radius, STATIC);
     object->ctype = ColliderType::PLATFORM;
@@ -467,34 +469,20 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
             Properties::Property* p = new Properties::Property();
 
             SString nameAttr = propertiesNode.attribute("name").as_string();
-            std::vector<SString> words = nameAttr.GetWords(' ');
+            SString typeAttr = propertiesNode.attribute("type").as_string("string"); // Default to string for malformed properties
 
-            if (words.size() > 1) {
-                p->name = words[1];
-                if (strcmp(words[0].GetString(), "bool") == 0) {
-                    p->boolVal = propertiesNode.attribute("value").as_bool();
-                }
-                else if (strcmp(words[0].GetString(), "string") == 0) {
-                    p->strVal = propertiesNode.attribute("value").as_string();
-                }
-                else if (strcmp(words[0].GetString(), "int") == 0) {
-                    p->intVal = propertiesNode.attribute("value").as_int();
-                }
-                else if (strcmp(words[0].GetString(), "float") == 0) {
-                    p->floatVal = propertiesNode.attribute("value").as_float();
-                }
-                else {
-                    // Unknown type specifier, save as string
-                    p->name = nameAttr;
-                    p->strVal = propertiesNode.attribute("value").as_string();
-                    LOG("Unknown property type, saving as string (AttrName='%s',AttrValue='%s')", p->name.GetString(), p->strVal.GetString());
-                }
-            }
-            else {
-                // No type specifier, save as string
-                p->name = nameAttr;
+            p->name = nameAttr;
+            if (typeAttr == "string") {
                 p->strVal = propertiesNode.attribute("value").as_string();
-                LOG("Malformed property, saving as string (AttrName='%s',AttrValue='%s')", p->name.GetString(), p->strVal.GetString());
+            }
+            else if (typeAttr == "bool") {
+                p->boolVal = propertiesNode.attribute("value").as_bool();
+            }
+            else if (typeAttr == "integer") {
+                p->intVal = propertiesNode.attribute("value").as_int();
+            }
+            else if (typeAttr == "float") {
+                p->floatVal = propertiesNode.attribute("value").as_float();
             }
 
             properties.list.Add(p);

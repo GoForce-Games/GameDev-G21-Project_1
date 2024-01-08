@@ -52,7 +52,6 @@ bool Camera::Start()
 
 bool Camera::Update(float dt)
 {
-	// TODO afegir restriccions de moviment a la càmara (que no surti del mapa, poder restringir moviment vertical/horitzontal, etc.)
 	if (target != nullptr) {
 		iPoint pos = target->position;
 		//TODO potser s'ha de canviar una mica per a que el personatge quedi al centre

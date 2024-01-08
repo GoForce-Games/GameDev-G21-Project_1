@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="10" nextobjectid="96">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="12" nextobjectid="111">
  <tileset firstgid="1" name="TilesAlpha" tilewidth="25" tileheight="25" tilecount="60" columns="6">
   <image source="TilesAlpha.png" width="150" height="250"/>
  </tileset>
@@ -11,7 +11,7 @@
  </tileset>
  <layer id="1" name="Suelo" width="220" height="40">
   <properties>
-   <property name="bool Draw" type="bool" value="true"/>
+   <property name="Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -8818,7 +8818,7 @@
  </layer>
  <layer id="2" name="Suelo" width="220" height="40">
   <properties>
-   <property name="bool Draw" type="bool" value="true"/>
+   <property name="Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -17625,7 +17625,7 @@
  </layer>
  <layer id="3" name="Pinchos" width="220" height="40">
   <properties>
-   <property name="bool Draw" type="bool" value="true"/>
+   <property name="Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -26432,7 +26432,7 @@
  </layer>
  <layer id="4" name="Decoracion" width="220" height="40">
   <properties>
-   <property name="bool Draw" type="bool" value="true"/>
+   <property name="Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile/>
@@ -35237,9 +35237,9 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="ColisionsDebug" width="220" height="40" visible="0">
+ <layer id="5" name="ColisionsDebug" width="220" height="40">
   <properties>
-   <property name="Draw" type="bool" value="true"/>
+   <property name="Draw" type="bool" value="false"/>
   </properties>
   <data>
    <tile/>
@@ -44046,7 +44046,7 @@
  </layer>
  <layer id="9" name="Navigation" width="220" height="40">
   <properties>
-   <property name="Draw" type="bool" value="true"/>
+   <property name="Draw" type="bool" value="false"/>
   </properties>
   <data>
    <tile gid="82"/>
@@ -52853,8 +52853,8 @@
  </layer>
  <objectgroup id="7" name="Colisiones">
   <properties>
-   <property name="bool hurt" type="bool" value="false"/>
    <property name="collisionType" value="platform"/>
+   <property name="hurt" type="bool" value="false"/>
   </properties>
   <object id="2" x="0" y="900.333" width="350.333" height="99.3333"/>
   <object id="3" x="300" y="850" width="50" height="50.3333"/>
@@ -52941,10 +52941,62 @@
    <polygon points="0,0 100,50 0,50"/>
   </object>
  </objectgroup>
+ <objectgroup id="10" name="EnemigosVoladores">
+  <properties>
+   <property name="entity" value="flying"/>
+  </properties>
+  <object id="96" x="498.667" y="669.333">
+   <point/>
+  </object>
+  <object id="97" x="1230.67" y="690.667">
+   <point/>
+  </object>
+  <object id="98" x="1896" y="706.667">
+   <point/>
+  </object>
+  <object id="99" x="2416" y="792">
+   <point/>
+  </object>
+  <object id="100" x="4580" y="860">
+   <point/>
+  </object>
+  <object id="101" x="4060" y="144">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="EnemigosTerrestres">
+  <properties>
+   <property name="entity" value="grounded"/>
+  </properties>
+  <object id="102" x="762" y="764">
+   <point/>
+  </object>
+  <object id="103" x="1750" y="825">
+   <point/>
+  </object>
+  <object id="104" x="4250" y="250">
+   <point/>
+  </object>
+  <object id="105" x="3462" y="314">
+   <point/>
+  </object>
+  <object id="106" x="4826" y="234">
+   <point/>
+  </object>
+  <object id="107" x="5078" y="134">
+   <point/>
+  </object>
+  <object id="108" x="4884" y="820">
+   <point/>
+  </object>
+  <object id="110" x="3650" y="675">
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup id="8" name="Muerte">
   <properties>
-   <property name="bool hurt" type="bool" value="true"/>
    <property name="collisionType" value="platform"/>
+   <property name="hurt" type="bool" value="true"/>
   </properties>
   <object id="76" x="3075" y="200" width="100" height="25"/>
   <object id="80" x="2450" y="525" width="75" height="25"/>

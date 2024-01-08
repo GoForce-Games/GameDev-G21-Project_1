@@ -25,6 +25,7 @@ bool NotAGoomba::Awake()
 	velCap.y = parameters.attribute("velCap_y").as_float();
 	actionRadius = parameters.attribute("actionRadius").as_float();
 	homeRadius = parameters.attribute("homeRadius").as_float();
+	homeInnerRadius = parameters.attribute("homeInnerRadius").as_float();
 	texturePath = parameters.attribute("texturepath").as_string();
 	moveDirection.Create(-1, 0);
 
@@ -32,6 +33,8 @@ bool NotAGoomba::Awake()
 		LoadAllAnimations();
 
 	currentAnimation = GetAnimation("idle");
+	leftWalk = GetAnimation("backwardAnim");
+	rightWalk = GetAnimation("forwardAnim");
 	state = EnemyState::IDLE;
 
 	return true;
@@ -51,7 +54,7 @@ bool NotAGoomba::Start()
 		pbody->body->SetSleepingAllowed(true);
 	}
 
-	SetPosition(position);
+	SetPosition(position, true);
 
 	return true;
 }
@@ -101,6 +104,10 @@ void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contac
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
 			app->entityManager->CacheEntity(this);
+		}
+		else {
+			Player* p = ((Player*)physB->boundEntity);
+			p->OnHurt();
 		}
 	}
 }
@@ -173,12 +180,10 @@ bool NotAGoomba::EnemyBehaviour(float dt)
 			movement.x *= speed*dt;
 			pbody->body->ApplyLinearImpulse(movement, pbody->body->GetPosition(),true);
 
-			if (moveDirection.x < 0)
-				LOG("Moving left. Current Speed: %f", pbody->body->GetLinearVelocity().x);
-
 			if (position.DistanceNoSqrt(app->entityManager->players[0]->position) > actionRadius * actionRadius * 1.25f) {
 				//Lost target, return to roaming
 				state = EnemyState::ROAMING;
+				pathToPlayer.Clear();
 			}
 		}
 		break;
@@ -194,6 +199,11 @@ bool NotAGoomba::EnemyBehaviour(float dt)
 	default:
 		break;
 	}
+
+	if (pbody->body->GetLinearVelocity().x > 0)
+		currentAnimation = rightWalk;
+	else
+		currentAnimation = leftWalk;
 
 	// Limit velocity per axis
 	pbody->body->SetLinearVelocity(b2Clamp(pbody->body->GetLinearVelocity(), -velCap, velCap));

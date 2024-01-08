@@ -137,13 +137,13 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			break;
 		}
 		
-		// L13: TODO 4: Fill a list of all adjancent nodes. 
+		// Fill a list of all adjancent nodes. 
 		// use the FindWalkableAdjacents function
 
 		PathList adjacent;
 		node->FindWalkableAdjacents(adjacent);
 		
-		// L13: TODO 5: Iterate adjancent nodes:
+		// Iterate adjancent nodes:
 		ListItem<PathNode>* neighbor = adjacent.list.start;
 		while (neighbor != nullptr){
 			// ignore the nodes already in the visited list

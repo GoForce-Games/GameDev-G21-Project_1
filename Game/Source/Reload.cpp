@@ -16,7 +16,7 @@ bool Reload::Awake(pugi::xml_node& conf)
 
 bool Reload::Start()
 {
-	// TODO Añadir los módulos a recargar
+	// TODO Añadir los módulos a recargar desde un xml (?)
 	moduleList.Add((Module*)app->tex);
 	moduleList.Add((Module*)app->audio);
 	moduleList.Add((Module*)app->physics);
