@@ -52,11 +52,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		player->parameters = config.child("player"); // Sobreescribe los datos del preset con los que hay en la escena
 	}
 
-	if (config.child("camera")) {
-		Camera* cam = app->entityManager->CreateCamera(player);
-		cam->parameters = config.child("camera"); // Sobreescribe los datos del preset con los que hay en la escena
-	}
-
 	if (config.child("map")) {
 		//Get the map name from the config file and assigns the value in the module
 		app->map->name = config.child("map").attribute("name").as_string();
@@ -159,7 +154,7 @@ bool Scene::PostUpdate()
 
 		if (timer.ReadSec() >= waitTimeInSec) {
 
-			app->render->DrawTexture(img, /*(int)textPosX + */ app->entityManager->mainCamera->position.x, /*(int)textPosY + */app->entityManager->mainCamera->position.y);
+			app->render->DrawTexture(img, /*(int)textPosX + */ app->render->cam->position.x, /*(int)textPosY + */app->render->cam->position.y);
 		}
 	}
 

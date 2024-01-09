@@ -26,8 +26,8 @@ bool Camera::Awake()
 	}
 	camSpeed = parameters.attribute("speed").as_float();
 
-	offset.x = parameters.attribute("offset_x").as_float();
-	offset.y = parameters.attribute("offset_y").as_float();
+	offset.x = parameters.attribute("offset_x").as_float(0);
+	offset.y = parameters.attribute("offset_y").as_float(0);
 	offset.x -= app->win->screenSurface->w / 2;
 	offset.y -= app->win->screenSurface->h / 2;
 	
@@ -55,13 +55,12 @@ bool Camera::Update(float dt)
 	if (target != nullptr) {
 		iPoint pos = target->position;
 		//TODO potser s'ha de canviar una mica per a que el personatge quedi al centre
-		position.x = rect.x = LERP(rect.x, pos.x + offset.x + targetOffset.x, camSpeed * dt);
-		position.y = rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
+		rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
 	}
 
 	//Prevent from going beyond world bounds
-	rect.x = position.x = b2Clamp(position.x, 0, mapBounds.x - rect.w);
-	rect.y = position.y = b2Clamp(position.y, 0, mapBounds.y - rect.h);
+	position.x = rect.x = b2Clamp(rect.x, 0, mapBounds.x - rect.w);
+	position.y = rect.y = b2Clamp(rect.y, 0, mapBounds.y - rect.h);
 	
 	return true;
 }

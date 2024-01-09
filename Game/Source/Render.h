@@ -33,6 +33,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void SetCamera(Camera* nCam);
 	void SetViewPort(const SDL_Rect& rect);
 	void ResetViewPort();
 
@@ -55,11 +56,12 @@ public:
 public:
 
 	SDL_Renderer* renderer;
-	SDL_Rect camera;
+	SDL_Rect camera{ 0,0,0,0 };
 	SDL_Rect viewport;
 	SDL_Color background;
+	TTF_Font* font;
 
-	Camera* cam;
+	Camera* cam = nullptr;
 	iPoint camDebugOffset{0,0};
 };
 

@@ -136,7 +136,7 @@ Camera* EntityManager::CreateCamera(Entity* target)
 	camera->parameters = entityPresets.child(camera->name.GetString());
 	entities.Add(camera);
 	cameras.Add(camera);
-	if (mainCamera == nullptr) {
+	if (app->render->cam == nullptr) {
 		SetMainCamera(camera); // If there's no main camera, assign this camera as it
 	}
 	if (target != nullptr)
@@ -223,14 +223,13 @@ Entity* EntityManager::GetEntityFromCache(EntityType type)
 
 void EntityManager::SetMainCamera(Camera* c)
 {
-	app->render->cam = mainCamera = c;
-	if (c != nullptr && c->GetTarget() == nullptr && players.Count() > 0) {
-		c->SetTarget(players[0]);
+	if (c != nullptr) {
+		app->render->SetCamera(c);
+		if (c->GetTarget() == nullptr && players.Count() > 0) {
+			c->SetTarget(players[0]);
+		}
 	}
 }
-
-
-
 
 bool EntityManager::Update(float dt)
 {

@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "Physics.h"
 #include "Reload.h"
+#include "GuiManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -34,6 +35,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	entityManager = new EntityManager();
+	guiManager = new GuiManager();
 	reload = new Reload();
 
 
@@ -47,6 +49,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(map);
 	AddModule(entityManager);
+	AddModule(guiManager);
 	AddModule(reload);
 
 	// Render last to swap buffer

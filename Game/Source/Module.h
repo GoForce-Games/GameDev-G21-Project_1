@@ -7,6 +7,8 @@
 
 class App;
 
+class GuiControl;
+
 class Module
 {
 public:

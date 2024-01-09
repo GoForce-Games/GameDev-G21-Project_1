@@ -64,7 +64,6 @@ public:
 	List<Entity*> entityCache; // List of unused entities
 
 	pugi::xml_node entityPresets;
-	Camera* mainCamera;
 
 };
 

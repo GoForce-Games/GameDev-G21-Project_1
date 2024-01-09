@@ -224,4 +224,7 @@
   <ItemGroup>
     <None Include="..\README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="Source\External\SDL_ttf\libx86\SDL2_ttf.lib" />
+  </ItemGroup>
 </Project>

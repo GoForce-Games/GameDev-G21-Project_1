@@ -65,6 +65,10 @@ bool Player::Start() {
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
+	Camera* cam = app->render->cam;
+	if (cam != nullptr && cam->GetTarget() == nullptr)
+		cam->SetTarget(this);
+
 	return true;
 }
 

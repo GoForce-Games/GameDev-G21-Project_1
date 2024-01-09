@@ -44,11 +44,9 @@ bool Render::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		cam = app->entityManager->mainCamera;
 		if (cam == nullptr) {
 			// This is just fallback code to prevent crashes
-			app->entityManager->CreateCamera(nullptr);
-			cam->Awake();
+			cam = app->entityManager->CreateCamera(nullptr);
 		}
 
 		camera.w = app->win->screenSurface->w;
@@ -56,6 +54,12 @@ bool Render::Awake(pugi::xml_node& config)
 		camera.x = 0;
 		camera.y = 0;
 	}
+
+	//initialise the SDL_ttf library
+	TTF_Init();
+
+	//load a font into memory
+	font = TTF_OpenFont("Assets/Fonts/arial/arial.ttf", 25);
 
 	return ret;
 }
@@ -100,7 +104,7 @@ bool Render::Update(float dt)
 
 bool Render::PostUpdate()
 {
-	if (cam != nullptr) {
+	if (cam) {
 		camera.x = -cam->rect.x + camDebugOffset.x;
 		camera.y = -cam->rect.y + camDebugOffset.y;
 	}
@@ -127,6 +131,12 @@ bool Render::CleanUp()
 void Render::SetBackgroundColor(SDL_Color color)
 {
 	background = color;
+}
+
+void Render::SetCamera(Camera* nCam)
+{
+	if (nCam)
+		cam = nCam;
 }
 
 void Render::SetViewPort(const SDL_Rect& rect)
