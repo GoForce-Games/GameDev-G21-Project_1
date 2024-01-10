@@ -71,23 +71,13 @@ bool NotAGoomba::CleanUp(bool reuse)
 
 bool NotAGoomba::LoadState(pugi::xml_node& node)
 {
-	int x;
-	int y;
-	x = (node.attribute("x").as_int());
-	y = (node.attribute("y").as_int());
-	position.x = x;
-	position.y = y;
-	SetPosition(position, false);
-	return true;
+	return Enemy::LoadState(node);
 }
 
 bool NotAGoomba::SaveState(pugi::xml_node& node)
 {
-	pugi::xml_node GoombaNode = node;
-	GoombaNode.append_attribute("x").set_value(position.x);
-	GoombaNode.append_attribute("y").set_value(position.y);
 
-	return true;
+	return Enemy::SaveState(node);
 }
 
 void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo)

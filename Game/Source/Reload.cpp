@@ -2,7 +2,7 @@
 #include "App.h"
 
 Reload::Reload() {
-
+	name.Create("reloader");
 }
 
 Reload::~Reload() {

@@ -33,6 +33,7 @@ bool HealerItem::Start() {
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::ITEM;
 	pbody->listener = this;
+	pbody->body->SetGravityScale(0);
 
 	return true;
 }

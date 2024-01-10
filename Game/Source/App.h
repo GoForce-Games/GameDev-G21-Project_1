@@ -85,7 +85,7 @@ private:
 	bool LoadFromFile();
 
 	// Sace XML file with modules data
-	bool SaveFromFile();
+	bool SaveToFile();
 
 public:
 

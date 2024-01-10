@@ -37,6 +37,18 @@ bool Scene::Awake(pugi::xml_node& config)
 	LOG("Loading Scene");
 	bool ret = true;
 
+	if (config.child("map")) {
+		//Get the map name from the config file and assigns the value in the module
+		app->map->name = config.child("map").attribute("name").as_string();
+		app->map->path = config.child("map").attribute("path").as_string();
+	}
+
+	if (config.child("gameover")) {
+		gameOverScreenTexturePath = config.child("gameover").attribute("path").as_string();
+	}
+
+	//TODO: GET RID OF THIS ENTITY SPAWNING CODE FOR THE LOVE OF GOD, WE ALREADY HAVE ENTITY SPAWNING FROM MAP
+
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
 	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
@@ -53,16 +65,6 @@ bool Scene::Awake(pugi::xml_node& config)
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 		player->parameters = config.child("player"); // Sobreescribe los datos del preset con los que hay en la escena
-	}
-
-	if (config.child("map")) {
-		//Get the map name from the config file and assigns the value in the module
-		app->map->name = config.child("map").attribute("name").as_string();
-		app->map->path = config.child("map").attribute("path").as_string();
-	}
-
-	if (config.child("gameover")) {
-		gameOverScreenTexturePath = config.child("gameover").attribute("path").as_string();
 	}
 
 	return ret;

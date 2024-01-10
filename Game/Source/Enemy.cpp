@@ -5,6 +5,8 @@
 
 #include "Pathfinding.h"
 
+#include "EnumUtils.h"
+
 bool Enemy::Update(float dt)
 {
     bool ret = true;
@@ -30,6 +32,53 @@ bool Enemy::Update(float dt)
 	}
 
     return ret;
+}
+
+bool Enemy::CleanUp(bool reuse)
+{
+	if (!reuse) {
+		for (ListItem<Animation*>* item = animationList.start; item; item = item->next)
+		{
+			RELEASE(item->data);
+		}
+		animationList.Clear();
+		app->tex->UnLoad(texture);
+		texture = nullptr;
+	}
+	else {
+		currentAnimation = GetAnimation("Idle");
+	}
+	return Entity::CleanUp();
+}
+
+bool Enemy::LoadState(pugi::xml_node& objNode)
+{
+	iPoint pos;
+	pos.x = objNode.attribute("home_x").as_int();
+	pos.y = objNode.attribute("home_y").as_int();
+	SetPosition(pos, true);
+	
+	pos.x = objNode.attribute("x").as_int();
+	pos.y = objNode.attribute("y").as_int();
+	SetPosition(pos, false);
+
+	moveDirection.x = objNode.attribute("moveDir_x").as_int();
+	moveDirection.y = objNode.attribute("moveDir_y").as_int();
+	
+	return true;
+}
+
+bool Enemy::SaveState(pugi::xml_node& objNode)
+{
+	objNode.append_attribute("x").set_value(position.x);
+	objNode.append_attribute("y").set_value(position.y);
+	objNode.append_attribute("home_x").set_value(home.x);
+	objNode.append_attribute("home_y").set_value(home.y);
+	objNode.append_attribute("moveDir_x").set_value(moveDirection.x);
+	objNode.append_attribute("moveDir_y").set_value(moveDirection.y);
+	objNode.append_attribute("entityType").set_value(enum2val(this->type));
+
+	return true;
 }
 
 bool Enemy::FindPath(iPoint& destination)

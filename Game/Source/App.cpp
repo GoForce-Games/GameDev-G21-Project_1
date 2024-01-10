@@ -229,7 +229,7 @@ void App::FinishUpdate()
 
 	if (saveRequest) {
 		saveRequest = false;
-		SaveFromFile();
+		SaveToFile();
 	}
 }
 
@@ -392,7 +392,7 @@ bool App::LoadFromFile() {
 
 }
 
-bool App::SaveFromFile() {
+bool App::SaveToFile() {
 
 	bool ret = true;
 

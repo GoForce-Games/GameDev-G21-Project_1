@@ -4,6 +4,7 @@
 #include "Item.h"
 #include "NotAGoomba.h"
 #include "FlyingEnemy.h"
+#include "HealerItem.h"
 
 #include "App.h"
 #include "Textures.h"
@@ -104,7 +105,7 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 		{// TODO add new entities here
 		case EntityType::PLAYER:			entity = players.Add(new Player())->data; break;
 		case EntityType::ITEM:				entity = new Item(); break;
-		case EntityType::HEALERITEM:        entity = new Item(); break;
+		case EntityType::HEALERITEM:        entity = new HealerItem(); break;
 		case EntityType::CAMERA:
 			LOG("Use CreateCamera() to create cameras!");
 			return CreateCamera(nullptr);
@@ -265,7 +266,7 @@ bool EntityManager::Update(float dt)
 }
 
 bool EntityManager::LoadState(pugi::xml_node node) {
-	// TODO: mover esto a un "ReloadInstant()" en el modulo Reload o buscar un mejor método para cargar partida guardada en el gestor de entidades
+	// TODO: cambiar esto para no necesitar desactivar y reactivar modulos
 	app->map->Disable();
 	this->Disable();
 	app->physics->Disable();
@@ -276,7 +277,6 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 	
 	pugi::xml_node managerNode = node.child("entitymanager");
 
-	
 	for (pugi::xml_node entityNode = managerNode.first_child(); entityNode; entityNode = entityNode.next_sibling()) {
 		SString entityName(entityNode.name());
 
@@ -307,10 +307,19 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 				}
 			}
 		}
+		else if (entityName == "flyingEnemy") {
+			Entity* entity = CreateEntity(EntityType::ENEMY_FLYING, entityNode);
+			if (entity != nullptr) {
+				FlyingEnemy* flyingEnemy = dynamic_cast<FlyingEnemy*>(entity);
+				if (flyingEnemy != nullptr) {
+					flyingEnemy->LoadState(entityNode);
+				}
+			}
+		}
 		else if (entityName == "healeritem") {
 			Entity* entity = CreateEntity(EntityType::HEALERITEM, entityNode);
 			if (entity != nullptr) {
-				Item* item = dynamic_cast<Item*>(entity);
+				HealerItem* item = dynamic_cast<HealerItem*>(entity);
 				if (item != nullptr) {
 					item->LoadState(entityNode);
 				}
@@ -327,7 +336,6 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 	for (ListItem<Entity*>* item = entities.start; item != NULL; item = item->next) {
 		pugi::xml_node entityNode = managerNode.append_child(item->data->name.GetString());
 		item->data->SaveState(entityNode);
-
 	}
 	return true;
 }

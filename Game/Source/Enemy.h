@@ -23,39 +23,15 @@ public:
 	~Enemy() {}
 
 	virtual bool Awake() = 0;
-
 	virtual bool Start() = 0;
-
 	virtual bool Update(float dt);
-
 	virtual void OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInfo) {}
+	virtual bool CleanUp(bool reuse = false);
 
-	virtual bool CleanUp(bool reuse = false)
-	{
-		if (!reuse) {
-			for (ListItem<Animation*>* item = animationList.start; item; item = item->next)
-			{
-				RELEASE(item->data);
-			}
-			animationList.Clear();
-			app->tex->UnLoad(texture);
-			texture = nullptr;
-		}
-		else {
-			currentAnimation = GetAnimation("Idle");
-		}
-		return Entity::CleanUp();
-	}
+	virtual bool LoadState(pugi::xml_node& objNode) override;
+	virtual bool SaveState(pugi::xml_node& objNode) override;
 
-	void Disable() override {
-		if (active)
-		{
-			active = false;
-			CleanUp();
-		}
-	}
-
-	void SetPosition(const iPoint& newPos, bool newHome = false) {
+	void SetPosition(const iPoint& newPos, bool newHome) {
 		Entity::SetPosition(newPos);
 		if (newHome)
 			home = newPos;
