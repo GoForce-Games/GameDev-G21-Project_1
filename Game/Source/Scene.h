@@ -56,8 +56,15 @@ private:
 
 	SString gameOverScreenTexturePath;
 
-	
-	GuiControlButton* gcButtom;
+	bool pause = false;
+
+	int points = 0;
+
+	GuiControlButton* pauseButtom;
+	GuiControlButton* exitpauseButtom;
+
+	GuiControlButton* puntuation;
+
 
 };
 

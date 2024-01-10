@@ -10,6 +10,9 @@
 #include "Reload.h"
 #include "Timer.h"
 #include "SDL\include\SDL_timer.h"
+#include "GuiControl.h"
+#include "GuiManager.h"
+#include "GuiControlButton.h"
 
 #include "Camera.h"
 
@@ -97,7 +100,10 @@ bool Scene::Start()
 
 	//if (app->entityManager->mainCamera != nullptr)
 		//app->entityManager->mainCamera->SetTarget(player);
-
+	SDL_Rect btPos = { windowW / 25, windowH / 25, 120,30 };
+	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Pause", btPos, this);
+	/*SDL_Rect btPos1 = { windowW / 25, windowH / 25, 120,30 };
+	puntuation = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "%t" &points, btPos1, this);*/
 	return true;
 }
 
@@ -136,6 +142,16 @@ bool Scene::Update(float dt)
 	if (app->debug)
 		DebugActions();
 
+	if (pauseButtom->state == GuiControlState::PRESSED) {
+		pause == true;
+	}
+	if (exitpauseButtom->state == GuiControlState::PRESSED) {
+		pause == false;
+	}
+	if (pause == true) {
+		SDL_Rect btPos = { windowW / 2, windowH / 2, 120,30 };
+		exitpauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Exit", btPos, this);
+	}
 
 	return true;
 }
