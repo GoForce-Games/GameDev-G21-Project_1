@@ -147,7 +147,7 @@
     <item x="3600" y="100" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="3160" y="100" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="3256" y="100" texturepath="Assets/Textures/goldCoin.png"/>
-	<healeritem x="10" y="700" texturepath="Assets/Textures/player1.png"/>
+	<healeritem x="150" y="700" texturepath="Assets/Textures/Champiñon.png"/>
   </scene>
 
 	<entitymanager>
@@ -223,7 +223,7 @@
 				</animation>
 			</flyingEnemy>
 			<item x="256" y="800" texturepath="Assets/Textures/goldCoin.png"/>
-			<healeritem x="10" y="700" texturepath="Assets/Textures/player1.png"/>
+			<healeritem x="150" y="700" texturepath="Assets/Textures/Champiñon.png"/>
 			<camera speed="0.02"/>
 		</entitypresets>
 	</entitymanager>

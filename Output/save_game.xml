@@ -9,7 +9,10 @@
 	<:anonymous />
 	<entitymanager>
 		<entitymanager>
+			<item x="256" y="800" />
 			<item x="421" y="752" />
+			<item x="199" y="800" />
+			<item x="126" y="700" />
 			<item x="756" y="700" />
 			<item x="725" y="700" />
 			<item x="746" y="800" />
@@ -56,21 +59,22 @@
 			<item x="3600" y="100" />
 			<item x="3160" y="100" />
 			<item x="3255" y="100" />
-			<player x="235" y="867" />
+			<healeritem x="150" y="700" />
+			<player x="100" y="867" />
 			<camera />
-			<flyingEnemy x="507" y="661" home_x="498" home_y="669" moveDir_x="1" moveDir_y="10" entityType="6" />
-			<flyingEnemy x="1239" y="682" home_x="1230" home_y="690" moveDir_x="1" moveDir_y="10" entityType="6" />
-			<flyingEnemy x="1835" y="708" home_x="1896" home_y="706" moveDir_x="1" moveDir_y="0" entityType="6" />
-			<flyingEnemy x="2425" y="784" home_x="2416" home_y="792" moveDir_x="1" moveDir_y="10" entityType="6" />
-			<flyingEnemy x="4589" y="852" home_x="4580" home_y="860" moveDir_x="1" moveDir_y="10" entityType="6" />
-			<flyingEnemy x="4069" y="136" home_x="4060" home_y="144" moveDir_x="1" moveDir_y="10" entityType="6" />
-			<notGoomba x="750" y="758" home_x="762" home_y="764" moveDir_x="1" moveDir_y="0" entityType="5" />
-			<notGoomba x="1738" y="833" home_x="1750" home_y="825" moveDir_x="1" moveDir_y="0" entityType="5" />
-			<notGoomba x="4234" y="233" home_x="4250" home_y="250" moveDir_x="1" moveDir_y="0" entityType="5" />
-			<notGoomba x="3458" y="308" home_x="3462" home_y="314" moveDir_x="1" moveDir_y="0" entityType="5" />
-			<notGoomba x="4814" y="233" home_x="4826" home_y="234" moveDir_x="1" moveDir_y="0" entityType="5" />
-			<notGoomba x="5066" y="133" home_x="5078" home_y="134" moveDir_x="1" moveDir_y="0" entityType="5" />
-			<notGoomba x="4872" y="808" home_x="4884" home_y="820" moveDir_x="1" moveDir_y="0" entityType="5" />
+			<flyingEnemy x="462" y="685" home_x="498" home_y="669" moveDir_x="-1" moveDir_y="-14" entityType="6" />
+			<flyingEnemy x="1194" y="706" home_x="1230" home_y="690" moveDir_x="-1" moveDir_y="-14" entityType="6" />
+			<flyingEnemy x="1893" y="694" home_x="1896" home_y="706" moveDir_x="-1" moveDir_y="0" entityType="6" />
+			<flyingEnemy x="2380" y="808" home_x="2416" home_y="792" moveDir_x="-1" moveDir_y="-14" entityType="6" />
+			<flyingEnemy x="4544" y="876" home_x="4580" home_y="860" moveDir_x="-1" moveDir_y="-14" entityType="6" />
+			<flyingEnemy x="4024" y="160" home_x="4060" home_y="144" moveDir_x="-1" moveDir_y="-14" entityType="6" />
+			<notGoomba x="741" y="758" home_x="762" home_y="764" moveDir_x="-1" moveDir_y="0" entityType="5" />
+			<notGoomba x="1729" y="833" home_x="1750" home_y="825" moveDir_x="-1" moveDir_y="0" entityType="5" />
+			<notGoomba x="4230" y="233" home_x="4250" home_y="250" moveDir_x="-1" moveDir_y="0" entityType="5" />
+			<notGoomba x="3427" y="308" home_x="3462" home_y="314" moveDir_x="-1" moveDir_y="0" entityType="5" />
+			<notGoomba x="4805" y="233" home_x="4826" home_y="234" moveDir_x="-1" moveDir_y="0" entityType="5" />
+			<notGoomba x="5057" y="133" home_x="5078" home_y="134" moveDir_x="-1" moveDir_y="0" entityType="5" />
+			<notGoomba x="4863" y="808" home_x="4884" home_y="820" moveDir_x="-1" moveDir_y="0" entityType="5" />
 			<notGoomba x="3608" y="733" home_x="3650" home_y="675" moveDir_x="1" moveDir_y="0" entityType="5" />
 		</entitymanager>
 	</entitymanager>

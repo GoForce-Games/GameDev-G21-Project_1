@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Log.h"
+#include "Audio.h"
 
 FlyingEnemy::FlyingEnemy() : Enemy(EntityType::ENEMY_FLYING)
 {
@@ -28,6 +29,7 @@ bool FlyingEnemy::Awake()
 	homeInnerRadius = parameters.attribute("homeInnerRadius").as_float();
 	texturePath = parameters.attribute("texturepath").as_string();
 	moveDirection.Create(-1, 0);
+	
 
 	if (animationList.Count() == 0)
 		LoadAllAnimations();
@@ -40,8 +42,12 @@ bool FlyingEnemy::Awake()
 
 bool FlyingEnemy::Start()
 {
-	if (texture == nullptr)
+
+
+	if (texture == nullptr) {
 		texture = app->tex->Load(texturePath.GetString());
+		deathsound = app->audio->LoadFx("Assets/Audio/Fx/Donkey Kong Country 2 Kritter Sound Effect.ogg");
+	}
 
 	if (pbody == nullptr) {
 		pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
@@ -91,7 +97,9 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* conta
 		if (d.y < 0.0f && abs(d.x) < 0.5f) {
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
+			app->audio->PlayFx(deathsound);
 			app->entityManager->CacheEntity(this);
+
 		}
 		else {
 			Player* p = ((Player*)physB->boundEntity);

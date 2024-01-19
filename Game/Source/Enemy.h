@@ -64,6 +64,7 @@ public:
 	SDL_Texture* texture = nullptr;
 	Animation* currentAnimation = nullptr;
 	List<Animation*> animationList;
+	int deathsound;
 
 };
 

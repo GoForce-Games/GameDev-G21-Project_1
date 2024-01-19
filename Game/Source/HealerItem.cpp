@@ -9,7 +9,6 @@
 #include "Point.h"
 #include "Physics.h"
 
-
 HealerItem::HealerItem() : Entity(EntityType::HEALERITEM)
 {
 	name.Create("healeritem");
@@ -31,9 +30,9 @@ bool HealerItem::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
-	pbody->ctype = ColliderType::ITEM;
+	pbody->ctype = ColliderType::HEALERITEM;
 	pbody->listener = this;
-	pbody->body->SetGravityScale(0);
+	pbody->body->SetGravityScale(0.00);
 
 	return true;
 }

@@ -45,7 +45,11 @@ public:
 
 	Timer timer;
 
+	int guipoints = 0;
+	int guilives = 0;
+
 private:
+	int falldeath;
 	SDL_Texture* img;
 	float textPosX, textPosY = 0;
 	uint texW, texH;

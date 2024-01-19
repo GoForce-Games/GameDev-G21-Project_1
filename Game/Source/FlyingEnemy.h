@@ -36,6 +36,10 @@ private:
 
 	SString texturePath;
 
+	
+
+
+
 
 };
 

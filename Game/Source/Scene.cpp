@@ -20,6 +20,7 @@
 #include "Log.h"
 #include "Enemy.h"
 #include "HealerItem.h"
+#include "Player.h"
 
 Scene::Scene() : Module()
 {
@@ -81,6 +82,10 @@ bool Scene::Start()
 	//Music is commented so that you can add your own music
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
+	/*app->audio->PlayMusic("Assets/Audio/Music/Algo.ogg");*/ //No descomentar esto si amas tu capacidad auditiva, no entiendo porque se reproduce asi
+
+	falldeath = app->audio->LoadFx("Assets/Audio/Fx/fall-death-sound.mp3");
+
 	// Set mapSize to 0 in case the map was changed
 	mapSize.Create(0, 0);
 
@@ -104,9 +109,17 @@ bool Scene::Start()
 		//app->entityManager->mainCamera->SetTarget(player);
 	SDL_Rect btPos = { windowW / 25, windowH / 25, 120,30 };
 	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Pause", btPos, this);
+	guilives = app->entityManager->players[0]->live_points;
+	SDL_Rect btPos1 = { windowW - 125, windowH - 735, 30,20 };
+	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "3" /*&guilives*/, btPos1, this);
+	guipoints = app->entityManager->players[0]->points;
+	SDL_Rect btPos2 = { windowW - 55, windowH - 735, 50,20 };
+	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "1000" /*&guipoints*/ , btPos2, this);
+
 	/*SDL_Rect btPos1 = { windowW / 25, windowH / 25, 120,30 };
 	puntuation = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "%t" &points, btPos1, this);*/
 	return true;
+	
 }
 
 // Called each loop iteration
@@ -128,6 +141,7 @@ bool Scene::Update(float dt)
 	//If player is out of the map, kill them
 	if (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y > mapSize.y + player->pbody->height) {
 		player->OnDeath();
+		app->audio->PlayFx(falldeath);
 	}
 
 

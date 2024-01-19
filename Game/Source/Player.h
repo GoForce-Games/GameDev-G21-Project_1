@@ -42,6 +42,7 @@ public:
 private:
 	
 	void OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody);
+	void OnHealerCollision(PhysBody* thisBody, PhysBody* healerBody);
 
 	void OnPlatformCollision(PhysBody* thisBody, PhysBody* wallBody, b2Contact* contactInfo);
 
@@ -56,10 +57,13 @@ public:
 	SDL_Texture* texture = NULL;
 	
 	int pickCoinFxId;
+	int jumpFxId;
 
 	bool alive = true;
 
 	int live_points = 3;
+
+	int points = 0;
 
 	
 private:

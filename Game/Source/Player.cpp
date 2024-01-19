@@ -64,6 +64,7 @@ bool Player::Start() {
 	gravityScale = pbody->body->GetGravityScale();
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	/*jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");*/
 
 	Camera* cam = app->render->cam;
 	if (cam != nullptr && cam->GetTarget() == nullptr)
@@ -113,11 +114,11 @@ bool Player::Update(float dt)
 	{
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumpsAvailable > 0) {
-			impulse.y -= jumpPower;
-			jumpsAvailable--;
+  			impulse.y -= jumpPower;
+  			jumpsAvailable--;
 			currentAnimation = forwardjump;
 			grounded = false;
-			
+			app->audio->PlayFx(jumpFxId);
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
@@ -199,6 +200,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contactInf
 		LOG("Collision ITEM");
 		OnCoinCollision(physA, physB);
 		break;
+	case ColliderType::HEALERITEM:
+		LOG("Collision HEALERITEM");
+		OnHealerCollision(physA, physB);
+		break;
 	case ColliderType::PLATFORM:{
 		LOG("Collision PLATFORM");
 		OnPlatformCollision(physA, physB, contactInfo);
@@ -250,8 +255,12 @@ iPoint Player::GetOrigin() const
 
 void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
 {
-	live_points++;
+	
+	points = +100;
 	app->audio->PlayFx(pickCoinFxId);
+}
+void Player::OnHealerCollision(PhysBody* thisBody, PhysBody* healerBody) {
+	live_points++;
 }
 
 
