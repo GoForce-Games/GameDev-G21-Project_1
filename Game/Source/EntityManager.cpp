@@ -163,7 +163,7 @@ Entity* EntityManager::CreateEntityFromMapData(SString name, pugi::xml_node obje
 		entity = CreateEntity(EntityType::PLAYER, objectData);
 	else if (name == "item")
 		entity = CreateEntity(EntityType::ITEM, objectData);
-	else if (strcmp(name.GetString(), "healeritem") == 0)
+	else if (name == "healeritem")
 		entity = CreateEntity(EntityType::HEALERITEM, objectData);
 
 	return entity;
@@ -252,6 +252,7 @@ bool EntityManager::Update(float dt)
 			continue;
 		}
 		if (pEntity->active == false) continue;
+		
 		ret = item->data->Update(dt);
 	}
 

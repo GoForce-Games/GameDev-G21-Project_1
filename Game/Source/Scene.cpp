@@ -52,21 +52,14 @@ bool Scene::Awake(pugi::xml_node& config)
 
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
-	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
-	{
-		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
-		item->parameters = itemNode;
-	}
+	
 	for (pugi::xml_node itemNode = config.child("healeritem"); itemNode; itemNode = itemNode.next_sibling("healeritem"))
 	{
 		HealerItem* item = (HealerItem*)app->entityManager->CreateEntity(EntityType::HEALERITEM);
 		item->parameters = itemNode;
 	}
 
-	if (config.child("player")) {
-		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-		player->parameters = config.child("player"); // Sobreescribe los datos del preset con los que hay en la escena
-	}
+	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 
 	return ret;
 }

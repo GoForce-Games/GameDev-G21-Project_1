@@ -291,7 +291,7 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 
 void Player::LoadAllAnimations()
 {
-	for (pugi::xml_node animNode = parameters.child("animation"); animNode; animNode = animNode.next_sibling())
+	for (pugi::xml_node animNode = parameters.child("animations").child("animation"); animNode; animNode = animNode.next_sibling())
 	{
 		Animation* anim = new Animation();
 
