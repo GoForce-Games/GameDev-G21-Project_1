@@ -202,8 +202,10 @@ void EntityManager::CacheEntity(Entity* entity)
 {
 	RemoveEntity(entity);
 	entityCache.Add(entity);
+	entity->setToDestroy = false;
 }
 
+//Accessed by CreateEntity ONLY
 Entity* EntityManager::GetEntityFromCache(EntityType type)
 {
 	Entity* ret = nullptr;
@@ -224,11 +226,15 @@ Entity* EntityManager::GetEntityFromCache(EntityType type)
 
 void EntityManager::SetMainCamera(Camera* c)
 {
+	app->render->SetCamera(c);
 	if (c != nullptr) {
-		app->render->SetCamera(c);
+		LOG("Main camera set. Render camera will move");
 		if (c->GetTarget() == nullptr && players.Count() > 0) {
 			c->SetTarget(players[0]);
 		}
+	}
+	else {
+		LOG("Main camera set to NULL. Render camera will not move");
 	}
 }
 
@@ -242,13 +248,7 @@ bool EntityManager::Update(float dt)
 	{
 		pEntity = item->data;
 		if (pEntity->setToDestroy) {
-			if (pEntity->type == EntityType::ENEMY_GROUNDED || pEntity->type == EntityType::ENEMY_FLYING)
-			{
-				RemoveEntity(pEntity);
-				entityCache.Add(pEntity);
-			}
-			else
-				DestroyEntity(pEntity);
+			CacheEntity(pEntity);
 			continue;
 		}
 		if (pEntity->active == false) continue;
@@ -260,6 +260,12 @@ bool EntityManager::Update(float dt)
 			item->data->SetActive(false);
 			item->data->SetPosition({ -10000,10000 });
 		}
+	}
+
+	if (app->render->cam == nullptr) {
+		Camera* cam = CreateCamera();
+		if (players.Count() > 0)
+			cam->SetTarget(players[0]);
 	}
 
 	return ret;

@@ -55,6 +55,7 @@ bool Camera::Update(float dt)
 	if (target != nullptr) {
 		iPoint pos = target->position;
 		//TODO potser s'ha de canviar una mica per a que el personatge quedi al centre
+		rect.x = LERP(rect.x, pos.x + offset.x + targetOffset.x, camSpeed * dt);
 		rect.y = LERP(rect.y, pos.y + offset.y + targetOffset.y, camSpeed * dt);
 	}
 
@@ -67,6 +68,7 @@ bool Camera::Update(float dt)
 
 bool Camera::CleanUp()
 {
+	app->entityManager->SetMainCamera(nullptr);
 	target = nullptr;
 	return true;
 }
@@ -82,6 +84,8 @@ bool Camera::DebugDraw()
 void Camera::SetTarget(Entity* e)
 {
 	if (e != nullptr) {
+		if (target)
+			target->BindCamera(nullptr);
 		target = e;
 		e->BindCamera(this);
 		targetOffset = e->GetOrigin();

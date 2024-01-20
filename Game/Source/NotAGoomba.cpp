@@ -93,7 +93,7 @@ void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contac
 		if (d.y < 0.0f && abs(d.x) < 0.5f) {
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
-			app->entityManager->CacheEntity(this);
+			SetToDestroy(false);
 		}
 		else {
 			Player* p = ((Player*)physB->boundEntity);

@@ -98,7 +98,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* conta
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
 			app->audio->PlayFx(deathsound);
-			app->entityManager->CacheEntity(this);
+			SetToDestroy(false);
 
 		}
 		else {

@@ -47,7 +47,6 @@ public:
 
 	void CacheEntity(Entity* entity);
 
-	Entity* GetEntityFromCache(EntityType type);
 
 	void SetMainCamera(Camera* c);
 
@@ -55,6 +54,10 @@ public:
 
 	bool SaveState(pugi::xml_node node);
 
+private:
+
+	Entity* GetEntityFromCache(EntityType type);
+	
 public:
 
 	List<Entity*> entities;

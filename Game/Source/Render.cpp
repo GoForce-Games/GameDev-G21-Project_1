@@ -135,7 +135,6 @@ void Render::SetBackgroundColor(SDL_Color color)
 
 void Render::SetCamera(Camera* nCam)
 {
-	if (nCam)
 		cam = nCam;
 }
 
