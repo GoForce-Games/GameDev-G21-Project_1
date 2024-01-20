@@ -92,6 +92,7 @@ private:
 
 	bool godMode = false;
 	float gravityScale;
+	float linearDamping;
 
 };
 

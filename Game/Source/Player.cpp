@@ -40,6 +40,7 @@ bool Player::Awake() {
 	maxSlope = parameters.attribute("maxPlatformAngle").as_float();
 	maxSlope = sin(maxSlope);
 	alive = true;
+	linearDamping = 1.0f;
 
 	LoadAllAnimations();
 
@@ -57,7 +58,8 @@ bool Player::Start() {
 	pbody = app->physics->CreateCircle(position.x + playerHSize.x, position.y + playerHSize.y, playerHSize.x, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::PLAYER;
-	pbody->body->SetLinearDamping(1.0f);
+	pbody->body->GetFixtureList()->SetFriction(2.0);
+	pbody->body->SetLinearDamping(linearDamping);
 	pbody->body->SetFixedRotation(true);
 	pbody->body->SetSleepingAllowed(false);
 	pbody->boundEntity = this;
@@ -86,6 +88,7 @@ bool Player::Update(float dt)
 	if (godMode) {
 
 		pbody->body->SetGravityScale(0);
+		pbody->body->SetLinearDamping(5.0f);
 
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			impulse.y -= accel;
@@ -106,8 +109,10 @@ bool Player::Update(float dt)
 
 		}
 	}
-	else if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_UP)
+	else if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_UP) {
 		pbody->body->SetGravityScale(gravityScale);
+		pbody->body->SetLinearDamping(linearDamping);
+	}
 
 
 	if (alive)

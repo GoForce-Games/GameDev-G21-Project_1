@@ -53146,6 +53146,9 @@
   </object>
  </objectgroup>
  <objectgroup id="13" name="ObjsCura">
+  <properties>
+   <property name="entity" value="healeritem"/>
+  </properties>
   <object id="161" x="150" y="700">
    <point/>
   </object>

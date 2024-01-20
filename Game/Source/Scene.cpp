@@ -59,7 +59,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		item->parameters = itemNode;
 	}
 
-	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 
 	return ret;
 }
@@ -67,6 +66,7 @@ bool Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene::Start()
 {
+	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 
 	// NOTE: We have to avoid the use of paths in the code, we will move it later to a config file
 	//img = app->tex->Load("Assets/Textures/test.png");
@@ -111,6 +111,8 @@ bool Scene::Start()
 
 	/*SDL_Rect btPos1 = { windowW / 25, windowH / 25, 120,30 };
 	puntuation = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "%t" &points, btPos1, this);*/
+
+
 	return true;
 	
 }
