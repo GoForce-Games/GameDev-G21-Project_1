@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Log.h"
+#include "Audio.h"
 
 NotAGoomba::NotAGoomba() : Enemy(EntityType::ENEMY_GROUNDED)
 {
@@ -42,6 +43,7 @@ bool NotAGoomba::Awake()
 
 bool NotAGoomba::Start()
 {
+	deathsound = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 	if (texture == nullptr)
 	texture = app->tex->Load(texturePath.GetString());
 
@@ -94,6 +96,7 @@ void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contac
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
 			SetToDestroy(false);
+			app->audio->PlayFx(deathsound);
 		}
 		else {
 			Player* p = ((Player*)physB->boundEntity);

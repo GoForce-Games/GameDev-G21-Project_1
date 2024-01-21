@@ -58,6 +58,8 @@ public:
 	
 	int pickCoinFxId;
 	int jumpFxId;
+	int die;
+	int heal;
 
 	bool alive = true;
 

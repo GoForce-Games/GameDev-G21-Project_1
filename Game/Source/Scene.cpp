@@ -63,7 +63,7 @@ bool Scene::Start()
 	img = app->tex->Load(gameOverScreenTexturePath.GetString());
 	
 	//Music is commented so that you can add your own music
-	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
 	/*app->audio->PlayMusic("Assets/Audio/Music/Algo.ogg");*/ //No descomentar esto si amas tu capacidad auditiva, no entiendo porque se reproduce asi
 

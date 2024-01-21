@@ -40,28 +40,27 @@ bool FlyingEnemy::Awake()
 	return true;
 }
 
-bool FlyingEnemy::Start()
-{
+bool FlyingEnemy::Start() {
 
-
+	deathsound = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 	if (texture == nullptr) {
 		texture = app->tex->Load(texturePath.GetString());
-		deathsound = app->audio->LoadFx("Assets/Audio/Fx/Donkey Kong Country 2 Kritter Sound Effect.ogg");
+
+
+		if (pbody == nullptr) {
+			pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+			pbody->ctype = ColliderType::ENEMY;
+			pbody->listener = this;
+			pbody->body->SetLinearDamping(1.0f);
+			pbody->body->SetFixedRotation(true);
+			pbody->body->SetSleepingAllowed(true);
+			pbody->body->SetGravityScale(0.05f);
+		}
+
+		SetPosition(position, true);
+
+		return true;
 	}
-
-	if (pbody == nullptr) {
-		pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
-		pbody->ctype = ColliderType::ENEMY;
-		pbody->listener = this;
-		pbody->body->SetLinearDamping(1.0f);
-		pbody->body->SetFixedRotation(true);
-		pbody->body->SetSleepingAllowed(true);
-		pbody->body->SetGravityScale(0.05f);
-	}
-
-	SetPosition(position, true);
-
-	return true;
 }
 
 bool FlyingEnemy::Update(float dt)

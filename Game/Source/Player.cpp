@@ -66,7 +66,9 @@ bool Player::Start() {
 	gravityScale = pbody->body->GetGravityScale();
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-	/*jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");*/
+	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	die = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	heal = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
 	Camera* cam = app->render->cam;
 	if (cam != nullptr && cam->GetTarget() == nullptr)
@@ -229,6 +231,7 @@ void Player::OnHurt()
 	live_points--;
 	if (live_points <= 0) {
 		OnDeath();
+		app->audio->PlayFx(die);
 	}
 	
 	
@@ -268,6 +271,7 @@ void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
 }
 void Player::OnHealerCollision(PhysBody* thisBody, PhysBody* healerBody) {
 	live_points++;
+	app->audio->PlayFx(heal);
 }
 
 
