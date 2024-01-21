@@ -279,8 +279,13 @@ void Player::OnHealerCollision(PhysBody* thisBody, PhysBody* healerBody) {
 void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* contactInfo)
 {
 	Properties::Property* p = wall->properties.GetProperty("hurt");
+	Properties::Property* w = wall->properties.GetProperty("win");
 	if (p != nullptr && p->boolVal) {
 		OnHurt();
+		return;
+	}
+	if (w != nullptr && w->boolVal) {
+		app->map->ChangeMap(1);
 		return;
 	}
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="15" nextobjectid="164">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="16" nextobjectid="165">
  <tileset firstgid="1" name="TilesAlpha" tilewidth="25" tileheight="25" tilecount="60" columns="6">
   <image source="TilesAlpha.png" width="150" height="250"/>
  </tileset>
@@ -52855,6 +52855,7 @@
   <properties>
    <property name="collisionType" value="platform"/>
    <property name="hurt" type="bool" value="false"/>
+   <property name="win" type="bool" value="false"/>
   </properties>
   <object id="2" x="0" y="900.333" width="350.333" height="99.3333"/>
   <object id="3" x="300" y="850" width="50" height="50.3333"/>
@@ -53146,6 +53147,14 @@
    <point/>
   </object>
  </objectgroup>
+ <objectgroup id="15" name="NextLevel">
+  <properties>
+   <property name="collisionType" value="platform"/>
+   <property name="hurt" type="bool" value="false"/>
+   <property name="win" type="bool" value="true"/>
+  </properties>
+  <object id="164" x="5400" y="675" width="25" height="25"/>
+ </objectgroup>
  <objectgroup id="13" name="ObjsCura">
   <properties>
    <property name="entity" value="healeritem"/>
@@ -53158,7 +53167,7 @@
   <properties>
    <property name="entity" value="player"/>
   </properties>
-  <object id="162" x="75" y="875">
+  <object id="162" x="5258.33" y="650">
    <point/>
   </object>
  </objectgroup>
