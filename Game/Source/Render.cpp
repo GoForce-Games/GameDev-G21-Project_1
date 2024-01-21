@@ -113,7 +113,7 @@ bool Render::PostUpdate()
 		camera.y = camDebugOffset.y;
 	}
 
-	if (app->debug) cam->DebugDraw();
+	if (app->debug && cam) cam->DebugDraw();
 
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);

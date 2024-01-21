@@ -72,6 +72,8 @@ bool Player::Start() {
 	if (cam != nullptr && cam->GetTarget() == nullptr)
 		cam->SetTarget(this);
 
+	SetActive(true);
+
 	return true;
 }
 

@@ -203,6 +203,7 @@ void EntityManager::CacheEntity(Entity* entity)
 	RemoveEntity(entity);
 	entityCache.Add(entity);
 	entity->setToDestroy = false;
+	entity->SetActive(false);
 }
 
 //Accessed by CreateEntity ONLY

@@ -56,6 +56,7 @@ bool Scene::Awake(pugi::xml_node& config)
 bool Scene::Start()
 {
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+	app->entityManager->CacheEntity(player); // NOTE: This may cause instability depending on future implementation
 
 	// NOTE: We have to avoid the use of paths in the code, we will move it later to a config file
 	//img = app->tex->Load("Assets/Textures/test.png");
@@ -130,7 +131,7 @@ bool Scene::Update(float dt)
 	}
 
 	//If player is out of the map, kill them
-	if (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y > mapSize.y + player->pbody->height) {
+	if (player->active && (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y > mapSize.y + player->pbody->height)) {
 		player->OnDeath();
 		app->audio->PlayFx(falldeath);
 	}
