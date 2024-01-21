@@ -21,6 +21,19 @@
 		<fx volume="128"/>
 	</audio>
 
+	<reload>
+		<presets>
+			<preset name="loadMap" fadeOut="1" fadeIn="1">
+				<module type="r" name="textures"/>
+				<module type="r" name="audio"/>
+				<module type="r" name="physics"/>
+				<module type="r" name="scene"/>
+				<module type="r" name="map"/>
+				<module type="r" name="entitymanager"/>
+			</preset>
+		</presets>
+	</reload>
+	
 	<scene>
 		<map path="Assets/Maps/" name="MapaProyecto.tmx"/>
 		<gameover path="Assets/Textures/GameOverScreen.jpg"/>

@@ -100,9 +100,7 @@ public:
 	// Load new map
 	bool Load(SString mapFileName);
 
-	bool UnLoad();
-	
-	bool ChangeMap(uint id);
+	bool ChangeMap(int id);
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint Map::WorldToMap(int x, int y);
@@ -123,6 +121,7 @@ private:
 	bool LoadCircle(pugi::xml_node objGroupNode, pugi::xml_node objectNode);
 	bool LoadPolygon(pugi::xml_node objGroupNode, pugi::xml_node objectNode);
 
+	bool Unload();
 
 public:
 
@@ -137,7 +136,7 @@ private:
 	int blockedGid = 49; // TODO asignar el Gid correcto
 
 	List<SString> mapNames;
-	uint currentMap = 0;
+	int currentMap = 0;
 };
 
 #endif // __MAP_H__

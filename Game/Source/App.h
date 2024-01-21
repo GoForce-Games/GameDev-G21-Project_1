@@ -47,6 +47,9 @@ public:
 	// Add a new module to handle
 	void AddModule(Module* module);
 
+	// Get Module pointer by module name
+	Module* GetModule(const char * name);
+
 	pugi::xml_node GetConfig(const Module& m);
 
 	// Exposing some properties for reading

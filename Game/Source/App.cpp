@@ -79,6 +79,21 @@ void App::AddModule(Module* module)
 	modules.Add(module);
 }
 
+Module* App::GetModule(const char * name)
+{
+	Module* ret = nullptr;
+
+	for (ListItem<Module*>* item = modules.start; item != nullptr; item = item->next)
+	{
+		if (item->data->name == name) {
+			ret = item->data;
+			break;
+		}
+	}
+
+	return ret;
+}
+
 pugi::xml_node App::GetConfig(const Module& m)
 {
 	return configNode.child(m.name.GetString());

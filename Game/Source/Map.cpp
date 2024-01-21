@@ -3,6 +3,8 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Physics.h"
+#include "Reload.h"
+
 #include <sstream>
 #include <string.h>
 
@@ -143,29 +145,7 @@ TileSet* Map::GetTilesetFromTileId(int gid) const
 // Called before quitting
 bool Map::CleanUp()
 {
-    LOG("Unloading map");
-
-    ListItem<TileSet*>* item;
-    item = mapData.tilesets.start;
-
-    while (item != NULL)
-    {
-        RELEASE(item->data);
-        item = item->next;
-    }
-    mapData.tilesets.Clear();
-
-    // Remove all layers
-    ListItem<MapLayer*>* layerItem;
-    layerItem = mapData.maplayers.start;
-
-    while (layerItem != NULL)
-    {
-        RELEASE(layerItem->data);
-        layerItem = layerItem->next;
-    }
-
-    mapData.maplayers.Clear();
+    Unload();
 
     return true;
 }
@@ -241,6 +221,45 @@ bool Map::Load(SString mapFileName)
     mapLoaded = ret;
 
     return ret;
+}
+
+bool Map::Unload()
+{
+    LOG("Unloading map");
+
+    ListItem<TileSet*>* item;
+    item = mapData.tilesets.start;
+
+    while (item != NULL)
+    {
+        RELEASE(item->data);
+        item = item->next;
+    }
+    mapData.tilesets.Clear();
+
+    // Remove all layers
+    ListItem<MapLayer*>* layerItem;
+    layerItem = mapData.maplayers.start;
+
+    while (layerItem != NULL)
+    {
+        RELEASE(layerItem->data);
+        layerItem = layerItem->next;
+    }
+
+    mapData.maplayers.Clear();
+
+    RELEASE(pathfinding);
+
+    return true;
+}
+
+bool Map::ChangeMap(int id)
+{
+    // If parameter is -1 don't change current map
+    currentMap = ((id == -1) ? currentMap : id);
+
+    return app->reload->StartReload("loadMap");
 }
 
 bool Map::LoadMap(pugi::xml_node mapFile)

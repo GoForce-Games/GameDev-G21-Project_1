@@ -119,8 +119,15 @@ bool Scene::Update(float dt)
 		mapSize = app->map->mapData.GetMapSize();
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) app->reload->reload = true; // TODO cambiar cuando haya segundo nivel
-	else if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) app->reload->reload = true;
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+		app->map->ChangeMap(0); // Load level 1
+	}
+	else if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		app->map->ChangeMap(1); // Load level 2
+	}
+	else if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+		app->map->ChangeMap(-1); // Reload current level
+	}
 
 	//If player is out of the map, kill them
 	if (player->position.x<-player->pbody->width || player->position.x>mapSize.x + player->pbody->width || player->position.y > mapSize.y + player->pbody->height) {
