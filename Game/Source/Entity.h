@@ -21,6 +21,8 @@ enum class EntityType
 	ENEMY,
 	ENEMY_GROUNDED,
 	ENEMY_FLYING,
+	WARP,
+	CHECKPOINT,
 	UNKNOWN
 };
 

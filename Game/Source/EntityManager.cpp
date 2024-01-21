@@ -5,6 +5,8 @@
 #include "NotAGoomba.h"
 #include "FlyingEnemy.h"
 #include "HealerItem.h"
+#include "Warp.h"
+#include "Checkpoint.h"
 
 #include "App.h"
 #include "Textures.h"
@@ -111,6 +113,8 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 			return CreateCamera(nullptr);
 		case EntityType::ENEMY_GROUNDED:	entity = new NotAGoomba(); break;
 		case EntityType::ENEMY_FLYING:	entity = new FlyingEnemy(); break;
+		case EntityType::WARP: entity = new Warp(); break;
+		case EntityType::CHECKPOINT: entity = new Checkpoint(); break;
 		default:
 			LOG("Invalid EntityType");
 			break;
@@ -165,6 +169,10 @@ Entity* EntityManager::CreateEntityFromMapData(SString name, pugi::xml_node obje
 		entity = CreateEntity(EntityType::ITEM, objectData);
 	else if (name == "healeritem")
 		entity = CreateEntity(EntityType::HEALERITEM, objectData);
+	else if (name == "warp")
+		entity = CreateEntity(EntityType::WARP, objectData);
+	else if (name == "checkpoint")
+		entity = CreateEntity(EntityType::CHECKPOINT, objectData);
 
 	return entity;
 }
