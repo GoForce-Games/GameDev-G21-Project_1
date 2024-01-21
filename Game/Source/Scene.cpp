@@ -48,17 +48,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		gameOverScreenTexturePath = config.child("gameover").attribute("path").as_string();
 	}
 
-	//TODO: GET RID OF THIS ENTITY SPAWNING CODE FOR THE LOVE OF GOD, WE ALREADY HAVE ENTITY SPAWNING FROM MAP
-
-	// iterate all objects in the scene
-	// Check https://pugixml.org/docs/quickstart.html#access
-	
-	for (pugi::xml_node itemNode = config.child("healeritem"); itemNode; itemNode = itemNode.next_sibling("healeritem"))
-	{
-		HealerItem* item = (HealerItem*)app->entityManager->CreateEntity(EntityType::HEALERITEM);
-		item->parameters = itemNode;
-	}
-
 
 	return ret;
 }
