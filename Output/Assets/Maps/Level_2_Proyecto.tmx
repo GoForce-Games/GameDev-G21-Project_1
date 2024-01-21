@@ -5,7 +5,7 @@
  </tileset>
  <layer id="1" name="Suelo" width="300" height="40">
   <properties>
-   <property name="bool Draw" type="bool" value="true"/>
+   <property name="Draw" type="bool" value="true"/>
   </properties>
   <data>
    <tile gid="40"/>
