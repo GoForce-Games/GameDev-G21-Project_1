@@ -27,9 +27,16 @@ bool Map::Awake(pugi::xml_node& config)
     LOG("Loading Map Parser");
     bool ret = true;
 
-    // Comentado porque por alguna razon se resetea el nombre del modulo antes de llegar al awake
-    //path = config.child("path").attribute("value").as_string();
-    //name = config.child("name").attribute("value").as_string();
+    path = config.attribute("path").as_string();
+
+    for (pugi::xml_node& item = config.child("map"); item != NULL; item = item.next_sibling("map"))
+    {
+        mapNames.Add(item.attribute("file").as_string("invalidMap"));
+    }
+    if (mapNames.Count() == 0) {
+        LOG("No maps in config. Make sure filepaths are in config");
+        ret = false;
+    }
 
     return ret;
 }
@@ -38,7 +45,7 @@ bool Map::Start() {
     //Calls the functon to load the map, make sure that the filename is assigned
 
     SString mapPath = path;
-    mapPath += name;
+    mapPath += mapNames[currentMap];
     bool ret = Load(mapPath);
 
     return ret;

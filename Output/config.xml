@@ -27,6 +27,11 @@
 
 	</scene>
 
+	<map path="Assets/Maps/">
+		<map id="0" file="MapaProyecto.tmx"/>
+		<map id="1" file="Level_2_Proyecto.tmx"/>
+	</map>
+	
 	<entitymanager>
 		<entitypresets>
 			
