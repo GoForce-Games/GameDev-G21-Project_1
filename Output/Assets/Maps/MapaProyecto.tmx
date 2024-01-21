@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="15" nextobjectid="163">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="15" nextobjectid="164">
  <tileset firstgid="1" name="TilesAlpha" tilewidth="25" tileheight="25" tilecount="60" columns="6">
   <image source="TilesAlpha.png" width="150" height="250"/>
  </tileset>
@@ -7899,7 +7899,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="56"/>
    <tile/>
    <tile/>
    <tile/>
@@ -52940,6 +52940,7 @@
   <object id="94" x="600" y="850">
    <polygon points="0,0 100,50 0,50"/>
   </object>
+  <object id="163" x="4625" y="875" width="25" height="25"/>
  </objectgroup>
  <objectgroup id="10" name="EnemigosVoladores" visible="0">
   <properties>
