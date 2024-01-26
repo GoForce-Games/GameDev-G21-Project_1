@@ -85,6 +85,7 @@
     <ClCompile Include="Source\Warp.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GuiValuebox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -203,6 +204,7 @@
     <ClInclude Include="Source\Warp.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GuiValuebox.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

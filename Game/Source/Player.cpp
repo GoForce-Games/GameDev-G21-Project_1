@@ -280,12 +280,28 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 {
 	Properties::Property* p = wall->properties.GetProperty("hurt");
 	Properties::Property* w = wall->properties.GetProperty("win");
+	Properties::Property* t = wall->properties.GetProperty("teleport");
 	if (p != nullptr && p->boolVal) {
 		OnHurt();
 		return;
 	}
 	if (w != nullptr && w->boolVal) {
 		app->map->ChangeMap(1);
+		/*position.x =- 60;
+		position.y =- 200;*/
+
+		return;
+	}
+	if (t != nullptr && t->boolVal) {
+		/*if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) {*/
+			
+			
+			position.x = 0;
+			position.y = 0;
+			SetPosition(position);
+			
+			
+		/*}*/
 		return;
 	}
 
@@ -349,13 +365,13 @@ Animation* Player::GetAnimation(SString name)
 }
 bool Player::LoadState(pugi::xml_node& node)
 {
-	int x;
+	/*int x;
 	int y;
 	x = (node.attribute("x").as_int());
 	y = (node.attribute("y").as_int());
 	position.x = x;
 	position.y = y;
-	SetPosition(position);
+	SetPosition(position);*/
 	return true;
 }
 

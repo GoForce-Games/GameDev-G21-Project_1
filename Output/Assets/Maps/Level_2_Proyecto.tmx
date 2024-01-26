@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="300" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="8" nextobjectid="148">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="300" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="8" nextobjectid="149">
  <tileset firstgid="1" name="TilesAlpha" tilewidth="25" tileheight="25" tilecount="60" columns="6">
   <image source="TilesAlpha.png" width="150" height="250"/>
  </tileset>
@@ -12094,7 +12094,7 @@
   <object id="71" x="4950" y="875" width="50" height="50"/>
   <object id="72" x="4850" y="925" width="725" height="75"/>
   <object id="73" x="5575" y="875" width="525" height="125"/>
-  <object id="74" x="6000" y="825" width="50" height="50"/>
+  <object id="74" x="6000.67" y="825" width="50" height="50"/>
   <object id="75" x="5675" y="0" width="600" height="750"/>
   <object id="76" x="6100" y="750" width="175" height="250"/>
   <object id="77" x="4775" y="475" width="50" height="50"/>
@@ -12109,14 +12109,21 @@
   <object id="87" x="6700" y="650" width="125" height="25"/>
   <object id="88" x="6650" y="725" width="225" height="25"/>
  </objectgroup>
- <objectgroup id="3" name="Capa de Objetos 2" visible="0">
-  <object id="96" x="6001.25" y="824.563" width="47.8125" height="0.1875"/>
+ <objectgroup id="3" name="Teletransporte1">
+  <properties>
+   <property name="bool hurt" type="bool" value="false"/>
+   <property name="collisionType" value="platform"/>
+   <property name="teleport" type="bool" value="true"/>
+   <property name="x" type="int" value="6597"/>
+   <property name="y" type="int" value="500"/>
+  </properties>
+  <object id="96" x="6001.25" y="822.563" width="47.8125" height="0.1875"/>
  </objectgroup>
  <objectgroup id="4" name="PlayerSpawn">
   <properties>
    <property name="entity" value="player"/>
   </properties>
-  <object id="97" x="75" y="225">
+  <object id="97" x="5958.33" y="825">
    <point/>
   </object>
  </objectgroup>

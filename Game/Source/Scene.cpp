@@ -94,10 +94,10 @@ bool Scene::Start()
 	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Pause", btPos, this);
 	guilives = app->entityManager->players[0]->live_points;
 	SDL_Rect btPos1 = { windowW - 125, windowH - 735, 30,20 };
-	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "3" /*&guilives*/, btPos1, this);
+	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "3" /*&guilives*/, btPos1, this);
 	guipoints = app->entityManager->players[0]->points;
 	SDL_Rect btPos2 = { windowW - 55, windowH - 735, 50,20 };
-	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "1000" /*&guipoints*/ , btPos2, this);
+	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "1000" /*&guipoints*/ , btPos2, this);
 
 	/*SDL_Rect btPos1 = { windowW / 25, windowH / 25, 120,30 };
 	puntuation = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "%t" &points, btPos1, this);*/
