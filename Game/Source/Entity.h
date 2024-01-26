@@ -17,6 +17,7 @@ enum class EntityType
 	PLAYER,
 	ITEM,
 	HEALERITEM,
+	POWERUP,
 	CAMERA,
 	ENEMY,
 	ENEMY_GROUNDED,

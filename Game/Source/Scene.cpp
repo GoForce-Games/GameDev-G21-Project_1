@@ -135,27 +135,7 @@ bool Scene::Update(float dt)
 		app->audio->PlayFx(falldeath);
 	}
 
-	//if (app->entityManager->players[0]->live_points == 1) {
-	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
-	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "1", btPos1, this);
-	//}
-	//if (app->entityManager->players[0]->live_points == 2) {
-	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
-	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "2", btPos1, this);
-	//}
-	//if (app->entityManager->players[0]->live_points == 3) {
-	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
-	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "3", btPos1, this);
-	//}
-	//if (app->entityManager->players[0]->live_points == 4) {
-	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
-	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "4", btPos1, this);
-	//}
-	//if (app->entityManager->players[0]->live_points > 4) {
-	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
-	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "5", btPos1, this);
-	//}
-	//
+	
 	
 	
 	// Renders the image in the center of the screen 

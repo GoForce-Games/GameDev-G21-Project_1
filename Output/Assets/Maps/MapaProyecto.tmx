@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="16" nextobjectid="170">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="220" height="40" tilewidth="25" tileheight="25" infinite="0" nextlayerid="17" nextobjectid="177">
  <tileset firstgid="1" name="TilesAlpha" tilewidth="25" tileheight="25" tilecount="60" columns="6">
   <image source="TilesAlpha.png" width="150" height="250"/>
  </tileset>
@@ -53174,12 +53174,32 @@
   <object id="169" x="5306.67" y="641.333">
    <point/>
   </object>
+  <object id="170" x="196" y="56">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="16" name="Powerup">
+  <properties>
+   <property name="entity" value="powerup"/>
+  </properties>
+  <object id="172" x="326.667" y="825.333">
+   <point/>
+  </object>
+  <object id="174" x="1970" y="334">
+   <point/>
+  </object>
+  <object id="175" x="1970" y="334">
+   <point/>
+  </object>
+  <object id="176" x="1970" y="334">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="14" name="PlayerSpawn">
   <properties>
    <property name="entity" value="player"/>
   </properties>
-  <object id="162" x="62.33" y="878">
+  <object id="162" x="51.6633" y="866">
    <point/>
   </object>
  </objectgroup>

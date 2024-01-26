@@ -30,6 +30,7 @@ enum class ColliderType {
 	ENEMY,
 	ITEM,
 	HEALERITEM,
+	POWERUP,
 	PLATFORM,
 	UNKNOWN
 	// ..

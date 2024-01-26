@@ -94,6 +94,7 @@
     <ClCompile Include="Source\GuiManager.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Powerup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -225,6 +226,7 @@
     <ClInclude Include="Source\GuiManager.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Powerup.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

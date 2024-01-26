@@ -5,6 +5,7 @@
 #include "NotAGoomba.h"
 #include "FlyingEnemy.h"
 #include "HealerItem.h"
+#include "Powerup.h"
 #include "Warp.h"
 #include "Checkpoint.h"
 
@@ -108,6 +109,7 @@ Entity* EntityManager::CreateEntity(EntityType type, pugi::xml_node objectData)
 		case EntityType::PLAYER:			entity = players.Add(new Player())->data; break;
 		case EntityType::ITEM:				entity = new Item(); break;
 		case EntityType::HEALERITEM:        entity = new HealerItem(); break;
+		case EntityType::POWERUP:        entity = new Powerup(); break;
 		case EntityType::CAMERA:
 			LOG("Use CreateCamera() to create cameras!");
 			return CreateCamera(nullptr);
@@ -169,6 +171,8 @@ Entity* EntityManager::CreateEntityFromMapData(SString name, pugi::xml_node obje
 		entity = CreateEntity(EntityType::ITEM, objectData);
 	else if (name == "healeritem")
 		entity = CreateEntity(EntityType::HEALERITEM, objectData);
+	else if (name == "powerup")
+		entity = CreateEntity(EntityType::POWERUP, objectData);
 	else if (name == "warp")
 		entity = CreateEntity(EntityType::WARP, objectData);
 	else if (name == "checkpoint")
@@ -337,6 +341,15 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 			Entity* entity = CreateEntity(EntityType::HEALERITEM, entityNode);
 			if (entity != nullptr) {
 				HealerItem* item = dynamic_cast<HealerItem*>(entity);
+				if (item != nullptr) {
+					item->LoadState(entityNode);
+				}
+			}
+		}
+		else if (entityName == "powerup") {
+			Entity* entity = CreateEntity(EntityType::POWERUP, entityNode);
+			if (entity != nullptr) {
+				Powerup* item = dynamic_cast<Powerup*>(entity);
 				if (item != nullptr) {
 					item->LoadState(entityNode);
 				}

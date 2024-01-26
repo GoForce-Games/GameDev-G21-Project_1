@@ -300,12 +300,12 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 	}
 	if (t != nullptr && t->boolVal) {
 		/*if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) {*/
-			
-			
-			tpTarget.x = 0;
-			tpTarget.y = 0;
-			
-			
+
+
+		tpTarget.x = 6400;
+		tpTarget.y =700;
+		SetPosition(tpTarget);
+
 		/*}*/
 		//return;
 	}
