@@ -32,6 +32,7 @@ bool Item::Start() {
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::ITEM;
 	pbody->listener = this;
+	pbody->boundEntity = this;
 	pbody->body->SetGravityScale(0);
 	for (b2Fixture* f = pbody->body->GetFixtureList(); f; f=f->GetNext())
 	{

@@ -253,8 +253,8 @@ void Physics::DestroyBody(b2Body* body, bool destroyEntity)
 		pBody->body = nullptr;
 		if (pBody->boundEntity != nullptr)
 		{
-			// If destroyEntity is false and boundEntity's setToDestroy is true, don't change (shouldn't happen)
-			//pBody->boundEntity->SetToDestroy(true);
+			pBody->boundEntity->SetToDestroy(false);
+			pBody->boundEntity->pbody = nullptr;
 			pBody->boundEntity = nullptr;
 		}
 		delete pBody;
@@ -402,8 +402,10 @@ bool Physics::CleanUp()
 {
 
 	LOG("Destroying PhysBodies");
-	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
+	b2Body* next = nullptr;
+	for (b2Body* b = world->GetBodyList(); b; b = next)
 	{
+		next = b->GetNext();
 		DestroyBody(b);
 	}
 

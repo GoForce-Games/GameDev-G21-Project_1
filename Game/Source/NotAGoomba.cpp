@@ -51,6 +51,7 @@ bool NotAGoomba::Start()
 		pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 		pbody->ctype = ColliderType::ENEMY;
 		pbody->listener = this;
+		pbody->boundEntity = this;
 		pbody->body->SetLinearDamping(1.0f);
 		pbody->body->SetFixedRotation(true);
 		pbody->body->SetSleepingAllowed(true);
