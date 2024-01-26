@@ -206,7 +206,7 @@ bool Scene::CleanUp()
 	player = nullptr;
 	app->tex->UnLoad(img);
 	
-    delete live;
+    //delete live;
 	
 	
 

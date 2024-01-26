@@ -63,10 +63,11 @@ bool GuiManager::CleanUp()
 
 	while (control != nullptr)
 	{
-		RELEASE(control);
+		RELEASE(control->data);
+		control = control->next;
 	}
 
-	return true;
+	guiControlsList.Clear();
 
-	return false;
+	return true;
 }
