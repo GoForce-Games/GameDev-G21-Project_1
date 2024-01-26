@@ -4,10 +4,15 @@
 
 Este juego es totalmente original, para nada copiado de la saga Super Mario
 
+## Project Link
+
+[GitHub](https://github.com/GoForce-Games/GameDev-G21-Project_1)
+
 ## Key Features
 
 - 1 Nivel
 - Jugador con movimiento completo (+ animaciones)
+- El jugador puede recibir daño y curarse
 - La cámara sigue al jugador
 - Recarga de nivel
 - Todos los parámetros configurables se encuentran en el archivo de configuración
@@ -16,6 +21,10 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
 - Enemigos terrestres y voladores que persiguen al jugador si este se acerca demasiado
 - Los enemigos pueden ser derrotados saltando encima suyo
 - Guardado y carga de estado de juego
+- Carga de múltiples niveles
+- Efectos de sonido para la mayoría de acciones
+- Música de fondo
+- Un powerup
 
 ## Controls
 
@@ -25,13 +34,13 @@ Este juego es totalmente original, para nada copiado de la saga Super Mario
  - F3 -> Recargar nivel actual
  - F9 -> Modo debug
  - F10 -> God mode (permite volar)
- - Visualizar mapa de navegación
+ - F11 -> Visualizar capa de navegación (pathfinding)
 
  Con modo debug activo:
  - 1: Spawnear enemigo terrestre
  - 2: Spawnear enemigo volador
 
- Los enemigos aparecen al centro de la pantalla (cuidado de que no esté el jugador ahí!)
+ Nota: Los enemigos spawneados con modo debug aparecen al centro de la pantalla (cuidado de que no esté el jugador ahí!)
 
 ## Developers
 
