@@ -76,16 +76,24 @@
     <ClCompile Include="Source\FlyingEnemy.cpp">
       <Filter>Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\HealerItem.cpp" />
-    <ClCompile Include="Source\GuiControlButton.cpp" />
-    <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\Checkpoint.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="Source\Warp.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GuiValuebox.cpp" />
+    <ClCompile Include="Source\HealerItem.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiValuebox.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiControlButton.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -193,18 +201,30 @@
     <ClInclude Include="Source\FlyingEnemy.h">
       <Filter>Entities\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Source\HealerItem.h" />
-    <ClInclude Include="Source\GuiControl.h" />
-    <ClInclude Include="Source\GuiControlButton.h" />
-    <ClInclude Include="Source\GuiManager.h" />
-    <ClInclude Include="Source\EnumUtils.h" />
     <ClInclude Include="Source\Checkpoint.h">
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Warp.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GuiValuebox.h" />
+    <ClInclude Include="Source\HealerItem.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiValuebox.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiControlButton.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiControl.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EnumUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -230,6 +250,9 @@
     </Filter>
     <Filter Include="Entities\Enemies">
       <UniqueIdentifier>{1179e8c8-945d-43b1-bd8d-ad8ba6b288a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{1aa7ec10-3c4b-4a3b-b46c-df108111df01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

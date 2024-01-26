@@ -70,6 +70,7 @@ bool Audio::CleanUp()
 	if (music != NULL)
 	{
 		Mix_FreeMusic(music);
+		music = nullptr;
 	}
 
 	ListItem<Mix_Chunk*>* item;
