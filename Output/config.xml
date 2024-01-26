@@ -35,7 +35,7 @@
 	</reload>
 	
 	<scene>
-		<map path="Assets/Maps/" name="MapaProyecto.tmx"/>
+		<map path="Assets/Maps/" name="MapaProyecto.tmx" musicsound ="Assets/Audio/Music/Acuatunel.ogg"/>
 		<gameover path="Assets/Textures/GameOverScreen.jpg"/>
 
 	</scene>
@@ -48,7 +48,7 @@
 	<entitymanager>
 		<entitypresets>
 			
-			<player x="100" y="800" sizeX="16" sizeY="16" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f" maxPlatformAngle="40">
+			<player x="100" y="800" sizeX="16" sizeY="16" texturepath="Assets/Textures/Character frames.png" accel="0.2f" velCap_x="5.0f" velCap_y="16f" maxJumps="1" jumpPower="4.0f" maxPlatformAngle="40" jumpaudio="Assets/Audio/Fx/jump.wav" coinaudio="Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg" deathsound="Assets/Audio/Fx/buzzer.wav" healtsound="Assets/Audio/Fx/Recovery.ogg" nextlevelsound="Assets/Audio/Fx/Entering Door.wav">
 				<animations>
 					
 				<animation name="idle" loop="true" pingpong="true">
@@ -94,7 +94,7 @@
 			      </animation>
 				</animations>
 			 </player>
-			<notGoomba x="140" y="800" sizeX="32" sizeY="32" speed="0.01f" velCap_x="3.0f" velCap_y="16f" actionRadius="150.0" homeRadius="50.0" homeInnerRadius="5.0" stompAngle="45" texturepath="Assets/Textures/Sprite_skeleton.png">
+			<notGoomba x="140" y="800" sizeX="32" sizeY="32" speed="0.01f" velCap_x="3.0f" velCap_y="16f" actionRadius="150.0" homeRadius="50.0" homeInnerRadius="5.0" stompAngle="45" texturepath="Assets/Textures/Sprite_skeleton.png" deathsound ="Assets/Audio/Fx/hit.wav">
 				<animation name="idle" loop="true" pingpong="true">
 					<frame x="0" y="67" w="32" h="29"/>
 				</animation>
@@ -111,7 +111,7 @@
 					<frame x="33" y="98" w="21" h="31"/>
 				</animation>
 			</notGoomba>
-			<flyingEnemy  x="140" y="400" sizeX="32" sizeY="32" speed="0.01f" velCap_x="3.0f" velCap_y="3.0f" actionRadius="200.0" homeRadius="50.0" homeInnerRadius="10.0" stompAngle="45" texturepath="Assets/Textures/Sprite_pajaro.png">
+			<flyingEnemy  x="140" y="400" sizeX="32" sizeY="32" speed="0.01f" velCap_x="3.0f" velCap_y="3.0f" actionRadius="200.0" homeRadius="50.0" homeInnerRadius="10.0" stompAngle="45" texturepath="Assets/Textures/Sprite_pajaro.png" deathsound ="Assets/Audio/Fx/hit.wav">
 				<animation name="idle" loop="true" speed = "0.2f" pingpong="true">
 					<frame x="8" y="2" w="33" h="33"/>
 					<frame x="51" y="2" w="31" h="33"/>

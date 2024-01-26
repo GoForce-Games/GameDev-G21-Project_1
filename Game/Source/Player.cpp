@@ -38,6 +38,12 @@ bool Player::Awake() {
 	velCap.x = parameters.attribute("velCap_x").as_float();
 	velCap.y = parameters.attribute("velCap_y").as_float();
 	maxSlope = parameters.attribute("maxPlatformAngle").as_float();
+	jumpFxId = parameters.attribute("jumpaudio").as_string();
+	pickCoinFxId = parameters.attribute("coinaudio").as_string();
+	death_sound = parameters.attribute("deathsound").as_string();
+	health_sound = parameters.attribute("healtsound").as_string(); 
+	to_next_level = parameters.attribute("jumpaudio").as_string();
+
 	maxSlope = sin(maxSlope*DEGTORAD);
 	alive = true;
 	linearDamping = 1.0f;
@@ -65,11 +71,15 @@ bool Player::Start() {
 	pbody->boundEntity = this;
 	gravityScale = pbody->body->GetGravityScale();
 
-	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+	jump = app->audio->LoadFx(jumpFxId.GetString());
+	coin = app->audio->LoadFx(pickCoinFxId.GetString());
+	die = app->audio->LoadFx(death_sound.GetString());
+	heal = app->audio->LoadFx(health_sound.GetString());
+	next_level = app->audio->LoadFx(to_next_level.GetString());
+	/*jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
 	die = app->audio->LoadFx("Assets/Audio/Fx/buzzer.wav");
 	heal = app->audio->LoadFx("Assets/Audio/Fx/Recovery.ogg");
-	next_level = app->audio->LoadFx("Assets/Audio/Fx/Entering Door.wav");
+	next_level = app->audio->LoadFx("Assets/Audio/Fx/Entering Door.wav");*/
 	Camera* cam = app->render->cam;
 	if (cam != nullptr && cam->GetTarget() == nullptr)
 		cam->SetTarget(this);
@@ -133,7 +143,7 @@ bool Player::Update(float dt)
   			jumpsAvailable--;
 			currentAnimation = forwardjump;
 			grounded = false;
-			app->audio->PlayFx(jumpFxId);
+			app->audio->PlayFx(jump);
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
@@ -273,7 +283,7 @@ void Player::OnCoinCollision(PhysBody* thisBody, PhysBody* coinBody)
 {
 	
 	points = +100;
-	app->audio->PlayFx(pickCoinFxId);
+	app->audio->PlayFx(coin);
 }
 void Player::OnHealerCollision(PhysBody* thisBody, PhysBody* healerBody) {
 	live_points++;

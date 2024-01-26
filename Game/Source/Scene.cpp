@@ -37,11 +37,12 @@ bool Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
-
+	musicsound = config.child("map").attribute("musicsound").as_string();
 	if (false && config.child("map")) {
 		//Get the map name from the config file and assigns the value in the module
 		app->map->name = config.child("map").attribute("name").as_string();
 		app->map->path = config.child("map").attribute("path").as_string();
+		
 	}
 
 	if (config.child("gameover")) {
@@ -63,7 +64,7 @@ bool Scene::Start()
 	img = app->tex->Load(gameOverScreenTexturePath.GetString());
 	
 	//Music is commented so that you can add your own music
-	app->audio->PlayMusic("Assets/Audio/Music/Acuatunel.ogg");
+	app->audio->PlayMusic(musicsound.GetString());
 
 	/*app->audio->PlayMusic("Assets/Audio/Music/Algo.ogg");*/ //No descomentar esto si amas tu capacidad auditiva, no entiendo porque se reproduce asi
 
@@ -96,7 +97,7 @@ bool Scene::Start()
 	SDL_Rect btPos1 = { windowW - 125, windowH - 735, 30,20 };
 	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "3" , btPos1, this);
 
-	guipoints = app->entityManager->players[0]->points;
+	
 	SDL_Rect btPos2 = { windowW - 55, windowH - 735, 50,20 };
 	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "1000"  , btPos2, this);
 

@@ -40,5 +40,7 @@ private:
 	Animation* leftWalk = nullptr;
 
 
+
+
 };
 

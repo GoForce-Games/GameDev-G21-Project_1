@@ -45,8 +45,8 @@ public:
 
 	Timer timer;
 
-	int guipoints = 0;
-	int guilives = 0;
+	SString musicsound;
+	
 
 private:
 	int falldeath;

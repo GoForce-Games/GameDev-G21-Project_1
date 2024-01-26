@@ -56,10 +56,15 @@ public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	
-	int pickCoinFxId;
-	int jumpFxId;
+	SString pickCoinFxId;
+	int coin;
+	SString jumpFxId;
+	int jump;
+	SString death_sound;
 	int die;
+	SString health_sound;
 	int heal;
+	SString to_next_level;
 	int next_level;
 
 	bool alive = true;

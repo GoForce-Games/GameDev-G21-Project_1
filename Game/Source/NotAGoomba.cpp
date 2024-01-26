@@ -30,6 +30,7 @@ bool NotAGoomba::Awake()
 	stompAngle = parameters.attribute("stompAngle").as_float();
 	stompAngle = sin(stompAngle * DEGTORAD);
 	texturePath = parameters.attribute("texturepath").as_string();
+	deathsound = parameters.attribute("deathsound").as_string();
 	moveDirection.Create(-1, 0);
 
 	if (animationList.Count()==0)
@@ -45,7 +46,7 @@ bool NotAGoomba::Awake()
 
 bool NotAGoomba::Start()
 {
-	deathsound = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
+	death = app->audio->LoadFx(deathsound.GetString());
 	if (texture == nullptr)
 	texture = app->tex->Load(texturePath.GetString());
 
@@ -99,7 +100,7 @@ void NotAGoomba::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* contac
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
 			SetToDestroy(false);
-			app->audio->PlayFx(deathsound);
+			app->audio->PlayFx(death);
 		}
 		else {
 			Player* p = ((Player*)physB->boundEntity);

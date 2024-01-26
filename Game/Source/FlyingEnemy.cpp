@@ -30,6 +30,7 @@ bool FlyingEnemy::Awake()
 	stompAngle = parameters.attribute("stompAngle").as_float();
 	stompAngle = sin(stompAngle*DEGTORAD);
 	texturePath = parameters.attribute("texturepath").as_string();
+	deathsound = parameters.attribute("deathsound").as_string();
 	moveDirection.Create(-1, 0);
 	
 
@@ -44,7 +45,7 @@ bool FlyingEnemy::Awake()
 
 bool FlyingEnemy::Start() {
 
-	deathsound = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
+	death = app->audio->LoadFx(deathsound.GetString());
 	if (texture == nullptr) {
 		texture = app->tex->Load(texturePath.GetString());
 
@@ -99,7 +100,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* conta
 		if (d.y < 0.0f && abs(d.x) < stompAngle) {
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
-			app->audio->PlayFx(deathsound);
+			app->audio->PlayFx(death);
 			SetToDestroy(false);
 
 		}
