@@ -212,6 +212,7 @@ void EntityManager::CacheEntity(Entity* entity)
 	entityCache.Add(entity);
 	entity->setToDestroy = false;
 	entity->SetActive(false);
+	entity->SetPosition({ -500, -500 });
 }
 
 //Accessed by CreateEntity ONLY

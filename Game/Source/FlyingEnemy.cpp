@@ -27,6 +27,8 @@ bool FlyingEnemy::Awake()
 	actionRadius = parameters.attribute("actionRadius").as_float();
 	homeRadius = parameters.attribute("homeRadius").as_float();
 	homeInnerRadius = parameters.attribute("homeInnerRadius").as_float();
+	stompAngle = parameters.attribute("stompAngle").as_float();
+	stompAngle = sin(stompAngle*DEGTORAD);
 	texturePath = parameters.attribute("texturepath").as_string();
 	moveDirection.Create(-1, 0);
 	
@@ -94,7 +96,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB, b2Contact* conta
 		fPoint posB(x, y);
 		fPoint d = (posB - posA);
 		d = d / sqrtf(d.x * d.x + d.y * d.y);
-		if (d.y < 0.0f && abs(d.x) < 0.5f) {
+		if (d.y < 0.0f && abs(d.x) < stompAngle) {
 			LOG("Enemy \"%s\" stomped", name.GetString());
 			state = EnemyState::DEAD;
 			app->audio->PlayFx(deathsound);

@@ -56,6 +56,7 @@ public:
 	float homeInnerRadius;
 	iPoint home;
 	iPoint moveDirection;
+	float stompAngle;
 
 	EnemyState state = EnemyState::IDLE;
 	List<iPoint> pathToPlayer;

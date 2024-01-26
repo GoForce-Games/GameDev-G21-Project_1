@@ -38,7 +38,7 @@ bool Player::Awake() {
 	velCap.x = parameters.attribute("velCap_x").as_float();
 	velCap.y = parameters.attribute("velCap_y").as_float();
 	maxSlope = parameters.attribute("maxPlatformAngle").as_float();
-	maxSlope = sin(maxSlope);
+	maxSlope = sin(maxSlope*DEGTORAD);
 	alive = true;
 	linearDamping = 1.0f;
 
@@ -81,6 +81,12 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	if (tpTarget.x != -1 && tpTarget.y != -1) {
+		SetPosition(tpTarget);
+		tpTarget.Create(-1, -1);
+	}
+
+
 	// TODO detectar cuando jugador cae de plataforma (raycast?)
 	currentAnimation = idleAnim;
 
@@ -296,13 +302,12 @@ void Player::OnPlatformCollision(PhysBody* player, PhysBody* wall, b2Contact* co
 		/*if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) {*/
 			
 			
-			position.x = 0;
-			position.y = 0;
-			SetPosition(position);
+			tpTarget.x = 0;
+			tpTarget.y = 0;
 			
 			
 		/*}*/
-		return;
+		//return;
 	}
 
 	b2Vec2 pos = pbody->body->GetPosition();

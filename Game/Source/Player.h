@@ -92,6 +92,8 @@ private:
 	
 	List<Animation*> animationList;
 
+	iPoint tpTarget = iPoint(-1, -1);
+
 
 	bool godMode = false;
 	float gravityScale;
