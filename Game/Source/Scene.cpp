@@ -63,11 +63,11 @@ bool Scene::Start()
 	img = app->tex->Load(gameOverScreenTexturePath.GetString());
 	
 	//Music is commented so that you can add your own music
-	/*app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");*/
+	app->audio->PlayMusic("Assets/Audio/Music/Acuatunel.ogg");
 
 	/*app->audio->PlayMusic("Assets/Audio/Music/Algo.ogg");*/ //No descomentar esto si amas tu capacidad auditiva, no entiendo porque se reproduce asi
 
-	falldeath = app->audio->LoadFx("Assets/Audio/Fx/fall-death-sound.mp3");
+	/*falldeath = app->audio->LoadFx("Assets/Audio/Fx/buzzer.wav");*/
 
 	// Set mapSize to 0 in case the map was changed
 	mapSize.Create(0, 0);
@@ -92,17 +92,16 @@ bool Scene::Start()
 		//app->entityManager->mainCamera->SetTarget(player);
 	SDL_Rect btPos = { windowW / 25, windowH / 25, 120,30 };
 	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Pause", btPos, this);
-	guilives = app->entityManager->players[0]->live_points;
+	
 	SDL_Rect btPos1 = { windowW - 125, windowH - 735, 30,20 };
-	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "3" /*&guilives*/, btPos1, this);
+	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "3" , btPos1, this);
+
 	guipoints = app->entityManager->players[0]->points;
 	SDL_Rect btPos2 = { windowW - 55, windowH - 735, 50,20 };
-	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "1000" /*&guipoints*/ , btPos2, this);
+	pauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "1000"  , btPos2, this);
 
-	/*SDL_Rect btPos1 = { windowW / 25, windowH / 25, 120,30 };
-	puntuation = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "%t" &points, btPos1, this);*/
-
-
+	
+	
 	return true;
 	
 }
@@ -136,8 +135,27 @@ bool Scene::Update(float dt)
 		app->audio->PlayFx(falldeath);
 	}
 
-
-	
+	//if (app->entityManager->players[0]->live_points == 1) {
+	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
+	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "1", btPos1, this);
+	//}
+	//if (app->entityManager->players[0]->live_points == 2) {
+	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
+	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "2", btPos1, this);
+	//}
+	//if (app->entityManager->players[0]->live_points == 3) {
+	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
+	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "3", btPos1, this);
+	//}
+	//if (app->entityManager->players[0]->live_points == 4) {
+	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
+	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "4", btPos1, this);
+	//}
+	//if (app->entityManager->players[0]->live_points > 4) {
+	//	SDL_Rect btPos1 = { windowW - 125, windowH - 745, 30,40 };
+	//	live = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::VALUEBOX, 1, "5", btPos1, this);
+	//}
+	//
 	
 	
 	// Renders the image in the center of the screen 
@@ -153,13 +171,8 @@ bool Scene::Update(float dt)
 	if (pauseButtom->state == GuiControlState::PRESSED) {
 		pause == true;
 	}
-	if (exitpauseButtom->state == GuiControlState::PRESSED) {
-		pause == false;
-	}
-	if (pause == true) {
-		SDL_Rect btPos = { windowW / 2, windowH / 2, 120,30 };
-		exitpauseButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Exit", btPos, this);
-	}
+	
+	
 
 	return true;
 }
@@ -182,6 +195,7 @@ bool Scene::PostUpdate()
 		}
 	}
 
+
 	return ret;
 }
 
@@ -191,6 +205,12 @@ bool Scene::CleanUp()
 	LOG("Freeing scene");
 	player = nullptr;
 	app->tex->UnLoad(img);
+	
+    delete live;
+	
+	
+
+	
 
 	return true;
 }

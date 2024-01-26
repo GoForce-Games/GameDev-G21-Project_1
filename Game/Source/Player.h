@@ -60,6 +60,7 @@ public:
 	int jumpFxId;
 	int die;
 	int heal;
+	int next_level;
 
 	bool alive = true;
 

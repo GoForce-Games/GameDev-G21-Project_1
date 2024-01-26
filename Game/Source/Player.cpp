@@ -66,10 +66,10 @@ bool Player::Start() {
 	gravityScale = pbody->body->GetGravityScale();
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-	die = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-	heal = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-
+	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+	die = app->audio->LoadFx("Assets/Audio/Fx/buzzer.wav");
+	heal = app->audio->LoadFx("Assets/Audio/Fx/Recovery.ogg");
+	next_level = app->audio->LoadFx("Assets/Audio/Fx/Entering Door.wav");
 	Camera* cam = app->render->cam;
 	if (cam != nullptr && cam->GetTarget() == nullptr)
 		cam->SetTarget(this);

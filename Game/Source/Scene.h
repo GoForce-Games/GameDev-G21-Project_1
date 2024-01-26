@@ -65,9 +65,10 @@ private:
 	int points = 0;
 
 	GuiControlButton* pauseButtom;
-	GuiControlButton* exitpauseButtom;
+	GuiControlButton* live;
 
 	GuiControlButton* puntuation;
+	
 
 
 };

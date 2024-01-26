@@ -42,7 +42,7 @@ bool FlyingEnemy::Awake()
 
 bool FlyingEnemy::Start() {
 
-	deathsound = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	deathsound = app->audio->LoadFx("Assets/Audio/Fx/hit.wav");
 	if (texture == nullptr) {
 		texture = app->tex->Load(texturePath.GetString());
 
